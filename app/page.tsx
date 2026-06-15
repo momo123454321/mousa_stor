@@ -469,7 +469,6 @@ export default function Home() {
     setCart((prev) => [...prev, formattedItem]);
     setToastMessage(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
     
-    // يختفي بعد ثانية واحدة تماماً
     setTimeout(() => {
       setToastMessage(null);
     }, 1000);
@@ -496,7 +495,7 @@ export default function Home() {
   return (
     <main dir="rtl" className="min-h-screen bg-slate-50 text-gray-900 font-sans pb-20 selection:bg-green-200">
       
-      {/* تم التعديل هنا: حاوية كاملة العرض لضمان التوسيط المطلق بالإشعار أعلى الشاشة */}
+      {/* إشعار التوسيط المطلق أعلى الشاشة */}
       {toastMessage && (
         <div className="fixed top-24 inset-x-0 flex justify-center z-[200] pointer-events-none px-4">
           <div className="bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-sm md:text-base font-bold animate-bounce text-ellipsis overflow-hidden max-w-full">
@@ -676,10 +675,16 @@ export default function Home() {
         </span>
       </button>
 
-      {/* نافذة تفاصيل ووصف المنتج */}
+      {/* تم التعديل هنا: نافذة تفاصيل ووصف المنتج - تقفل عند الضغط على الخلفية */}
       {selectedProduct && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200">
+        <div 
+          onClick={() => setSelectedProduct(null)} // يقفل لو ضغط على الخلفية
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4 cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()} // يمنع القفل لو ضغطت جوه المربع نفسه
+            className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200 cursor-default"
+          >
             <button
               onClick={() => setSelectedProduct(null)}
               className="absolute top-4 right-4 bg-white/80 backdrop-blur-md text-gray-900 w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200 transition z-10 font-bold"
@@ -707,10 +712,16 @@ export default function Home() {
         </div>
       )}
 
-      {/* شاشة السلة المنبثقة */}
+      {/* تم التعديل هنا أيضاً: شاشة السلة - تقفل عند الضغط على الخلفية */}
       {cartOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center">
-          <div className="bg-white w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300">
+        <div 
+          onClick={() => setCartOpen(false)} // يقفل لو ضغط برة سلة المشتريات
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()} // يمنع غلق السلة عند الضغط على منتجاتها بالداخل
+            className="bg-white w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default"
+          >
             <div className="flex justify-between items-center p-6 border-b">
               <h3 className="font-extrabold text-xl flex items-center gap-2">
                 <span>🛒</span> سلة المشتريات
@@ -775,5 +786,4 @@ export default function Home() {
 
     </main>
   );
-}
-
+      }
