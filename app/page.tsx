@@ -11,9 +11,9 @@ type Product = {
 };
 
 export default function Home() {
-  const whatsappNumber = "201229466261";
+  // تحديث رقم الواتساب الجديد بدون مسافات أو علامة + ليعمل الرابط بشكل صحيح
+  const whatsappNumber = "201287254329";
 
-  // العروض الحالية بصور جديدة واحترافية
   const offers: Product[] = [
     {
       id: 1,
@@ -38,7 +38,6 @@ export default function Home() {
     },
   ];
 
-  // المنتجات بعد إضافة قطع جديدة وتحديث الصور بالكامل لتبدو احترافية
   const products: Product[] = [
     {
       id: 4,
@@ -104,9 +103,10 @@ export default function Home() {
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
+  // تحديث اسم المتجر في نص رسالة الواتساب المرسلة
   const orderText = encodeURIComponent(
     cart.length
-      ? `طلب جديد من متجر Al-Areeni Clothing\n\n${cart
+      ? `طلب جديد من متجر 3l_nagar Clothing\n\n${cart
           .map((item, i) => `${i + 1}- ${item.name} | ${item.price} جنيه`)
           .join("\n")}\n\nالإجمالي: ${total} جنيه`
       : "أرغب بالاستفسار عن المنتجات"
@@ -122,11 +122,11 @@ export default function Home() {
         </div>
       )}
 
-      {/* الهيدر */}
+      {/* الهيدر باسم المتجر الجديد */}
       <header className="sticky top-0 bg-white/90 backdrop-blur-md z-40 border-b shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">
-            Al-Areeni <span className="text-green-600">Clothing</span>
+            3l_nagar <span className="text-green-600">Clothing</span>
           </h1>
 
           <nav className="hidden md:flex gap-8 font-medium text-gray-600">
@@ -138,12 +138,12 @@ export default function Home() {
         </div>
       </header>
 
-      {/* القسم الترحيبي (Hero Section) مع الصورة الفخمة الجديدة */}
+      {/* القسم الترحيبي (Hero Section) */}
       <section className="bg-white py-20 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="text-right">
             <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-              ارتقِ بأناقتك مع <br /> Al-Areeni
+              ارتقِ بأناقتك مع <br /> 3l_nagar
             </h2>
             <p className="text-gray-500 text-lg mb-8 leading-relaxed">
               اكتشف تشكيلتنا الجديدة والحصرية من الملابس الرجالية العصرية والكلاسيكية، المصممة بأعلى جودة لتمنحك المظهر الذي تستحقه.
@@ -161,7 +161,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-green-100 rounded-3xl transform rotate-3 scale-105 -z-10"></div>
             <img
               src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
-              alt="Al Areeni Luxury Fashion"
+              alt="3l_nagar Luxury Fashion"
               className="rounded-3xl shadow-2xl w-full object-cover h-[550px]"
             />
           </div>
@@ -205,7 +205,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* قسم المنتجات الموسّع */}
+      {/* قسم المنتجات */}
       <section id="products" className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h3 className="text-3xl font-extrabold text-gray-900 mb-12 text-center md:text-right">كل المنتجات الرجالية</h3>
@@ -239,7 +239,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* قسم التواصل الفخم */}
+      {/* قسم التواصل */}
       <section id="contact" className="py-20 px-6 text-center bg-gray-900 text-white rounded-t-[3rem] mt-10">
         <div className="max-w-2xl mx-auto">
           <h3 className="text-3xl md:text-4xl font-bold mb-6">هل تبحث عن ستايل مخصص؟</h3>
@@ -272,7 +272,7 @@ export default function Home() {
         </span>
       </button>
 
-      {/* مودال تفاصيل ووصف المنتج عند الضغط على الصورة */}
+      {/* مودال تفاصيل المنتج */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200">
@@ -303,7 +303,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* شاشة السلة الجانبية */}
+      {/* نافذة السلة */}
       {cartOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center">
           <div className="bg-white w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300">
@@ -363,12 +363,13 @@ export default function Home() {
         </div>
       )}
 
-      {/* الفوتر */}
+      {/* الفوتر باسم المتجر الجديد */}
       <footer className="bg-white border-t text-center py-8 text-gray-500">
-        <p className="mb-2">© {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر Al-Areeni</p>
+        <p className="mb-2">© {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر 3l_nagar</p>
         <p className="text-sm font-medium">تم التطوير بواسطة محمد العريني</p>
       </footer>
 
     </main>
   );
-      }
+}
+
