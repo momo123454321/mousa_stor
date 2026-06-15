@@ -1,153 +1,109 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-// --- 1. الأنواع (Types) ---
-type CategoryType = "all" | "shirts" | "hoodies" | "jackets" | "pants" | "shoes" | "accessories" | "offers";
-type Product = { id: number; name: string; price: number; image: string; description: string; category: CategoryType; };
+// --- التعريفات ---
+type Category = "shirts" | "hoodies" | "jackets" | "pants" | "shoes" | "accessories";
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: Category;
+};
+
 type CartItem = Product & { quantity: number };
 
-// --- 2. البيانات ---
-const whatsappNumber = "201287254329";
-
-const categories = [
-  { id: "all", name: "كل المنتجات" },
-  { id: "shirts", name: "قمصان وتيشرتات" },
-  { id: "hoodies", name: "هوديز وسويت شيرت" },
-  { id: "jackets", name: "جواكيت ومعاطف" },
-  { id: "pants", name: "بنطلونات وشورتات" },
-  { id: "shoes", name: "أحذية" },
-  { id: "accessories", name: "إكسسوارات" },
-];
-
+// --- قائمة المنتجات كاملة ---
 const products: Product[] = [
-  { id: 4, name: "قميص أبيض أوكسفورد", price: 499, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80", description: "قميص كلاسيكي أبيض بخامة الأوكسفورد الثقيلة.", category: "shirts" },
-  { id: 14, name: "هودي أوفرسايز عصري", price: 799, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80", description: "هودي مريح جداً بقصة فضفاضة ومبطن من الداخل.", category: "hoodies" },
-  { id: 21, name: "جاكيت جلد بريميوم", price: 1499, image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80", description: "جاكيت جلد كاجوال بتصميم راكب الدراجات (Biker).", category: "jackets" },
-  { id: 29, name: "بنطلون تشينو كلاسيك بيج", price: 549, image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80", description: "بنطلون مريح بخامة قطنية متينة.", category: "pants" },
-  { id: 37, name: "حذاء سنيكرز أبيض فاخر", price: 899, image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80", description: "حذاء رياضي خفيف الوزن بنعل مريح.", category: "shoes" },
-  { id: 45, name: "ساعة كوارتز سوداء", price: 1200, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80", description: "ساعة يد كلاسيكية أنيقة.", category: "accessories" },
+  // Shirts (100s)
+  { id: 101, name: "قميص أبيض أوكسفورد", price: 499, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c", description: "قميص كلاسيكي أبيض", category: "shirts" },
+  { id: 102, name: "تيشرت بيزك قطن", price: 249, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518", description: "تيشرت قطني 100%", category: "shirts" },
+  { id: 103, name: "قميص جينز كاجوال", price: 599, image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10", description: "قميص دنيم عصري", category: "shirts" },
+  { id: 104, name: "قميص كتان بيج", price: 520, image: "https://images.unsplash.com/photo-1603252109303-2751441dd157", description: "كتان طبيعي صيفي", category: "shirts" },
+  { id: 105, name: "تيشرت بولو أسود", price: 380, image: "https://images.unsplash.com/photo-1626497764746-6dc36546b388", description: "بولو بياقة مقواة", category: "shirts" },
+  { id: 106, name: "قميص مقلم كاجوال", price: 480, image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf", description: "مقلم بخطوط طولية", category: "shirts" },
+  { id: 107, name: "تيشرت جرافيك", price: 299, image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c", description: "طباعة ديجيتال", category: "shirts" },
+  { id: 108, name: "قميص زيتي سليم", price: 460, image: "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99", description: "قصة مجسمة", category: "shirts" },
+  { id: 109, name: "تيشرت أوفرسايز", price: 340, image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a", description: "تصميم فضفاض", category: "shirts" },
+  { id: 110, name: "قميص كاروهات", price: 499, image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f", description: "كاروهات كلاسيكي", category: "shirts" },
+
+  // Hoodies (200s)
+  { id: 201, name: "هودي أوفرسايز", price: 799, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7", description: "بطانة ناعمة", category: "hoodies" },
+  { id: 202, name: "سويت شيرت نيفي", price: 499, image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633", description: "كلاسيكي كحلي", category: "hoodies" },
+  { id: 203, name: "هودي بسحاب", price: 850, image: "https://images.unsplash.com/photo-1548883354-7622d03aca27", description: "بسحاب وجيوب", category: "hoodies" },
+  { id: 204, name: "بلوفر تريكو", price: 690, image: "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c", description: "صوف ناعم", category: "hoodies" },
+  { id: 205, name: "سويت شيرت مطبوع", price: 550, image: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c", description: "تصميم شبابي", category: "hoodies" },
+  { id: 206, name: "هودي باستيل", price: 749, image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990", description: "ألوان مريحة", category: "hoodies" },
+  { id: 207, name: "سويت شيرت رياضي", price: 480, image: "https://images.unsplash.com/photo-1517462964-21fdcec3f25b", description: "خفيف الوزن", category: "hoodies" },
+
+  // Jackets (300s)
+  { id: 301, name: "جاكيت جلد", price: 1499, image: "https://images.unsplash.com/photo-1551028719-00167b16eac5", description: "جلد بريميوم", category: "jackets" },
+  { id: 302, name: "جاكيت جينز ممزق", price: 799, image: "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4", description: "دنيم أزرق", category: "jackets" },
+  { id: 303, name: "بالطو صوف", price: 2400, image: "https://images.unsplash.com/photo-1544441893-675973e31985", description: "شتوي فاخر", category: "jackets" },
+  { id: 304, name: "جاكيت بامب", price: 1100, image: "https://images.unsplash.com/photo-1548883354-7622d03aca27", description: "عازل للمياه", category: "jackets" },
+  { id: 305, name: "جاكيت بومبر", price: 899, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22", description: "أطراف مطاطية", category: "jackets" },
+  { id: 306, name: "جاكيت وندبريكر", price: 650, image: "https://images.unsplash.com/photo-1483985988355-763728e1935b", description: "رياضي خفيف", category: "jackets" },
+  { id: 307, name: "جاكيت جباردين", price: 950, image: "https://images.unsplash.com/photo-1578932750294-f5075e85f44a", description: "سفاري متين", category: "jackets" },
+  { id: 308, name: "بليزر كاجوال", price: 1350, image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf", description: "تفصيلة ناعمة", category: "jackets" },
+
+  // Pants (400s)
+  { id: 401, name: "بنطلون تشينو", price: 549, image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80", description: "خامة قطنية", category: "pants" },
+  { id: 402, name: "جينز أزرق غامق", price: 499, image: "https://images.unsplash.com/photo-1542272604-787c3835535d", description: "قصة مريحة", category: "pants" },
+  { id: 403, name: "جينز أسود ليكرا", price: 520, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246", description: "خامة مرنة", category: "pants" },
+  { id: 404, name: "بنطلون كارغو", price: 599, image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd", description: "جيوب جانبية", category: "pants" },
+  { id: 405, name: "جوجر قطن", price: 399, image: "https://images.unsplash.com/photo-1551854838-212c50b4c184", description: "رياضي", category: "pants" },
+  { id: 406, name: "شورت صيفي", price: 299, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b", description: "خفيف الوزن", category: "pants" },
+  { id: 407, name: "بنطلون رسمي", price: 580, image: "https://images.unsplash.com/photo-1604176354204-9268737828e4", description: "للمناسبات", category: "pants" },
+  { id: 408, name: "جينز ثلجي", price: 540, image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901", description: "لون فاتح", category: "pants" },
+
+  // Shoes (500s)
+  { id: 501, name: "سنيكرز أبيض", price: 899, image: "https://images.unsplash.com/photo-1549298916-b41d501d3772", description: "مريح للمشي", category: "shoes" },
+  { id: 502, name: "حذاء كلاسيك", price: 1100, image: "https://images.unsplash.com/photo-1533867617858-e7b97e060509", description: "أوكسفورد", category: "shoes" },
+  { id: 503, name: "هاف بوت", price: 950, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2", description: "شمواه هافان", category: "shoes" },
+  { id: 504, name: "سنيكرز رمادي", price: 699, image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2", description: "كوتشي كاجوال", category: "shoes" },
+  { id: 505, name: "حذاء لوفرز", price: 850, image: "https://images.unsplash.com/photo-1539185441755-769473a23570", description: "سهل الارتداء", category: "shoes" },
+  { id: 506, name: "بوت جلدي", price: 1390, image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0", description: "مبطن للشتاء", category: "shoes" },
+  { id: 507, name: "سليبر منزلي", price: 250, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2", description: "مريح للمنزل", category: "shoes" },
+
+  // Accessories (600s)
+  { id: 601, name: "ساعة كوارتز", price: 1200, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30", description: "كلاسيكية", category: "accessories" },
+  { id: 602, name: "نظارة شمسية", price: 450, image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083", description: "حماية", category: "accessories" },
+  { id: 603, name: "حزام جلد", price: 299, image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80", description: "جلد طبيعي", category: "accessories" },
+  { id: 604, name: "كاب رياضي", price: 180, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b", description: "قطني", category: "accessories" },
+  { id: 605, name: "محفظة كروت", price: 220, image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3", description: "نحيفة", category: "accessories" },
+  { id: 606, name: "برفان رجالي", price: 850, image: "https://images.unsplash.com/photo-1541643600914-78b084683601", description: "عطر فواح", category: "accessories" },
+  { id: 607, name: "طقم جوارب", price: 150, image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990", description: "قطنية", category: "accessories" },
+  { id: 608, name: "سوار جلدي", price: 130, image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338", description: "شبابي", category: "accessories" },
+  { id: 609, name: "شنطة كروس", price: 390, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62", description: "للمتعلقات", category: "accessories" },
+  { id: 610, name: "ساعة رقمية", price: 550, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30", description: "رياضية", category: "accessories" }
 ];
 
-export default function Home() {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [cart, setCart] = useState<CartItem[]>([]);
-  const [favorites, setFavorites] = useState<number[]>([]); // قائمة المفضلة
-  const [cartOpen, setCartOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
-  const toastTimeout = useRef<NodeJS.Timeout | null>(null);
+// --- المكون ---
+export default function Shop() {
+  const [activeCategory, setActiveCategory] = useState("all");
 
-  // منطق الوضع الليلي
-  useEffect(() => {
-    if (isDark) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-  }, [isDark]);
-
-  // منطق السلة
-  const addToCart = (product: Product) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      return existing 
-        ? prev.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item)
-        : [...prev, { ...product, quantity: 1 }];
-    });
-    setToast(`تمت إضافة "${product.name}" للسلة!`);
-    if (toastTimeout.current) clearTimeout(toastTimeout.current);
-    toastTimeout.current = setTimeout(() => setToast(null), 2000);
-  };
-
-  // منطق المفضلة
-  const toggleFavorite = (id: number) => {
-    setFavorites(prev => prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]);
-  };
-
-  const filtered = activeCategory === "all" ? products : products.filter(p => p.category === activeCategory);
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const filtered = activeCategory === "all" 
+    ? products 
+    : products.filter(p => p.category === activeCategory);
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans" dir="rtl">
+    <div className="p-8" dir="rtl">
+      <h1 className="text-2xl font-bold mb-6">متجر نجار</h1>
       
-      {/* إشعار الـ Toast */}
-      {toast && (
-        <div className="fixed top-20 left-0 right-0 z-[100] flex justify-center px-4">
-          <div className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-full shadow-xl font-bold animate-bounce text-sm">
-            {toast}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filtered.map((p) => (
+          <div key={p.id} className="border p-4 rounded-xl shadow-sm">
+            <img src={p.image} alt={p.name} className="w-full h-40 object-cover rounded mb-2" />
+            <h3 className="font-bold">{p.name}</h3>
+            <p className="text-sm text-gray-600 mb-2">{p.description}</p>
+            <p className="font-bold text-green-600 mb-2">{p.price} ج.م</p>
+            <button className="w-full bg-black text-white py-2 rounded">أضف للسلة</button>
           </div>
-        </div>
-      )}
-
-      {/* الهيدر */}
-      <header className="sticky top-0 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md z-40 border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <h1 className="text-xl font-extrabold tracking-tight">3l_nagar <span className="text-green-600">Clothing</span></h1>
-          <div className="flex items-center gap-4">
-            <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-full bg-slate-100 dark:bg-gray-800 transition">
-              {isDark ? "☀️" : "🌙"}
-            </button>
-            <div className="relative p-2">❤️ <span className="text-xs bg-red-500 text-white rounded-full px-1.5">{favorites.length}</span></div>
-            <button onClick={() => setCartOpen(true)} className="relative p-2 hover:bg-slate-100 dark:hover:bg-gray-800 rounded-full transition">
-              🛒
-              {cart.length > 0 && <span className="absolute top-0 right-0 bg-green-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">{cart.reduce((a,b)=>a+b.quantity,0)}</span>}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* المحتوى */}
-      <section className="py-12 px-6">
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              className={`px-5 py-2 rounded-full font-medium transition ${activeCategory === cat.id ? "bg-green-600 text-white" : "bg-white dark:bg-gray-900 border dark:border-gray-800 hover:bg-slate-100 dark:hover:bg-gray-800"}`}
-            >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {filtered.map((p) => (
-            <div key={p.id} className="bg-white dark:bg-gray-900 border dark:border-gray-800 rounded-2xl overflow-hidden hover:shadow-lg transition relative">
-              {/* زر المفضلة */}
-              <button 
-                onClick={() => toggleFavorite(p.id)}
-                className={`absolute top-3 right-3 z-10 p-2 rounded-full shadow-sm transition ${favorites.includes(p.id) ? "bg-red-500 text-white" : "bg-white/80 dark:bg-gray-800/80 text-gray-400"}`}
-              >
-                ❤️
-              </button>
-              <img src={p.image} alt={p.name} className="w-full h-60 object-cover" />
-              <div className="p-4">
-                <h4 className="font-bold mb-1">{p.name}</h4>
-                <p className="text-green-600 font-bold mb-4">{p.price} جنيه</p>
-                <button onClick={() => addToCart(p)} className="w-full bg-gray-900 dark:bg-gray-50 text-white dark:text-gray-900 py-2.5 rounded-lg font-bold">أضف للسلة</button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* نافذة السلة */}
-      {cartOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4" onClick={() => setCartOpen(false)}>
-          <div className="bg-white dark:bg-gray-900 w-full max-w-sm rounded-3xl p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
-             <h3 className="font-bold text-xl mb-4">سلة المشتريات</h3>
-             <div className="space-y-3 mb-6 max-h-60 overflow-y-auto">
-                {cart.map(item => (
-                    <div key={item.id} className="flex justify-between items-center bg-slate-50 dark:bg-gray-800 p-3 rounded-xl text-sm">
-                        <span>{item.name} (x{item.quantity})</span>
-                        <span className="font-bold">{item.price * item.quantity} ج</span>
-                    </div>
-                ))}
-             </div>
-             <div className="flex justify-between font-bold text-lg mb-6"><span>الإجمالي:</span> <span>{total} جنيه</span></div>
-             <a href={`https://wa.me/${whatsappNumber}`} className="block text-center bg-green-600 text-white py-4 rounded-xl font-bold">إتمام الطلب (واتساب)</a>
-          </div>
-        </div>
-      )}
-    </main>
+        ))}
+      </div>
+    </div>
   );
 }
-
