@@ -344,14 +344,6 @@ export default function Home() {
       category: "shoes"
     },
     {
-      id: 39,
-      name: "سنيكرز أسود رانينج نعل طبي",
-      price: 799,
-      image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80",
-      description: "حذاء مخصص للجري والمشي لمسافات طويلة، نعل ممتص للصدمات ويوفر تهوية مثالية للقدم لمنع الروائح.",
-      category: "shoes"
-    },
-    {
       id: 40,
       name: "هاف بوت شمواه هافان",
       price: 950,
@@ -477,7 +469,7 @@ export default function Home() {
     setCart((prev) => [...prev, formattedItem]);
     setToastMessage(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
     
-    // تعديل وقت الاختفاء ليصبح ثانية واحدة فقط (1000 مللي ثانية)
+    // يختفي بعد ثانية واحدة تماماً
     setTimeout(() => {
       setToastMessage(null);
     }, 1000);
@@ -504,10 +496,12 @@ export default function Home() {
   return (
     <main dir="rtl" className="min-h-screen bg-slate-50 text-gray-900 font-sans pb-20 selection:bg-green-200">
       
-      {/* إشعار تم تعديله ليظهر فوق في منتصف الشاشة كـ كبسولة فخمة ولمدة ثانية واحدة فقط */}
+      {/* تم التعديل هنا: حاوية كاملة العرض لضمان التوسيط المطلق بالإشعار أعلى الشاشة */}
       {toastMessage && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[200] bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-sm md:text-base font-bold pointer-events-none animate-bounce whitespace-nowrap">
-          {toastMessage}
+        <div className="fixed top-24 inset-x-0 flex justify-center z-[200] pointer-events-none px-4">
+          <div className="bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-sm md:text-base font-bold animate-bounce text-ellipsis overflow-hidden max-w-full">
+            {toastMessage}
+          </div>
         </div>
       )}
 
@@ -617,7 +611,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* شبكة عرض المنتجات الاستثنائية بـ 4 أعمدة للشاشات الكبيرة */}
+          {/* شبكة عرض المنتجات */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {filteredProducts.map((product) => (
               <div key={product.id} className="group bg-slate-50 border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
@@ -713,7 +707,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* شاشة السلة النبثقة */}
+      {/* شاشة السلة المنبثقة */}
       {cartOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center">
           <div className="bg-white w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300">
