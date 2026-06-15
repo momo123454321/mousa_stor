@@ -54,7 +54,7 @@ export default function Home() {
 
   // تشكيلة المنتجات الفخمة المكونة من 50 منتجاً تماماً ومقسمة بوضوح
   const products: Product[] = [
-    // --- قمصان وتيشرتات (1-10) ---
+    // --- قمصان وتيشرتات ---
     {
       id: 4,
       name: "قميص أبيض أوكسفورد",
@@ -136,7 +136,7 @@ export default function Home() {
       category: "shirts"
     },
 
-    // --- هوديز وسويت شيرت (11-18) ---
+    // --- هوديز وسويت شيرت ---
     {
       id: 14,
       name: "هودي أوفرسايز عصري",
@@ -194,7 +194,7 @@ export default function Home() {
       category: "hoodies"
     },
 
-    // --- جواكيت ومعاطف (19-26) ---
+    // --- جواكيت ومعاطف ---
     {
       id: 21,
       name: "جاكيت جلد بريميوم",
@@ -231,7 +231,7 @@ export default function Home() {
       id: 25,
       name: "جاكيت بومبر شبابي أسود",
       price: 899,
-      image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80",
       description: "جاكيت بومبر (Bomber) بأطراف مطاطية عند المعصم والخصر، مظهر عصري وخامة مقاومة للرياح.",
       category: "jackets"
     },
@@ -260,7 +260,7 @@ export default function Home() {
       category: "jackets"
     },
 
-    // --- بنطلونات وشورتات (27-35) ---
+    // --- بنطلونات وشورتات ---
     {
       id: 29,
       name: "بنطلون تشينو كلاسيك بيج",
@@ -326,7 +326,7 @@ export default function Home() {
       category: "pants"
     },
 
-    // --- أحذية وسنيكرز (36-43) ---
+    // --- أحذية وسنيكرز ---
     {
       id: 37,
       name: "حذاء سنيكرز أبيض فاخر",
@@ -392,7 +392,7 @@ export default function Home() {
       category: "shoes"
     },
 
-    // --- إكسسوارات وعناية (44-50) ---
+    // --- إكسسوارات وعناية ---
     {
       id: 45,
       name: "ساعة كوارتز سوداء بسير جلدي",
@@ -473,15 +473,14 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const addToCart = (item: Product | Omit<Product, "category">) => {
-    // معاملة العرض كمنتج عادي عند إضافته للسلة
     const formattedItem = { ...item, category: (item as Product).category || "shirts" } as Product;
     setCart((prev) => [...prev, formattedItem]);
     setToastMessage(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
     
-    // الاختفاء بعد ثانيتين بالضبط (2000ms)
+    // تعديل وقت الاختفاء ليصبح ثانية واحدة فقط (1000 مللي ثانية)
     setTimeout(() => {
       setToastMessage(null);
-    }, 2000);
+    }, 1000);
   };
 
   const removeFromCart = (index: number) => {
@@ -498,7 +497,6 @@ export default function Home() {
       : "أرغب بالاستفسار عن المنتجات"
   );
 
-  // تصفية المنتجات بناءً على الفئة النشطة
   const filteredProducts = activeCategory === "all" 
     ? products 
     : products.filter(p => p.category === activeCategory);
@@ -506,14 +504,14 @@ export default function Home() {
   return (
     <main dir="rtl" className="min-h-screen bg-slate-50 text-gray-900 font-sans pb-20 selection:bg-green-200">
       
-      {/* إشعار في منتصف الشاشة تماماً يدوم لثانيتين فقط بتأثير بلور فخم */}
+      {/* إشعار تم تعديله ليظهر فوق في منتصف الشاشة كـ كبسولة فخمة ولمدة ثانية واحدة فقط */}
       {toastMessage && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] bg-gray-900/95 backdrop-blur-md text-white px-8 py-5 rounded-3xl shadow-2xl border border-gray-800 text-center text-base md:text-lg font-bold max-w-sm pointer-events-none animate-bounce whitespace-normal">
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[200] bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-sm md:text-base font-bold pointer-events-none animate-bounce whitespace-nowrap">
           {toastMessage}
         </div>
       )}
 
-      {/* الهيدر الرئيسي للموقع */}
+      {/* الهيدر الرئيسي */}
       <header className="sticky top-0 bg-white/90 backdrop-blur-md z-40 border-b shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">
@@ -529,7 +527,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* القسم الترحيبي الرئيسي (Hero) */}
+      {/* القسم الترحيبي (Hero) */}
       <section className="bg-white py-20 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="text-right">
@@ -587,7 +585,7 @@ export default function Home() {
                     onClick={() => addToCart(offer)}
                     className="w-full bg-gray-900 hover:bg-black text-white font-medium py-3 rounded-xl transition-all active:scale-95"
                   >
-                    أضف للعلة
+                    أضف للسلة
                   </button>
                 </div>
               </div>
@@ -596,13 +594,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* قسم المنتجات المطور مع الفلترة الذكية والـ 50 منتج */}
+      {/* قسم الـ 50 منتج مع الفلترة */}
       <section id="products" className="py-20 px-6 bg-white border-t rounded-t-[3rem]">
         <div className="max-w-7xl mx-auto">
           <h3 className="text-3xl font-extrabold text-gray-900 mb-4 text-center">كل منتجات متجرنا الرجالية</h3>
           <p className="text-gray-500 text-center mb-12">تصفح تشكيلتنا الضخمة المكونة من أرقى الملابس، الأحذية، والإكسسوارات.</p>
 
-          {/* أشرطة الفلترة والتبديل السريع للفئات على ذوقي */}
+          {/* أشرطة الفلترة والتبديل السريع للفئات */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map((cat) => (
               <button
@@ -684,7 +682,7 @@ export default function Home() {
         </span>
       </button>
 
-      {/* نافذة تفاصيل ووصف المنتج عند الضغط على الصورة */}
+      {/* نافذة تفاصيل ووصف المنتج */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200">
