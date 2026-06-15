@@ -8,13 +8,27 @@ type Product = {
   price: number;
   image: string;
   description: string;
+  category: "shirts" | "hoodies" | "jackets" | "pants" | "shoes" | "accessories";
 };
 
 export default function Home() {
-  // تحديث رقم الواتساب الجديد بدون مسافات أو علامة + ليعمل الرابط بشكل صحيح
   const whatsappNumber = "201287254329";
 
-  const offers: Product[] = [
+  // فئات الفلترة
+  const categories = [
+    { id: "all", name: "كل المنتجات" },
+    { id: "shirts", name: "قمصان وتيشرتات" },
+    { id: "hoodies", name: "هوديز وسويت شيرت" },
+    { id: "jackets", name: "جواكيت ومعاطف" },
+    { id: "pants", name: "بنطلونات وشورتات" },
+    { id: "shoes", name: "أحذية وسنيكرز" },
+    { id: "accessories", name: "إكسسوارات وعناية" },
+  ];
+
+  const [activeCategory, setActiveCategory] = useState("all");
+
+  // العروض المميزة الحالية (3 عروض)
+  const offers: Omit<Product, "category">[] = [
     {
       id: 1,
       name: "عرض الصيف المتكامل",
@@ -38,49 +52,419 @@ export default function Home() {
     },
   ];
 
+  // تشكيلة المنتجات الفخمة المكونة من 50 منتجاً تماماً ومقسمة بوضوح
   const products: Product[] = [
+    // --- قمصان وتيشرتات (1-10) ---
     {
       id: 4,
       name: "قميص أبيض أوكسفورد",
       price: 499,
       image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
       description: "قميص كلاسيكي أبيض بخامة الأوكسفورد الثقيلة والمقاومة للتجعد، قطعة أساسية في دولابك.",
+      category: "shirts"
     },
     {
       id: 5,
-      name: "هودي أوفرسايز عصري",
-      price: 799,
-      image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
-      description: "هودي مريح جداً بقصة فضفاضة (Oversized) مبطن من الداخل ليوفر لك الدفء والراحة.",
-    },
-    {
-      id: 6,
-      name: "جاكيت جلد بريميوم",
-      price: 1499,
-      image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
-      description: "جاكيت جلد كاجوال بتصميم راكب الدراجات (Biker)، متين ويمنحك هيبة وأناقة لا مثيل لها.",
-    },
-    {
-      id: 7,
       name: "تيشرت بيزك قطن صافي",
       price: 249,
       image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
       description: "تيشرت قطني 100% ناعم على البشرة، متوفر بجميع المقاسات وممتاز لتنسيقه تحت الجواكيت.",
+      category: "shirts"
+    },
+    {
+      id: 6,
+      name: "قميص جينز كاجوال الأزرق",
+      price: 599,
+      image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
+      description: "قميص جينز عصري مصنوع من الدنيم الخفيف المتين، يعطيك طابعاً شبابياً وعملياً طوال اليوم.",
+      category: "shirts"
+    },
+    {
+      id: 7,
+      name: "قميص كتان بيج صيفي",
+      price: 520,
+      image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=600&q=80",
+      description: "قميص مصنوع من الكتان الطبيعي بنسبة 100% لتوفير أقصى درجات الانتعاش والراحة في الصيف.",
+      category: "shirts"
     },
     {
       id: 8,
-      name: "بنطلون تشينو كلاسيك",
-      price: 549,
-      image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
-      description: "بنطلون مريح بخامة قطنية متينة وقصة سليم فيت، يجمع بين راحة الكاجوال وأناقة الكلاسيك.",
+      name: "تيشرت بولو كلاسيك أسود",
+      price: 380,
+      image: "https://images.unsplash.com/photo-1626497764746-6dc36546b388?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت بولو بياقة مقواة وأزرار أمامية أنيقة، مناسب للخروج شبه الرسمي واليومي.",
+      category: "shirts"
     },
     {
       id: 9,
+      name: "قميص مقلم كاجوال عصري",
+      price: 480,
+      image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
+      description: "قميص مقلم بخطوط طولية مميزة تساعد على إعطاء مظهر متناسق وجذاب ومناسب للجسم.",
+      category: "shirts"
+    },
+    {
+      id: 10,
+      name: "تيشرت جرافيك هيب هوب",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت بطباعة ديجيتال خلفية عالية الجودة لا تتأثر بالغسيل، وقصة فضفاضة مريحة للشباب.",
+      category: "shirts"
+    },
+    {
+      id: 11,
+      name: "قميص زيتي سليم فيت",
+      price: 460,
+      image: "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=600&q=80",
+      description: "قميص بلون زيتي هادئ وقصة مجسمة تبرز جمال القوام، مصنوع من خليط القطن الفاخر المعالج.",
+      category: "shirts"
+    },
+    {
+      id: 12,
+      name: "تيشرت أوفرسايز رمادي",
+      price: 340,
+      image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت رمادي بتصميم فضفاض الأكتاف (Oversized Trend)، شبابي جداً ومواكب لأحدث صيحات الموضة.",
+      category: "shirts"
+    },
+    {
+      id: 13,
+      name: "قميص كاروهات أحمر",
+      price: 499,
+      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80",
+      description: "قميص كاروهات كلاسيكي دافئ وخفيف، رائع للارتداء مفتوحاً فوق تيشرت بيزك أبيض.",
+      category: "shirts"
+    },
+
+    // --- هوديز وسويت شيرت (11-18) ---
+    {
+      id: 14,
+      name: "هودي أوفرسايز عصري",
+      price: 799,
+      image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
+      description: "هودي مريح جداً بقصة فضفاضة (Oversized) مبطن من الداخل بالفرو الناعم ليوفر لك أقصى درجات الدفء.",
+      category: "hoodies"
+    },
+    {
+      id: 15,
+      name: "سويت شيرت نيفي بيزك",
+      price: 499,
+      image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
+      description: "سويت شيرت كلاسيكي بدون زعبوط بلون كحلي فخم، خامة ثقيلة ومرنة ممتازة للشتاء الخفيف.",
+      category: "hoodies"
+    },
+    {
+      id: 16,
+      name: "هودي بسحاب كامل أسود",
+      price: 850,
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
+      description: "هودي عملي مزود بسحاب (Zip-up) كامل وجيوب أمامية واسعة تتسع لأغراضك اليومية كالموبايل والمفاتيح.",
+      category: "hoodies"
+    },
+    {
+      id: 17,
+      name: "بلوفر تريكو صوف ناعم",
+      price: 690,
+      image: "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?auto=format&fit=crop&w=600&q=80",
+      description: "بلوفر تريكو أنيق من خيوط الصوف عالية الجودة التي لا توبر مع الاستخدام والغسيل المتكرر.",
+      category: "hoodies"
+    },
+    {
+      id: 18,
+      name: "سويت شيرت مطبوع كاجوال",
+      price: 550,
+      image: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=600&q=80",
+      description: "سويت شيرت شبابي بطبعة عصرية دقيقة على الصدر والظهر، يمنحك إطلالة فريدة ومتميزة.",
+      category: "hoodies"
+    },
+    {
+      id: 19,
+      name: "هودي باستيل مبطن",
+      price: 749,
+      image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+      description: "هودي بألوان الباستيل المهدئة والمريحة للعين، مصنوع من خامات قطنية معالجة وناعمة للغسيل الشاق.",
+      category: "hoodies"
+    },
+    {
+      id: 20,
+      name: "سويت شيرت رياضي مريح",
+      price: 480,
+      image: "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?auto=format&fit=crop&w=600&q=80",
+      description: "سويت شيرت خفيف الوزن بنظام طرد الرطوبة، مناسب جداً للجيم أو لممارسة رياضة الجري في الصباح.",
+      category: "hoodies"
+    },
+
+    // --- جواكيت ومعاطف (19-26) ---
+    {
+      id: 21,
+      name: "جاكيت جلد بريميوم",
+      price: 1499,
+      image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت جلد كاجوال بتصميم راكب الدراجات (Biker)، متين ويمنحك هيبة وأناقة لا مثيل لها.",
+      category: "jackets"
+    },
+    {
+      id: 22,
+      name: "جاكيت جينز كلاسيك ممزق",
+      price: 799,
+      image: "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت دنيم أزرق مع بعض اللمسات الكاجوال العصرية، يتماشى بشكل مذهل مع تيشرت أبيض سادة بنطلون أسود.",
+      category: "jackets"
+    },
+    {
+      id: 23,
+      name: "بالطو صوف طويل فخم",
+      price: 2400,
+      image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80",
+      description: "معطف شتوي طويل مصنوع من الصوف الفاخر بقصة إنجليزية مستقيمة، يوفر الدفء الأمثل والأناقة الفخمة.",
+      category: "jackets"
+    },
+    {
+      id: 24,
+      name: "جاكيت بامب ووتربروف",
+      price: 1100,
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت منفوخ (Puffer) عازل تماماً للمياه والهواء، خفيف الوزن ومناسب جداً لأيام المطر الغزير والبرد القارس.",
+      category: "jackets"
+    },
+    {
+      id: 25,
+      name: "جاكيت بومبر شبابي أسود",
+      price: 899,
+      image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت بومبر (Bomber) بأطراف مطاطية عند المعصم والخصر، مظهر عصري وخامة مقاومة للرياح.",
+      category: "jackets"
+    },
+    {
+      id: 26,
+      name: "جاكيت وندبريكر خفيف",
+      price: 650,
+      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت رياضي خفيف ومثالي لفصلي الخريف والربيع، يحميك من تقلبات الجو والرياح المفاجئة السريعة.",
+      category: "jackets"
+    },
+    {
+      id: 27,
+      name: "جاكيت جباردين زيتي بجيوب",
+      price: 950,
+      image: "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت سفاري مصنوع من قماش الجباردين المتين ومزود بـ 4 جيوب أمامية كبيرة وتصميم عملي وعسكري رائع.",
+      category: "jackets"
+    },
+    {
+      id: 28,
+      name: "بليزر كاجوال رمادي",
+      price: 1350,
+      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+      description: "بليزر بتفصيلة كاجوال ناعمة بدون بطانة ثقيلة، يمكن ارتداؤه مع الجينز للحصول على مظهر ذكي (Smart Casual).",
+      category: "jackets"
+    },
+
+    // --- بنطلونات وشورتات (27-35) ---
+    {
+      id: 29,
+      name: "بنطلون تشينو كلاسيك بيج",
+      price: 549,
+      image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون مريح بخامة قطنية متينة وقصة سليم فيت، يجمع بين راحة الكاجوال وأناقة الكلاسيك.",
+      category: "pants"
+    },
+    {
+      id: 30,
+      name: "بنطلون جينز أزرق غامق",
+      price: 499,
+      image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80",
+      description: "جينز متين بقصة مريحة وألوان ثابتة لا تبهت بكثرة الغسيل، مزود بـ 5 جيوب تقليدية عملية.",
+      category: "pants"
+    },
+    {
+      id: 31,
+      name: "بنطلون جينز أسود سليم ليكرا",
+      price: 520,
+      image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80",
+      description: "جينز أسود شديد السواد بخامة مرنة ومطاطية (ليكرا) تضمن لك سهولة تامة وحرية فائقة في الحركة اليومية.",
+      category: "pants"
+    },
+    {
+      id: 32,
+      name: "بنطلون كارغو زيتي بجيوب",
+      price: 599,
+      image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون كارغو (Cargo) بستايل هيب هوب شبابي مميز بجيوب جانبية ضخمة وأساور مطاطية من الأسفل.",
+      category: "pants"
+    },
+    {
+      id: 33,
+      name: "بنطلون جوجر قطن رمادي",
+      price: 399,
+      image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون جوجر رياضي مريح جداً للمنزل أو المشاوير السريعة والتمارين، برباط خصر مرن وقابل للتعديل.",
+      category: "pants"
+    },
+    {
+      id: 34,
+      name: "شورت كاجوال قطن كحلي",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=600&q=80",
+      description: "شورت صيفي خفيف الوزن وطري، مناسب جداً للارتداء على الشواطئ والمصايف والتمشية الصيفية.",
+      category: "pants"
+    },
+    {
+      id: 35,
+      name: "بنطلون قماش رمادي رسمي",
+      price: 580,
+      image: "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون قماش فاخر مخصص للمناسبات والبدل والاجتماعات، خامة فاخرة باردة تمنحك الثقة والأناقة.",
+      category: "pants"
+    },
+    {
+      id: 36,
+      name: "بنطلون جينز ثلجي هادي",
+      price: 540,
+      image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=600&q=80",
+      description: "جينز بلون ثلجي فاتح مميز ومفضل جداً في فترات الصيف والنهار، قصة عصرية جذابة وتناسب الأحذية الفاتحة.",
+      category: "pants"
+    },
+
+    // --- أحذية وسنيكرز (36-43) ---
+    {
+      id: 37,
       name: "حذاء سنيكرز أبيض فاخر",
       price: 899,
       image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
-      description: "حذاء رياضي خفيف الوزن بنعل مريح جداً للمشي الطويل، يتماشى مع جينات ملابسك الكاجوال.",
+      description: "حذاء رياضي خفيف الوزن بنعل مريح جداً للمشي الطويل، يتماشى مع جميع ملابسك الكاجوال والدنيم البسيطة.",
+      category: "shoes"
     },
+    {
+      id: 38,
+      name: "حذاء كلاسيك جلد بني",
+      price: 1100,
+      image: "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء رسمي أوكسفورد من الجلد الطبيعي اللامع، قصة كلاسيكية ونعل متين ومريح للأفراح والاجتماعات الفخمة.",
+      category: "shoes"
+    },
+    {
+      id: 39,
+      name: "سنيكرز أسود رانينج نعل طبي",
+      price: 799,
+      image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء مخصص للجري والمشي لمسافات طويلة، نعل ممتص للصدمات ويوفر تهوية مثالية للقدم لمنع الروائح.",
+      category: "shoes"
+    },
+    {
+      id: 40,
+      name: "هاف بوت شمواه هافان",
+      price: 950,
+      image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء بوت كاحل (Chelsea Boot) مصنوع من الشمواه الفاخر، يعطي لمسة شتوية غنية وأنيقة مع الجينز.",
+      category: "shoes"
+    },
+    {
+      id: 41,
+      name: "سنيكرز رمادي رياضي عصري",
+      price: 699,
+      image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80",
+      description: "كوتشي كاجوال خفيف الوزن للمشاوير والجامعة، خامة قماش شبكي يسمح بمرور الهواء وتبريد القدمين.",
+      category: "shoes"
+    },
+    {
+      id: 42,
+      name: "حذاء لوفرز مريح بدون أربطة",
+      price: 850,
+      image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء لوفرز (Loafers) كاجوال سهل الارتداء والخلع سريعاً، مبطن داخلياً بفرش مساج طبي مرن ومريح.",
+      category: "shoes"
+    },
+    {
+      id: 43,
+      name: "بوت جلدي شتوي متين",
+      price: 1390,
+      image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=600&q=80",
+      description: "بوت مبطن من الداخل لحماية كاملة في الشتاء والأراضي الوعرة، مظهر خشن ورجالي وقوي للغاية.",
+      category: "shoes"
+    },
+    {
+      id: 44,
+      name: "سليبر جلدي منزلي مريح",
+      price: 250,
+      image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+      description: "سليبر مريح ومفتوح للمنزل أو الشاطئ مصنوع من خامات لينة تمنع الانزلاق وتوفر راحة مستمرة.",
+      category: "shoes"
+    },
+
+    // --- إكسسوارات وعناية (44-50) ---
+    {
+      id: 45,
+      name: "ساعة كوارتز سوداء بسير جلدي",
+      price: 1200,
+      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+      description: "ساعة يد كلاسيكية أنيقة تناسب الإطلالات الكلاسيكية والكاجوال، مقاومة لرذاذ الماء والخدوش البسيطة.",
+      category: "accessories"
+    },
+    {
+      id: 46,
+      name: "نظارة شمسية بولارايزد كلاسيك",
+      price: 450,
+      image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
+      description: "نظارة شمسية توفر حماية 100% من الأشعة فوق البنفسجية UV400 بعدسات واضحة تمنع انعكاس الضوء المزعج.",
+      category: "accessories"
+    },
+    {
+      id: 47,
+      name: "حزام جلد طبيعي 100% أسود",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
+      description: "حزام مصنوع من طبقات الجلد الطبيعي السميك بتصميم كلاسيكي متين وإبزيم معدني مقاوم للصدأ.",
+      category: "accessories"
+    },
+    {
+      id: 48,
+      name: "كاب قطني رياضي أسود",
+      price: 180,
+      image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80",
+      description: "كاب رياضي قطني لحمايتك من أشعة الشمس، مزود بفتحات تهوية وحزام خلفي قابل لتعديل المقاس بدقة.",
+      category: "accessories"
+    },
+    {
+      id: 49,
+      name: "محفظة كروت جلدية نحيفة",
+      price: 220,
+      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=600&q=80",
+      description: "محفظة كروت بتصميم نحيف وعصري (Slim Cardholder) تتسع لـ 6 كروت ونقود ورقية دون تضخم الجيب.",
+      category: "accessories"
+    },
+    {
+      id: 50,
+      name: "برفان رجالي نايت ليميتد إيديشن",
+      price: 850,
+      image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80",
+      description: "عطر رجالي فواح وثابت يدوم لأكثر من 24 ساعة، برائحة الأخشاب الشرقية واللافندر الجذابة والنادرة.",
+      category: "accessories"
+    },
+    {
+      id: 51,
+      name: "طقم جوارب قطنية طويلة (3 قطع)",
+      price: 150,
+      image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+      description: "مجموعة من ثلاثة أزواج جوارب مصنوعة من القطن الطبيعي لامتصاص العرق وتوفير راحة مثالية طوال اليوم داخل الحذاء.",
+      category: "accessories"
+    },
+    {
+      id: 52,
+      name: "سوار جلدي كاجوال رجالي",
+      price: 130,
+      image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80",
+      description: "حظاظة أو إسورة من الجلد المضفر الفاخر بقفل مغناطيسي قوي مصنوع من التيتانيوم، تضيف لمسة شبابية.",
+      category: "accessories"
+    },
+    {
+      id: 53,
+      name: "شنطة كروس للمتعلقات الشخصية",
+      price: 390,
+      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+      description: "حقيبة كروس صغيرة مقاومة للمياه تتسع للمحفظة، الموبايل، النظارة والباوربانك، ومثالية للارتداء اليومي السريع.",
+      category: "accessories"
+    }
   ];
 
   const [cart, setCart] = useState<Product[]>([]);
@@ -88,13 +472,16 @@ export default function Home() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const addToCart = (item: Product) => {
-    setCart((prev) => [...prev, item]);
-    setToastMessage(`تمت إضافة "${item.name}" إلى السلة بنجاح! 🛒`);
+  const addToCart = (item: Product | Omit<Product, "category">) => {
+    // معاملة العرض كمنتج عادي عند إضافته للسلة
+    const formattedItem = { ...item, category: (item as Product).category || "shirts" } as Product;
+    setCart((prev) => [...prev, formattedItem]);
+    setToastMessage(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
     
+    // الاختفاء بعد ثانيتين بالضبط (2000ms)
     setTimeout(() => {
       setToastMessage(null);
-    }, 3000);
+    }, 2000);
   };
 
   const removeFromCart = (index: number) => {
@@ -103,7 +490,6 @@ export default function Home() {
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
-  // تحديث اسم المتجر في نص رسالة الواتساب المرسلة
   const orderText = encodeURIComponent(
     cart.length
       ? `طلب جديد من متجر 3l_nagar Clothing\n\n${cart
@@ -112,17 +498,22 @@ export default function Home() {
       : "أرغب بالاستفسار عن المنتجات"
   );
 
+  // تصفية المنتجات بناءً على الفئة النشطة
+  const filteredProducts = activeCategory === "all" 
+    ? products 
+    : products.filter(p => p.category === activeCategory);
+
   return (
-    <main dir="rtl" className="min-h-screen bg-slate-50 text-gray-900 font-sans pb-20">
+    <main dir="rtl" className="min-h-screen bg-slate-50 text-gray-900 font-sans pb-20 selection:bg-green-200">
       
-      {/* إشعار الإضافة للسلة */}
+      {/* إشعار في منتصف الشاشة تماماً يدوم لثانيتين فقط بتأثير بلور فخم */}
       {toastMessage && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[110] bg-green-600 text-white px-6 py-3 rounded-full shadow-lg transition-all animate-bounce text-sm md:text-base whitespace-nowrap">
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200] bg-gray-900/95 backdrop-blur-md text-white px-8 py-5 rounded-3xl shadow-2xl border border-gray-800 text-center text-base md:text-lg font-bold max-w-sm pointer-events-none animate-bounce whitespace-normal">
           {toastMessage}
         </div>
       )}
 
-      {/* الهيدر باسم المتجر الجديد */}
+      {/* الهيدر الرئيسي للموقع */}
       <header className="sticky top-0 bg-white/90 backdrop-blur-md z-40 border-b shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">
@@ -138,7 +529,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* القسم الترحيبي (Hero Section) */}
+      {/* القسم الترحيبي الرئيسي (Hero) */}
       <section className="bg-white py-20 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="text-right">
@@ -146,15 +537,15 @@ export default function Home() {
               ارتقِ بأناقتك مع <br /> 3l_nagar
             </h2>
             <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-              اكتشف تشكيلتنا الجديدة والحصرية من الملابس الرجالية العصرية والكلاسيكية، المصممة بأعلى جودة لتمنحك المظهر الذي تستحقه.
+              اكتشف تشكيلتنا الجديدة والحصرية المكونة من أكثر من 50 قطعة من الملابس الرجالية الفخمة، الكاجوال، والأحذية المصممة بعناية لتناسب أناقتك اليومية.
             </p>
             <a
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full transition-colors shadow-md hover:shadow-lg"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full transition-colors shadow-md hover:shadow-lg text-lg"
             >
-              تواصل عبر واتساب لشراء مخصص
+              تواصل عبر واتساب للاستفسارات السريعة
             </a>
           </div>
           <div className="relative">
@@ -162,31 +553,31 @@ export default function Home() {
             <img
               src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
               alt="3l_nagar Luxury Fashion"
-              className="rounded-3xl shadow-2xl w-full object-cover h-[550px]"
+              className="rounded-3xl shadow-2xl w-full object-cover h-[500px]"
             />
           </div>
         </div>
       </section>
 
-      {/* قسم العروض */}
+      {/* قسم أقوى العروض الحالية */}
       <section id="offers" className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <span className="text-3xl">🔥</span>
-            <h3 className="text-3xl font-extrabold text-gray-900">أقوى العروض الحالية</h3>
+            <h3 className="text-3xl font-extrabold text-gray-900">أقوى العروض الحالية الحصرية</h3>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {offers.map((offer) => (
               <div key={offer.id} className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                <div className="relative cursor-pointer overflow-hidden" onClick={() => setSelectedProduct(offer)}>
+                <div className="relative cursor-pointer overflow-hidden" onClick={() => setSelectedProduct(offer as Product)}>
                   <img
                     src={offer.image}
                     alt={offer.name}
                     className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">عرض التفاصيل والوصف</span>
+                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">عرض الوصف والتفاصيل</span>
                   </div>
                 </div>
                 <div className="p-6">
@@ -196,7 +587,7 @@ export default function Home() {
                     onClick={() => addToCart(offer)}
                     className="w-full bg-gray-900 hover:bg-black text-white font-medium py-3 rounded-xl transition-all active:scale-95"
                   >
-                    أضف للسلة
+                    أضف للعلة
                   </button>
                 </div>
               </div>
@@ -205,30 +596,51 @@ export default function Home() {
         </div>
       </section>
 
-      {/* قسم المنتجات */}
-      <section id="products" className="py-20 px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-3xl font-extrabold text-gray-900 mb-12 text-center md:text-right">كل المنتجات الرجالية</h3>
+      {/* قسم المنتجات المطور مع الفلترة الذكية والـ 50 منتج */}
+      <section id="products" className="py-20 px-6 bg-white border-t rounded-t-[3rem]">
+        <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl font-extrabold text-gray-900 mb-4 text-center">كل منتجات متجرنا الرجالية</h3>
+          <p className="text-gray-500 text-center mb-12">تصفح تشكيلتنا الضخمة المكونة من أرقى الملابس، الأحذية، والإكسسوارات.</p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {products.map((product) => (
-              <div key={product.id} className="group bg-slate-50 border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
-                <div className="relative cursor-pointer overflow-hidden" onClick={() => setSelectedProduct(product)}>
+          {/* أشرطة الفلترة والتبديل السريع للفئات على ذوقي */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200 ${
+                  activeCategory === cat.id 
+                    ? "bg-green-600 text-white shadow-md scale-105" 
+                    : "bg-slate-100 text-gray-600 hover:bg-slate-200"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
+          {/* شبكة عرض المنتجات الاستثنائية بـ 4 أعمدة للشاشات الكبيرة */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            {filteredProducts.map((product) => (
+              <div key={product.id} className="group bg-slate-50 border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+                <div className="relative cursor-pointer overflow-hidden aspect-[4/5]" onClick={() => setSelectedProduct(product)}>
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">عرض التفاصيل والوصف</span>
+                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm text-sm">تفاصيل القطعة 🔍</span>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h4 className="font-bold text-xl mb-1 text-gray-900">{product.name}</h4>
-                  <p className="text-green-600 font-extrabold text-lg mb-5">{product.price} جنيه</p>
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-bold text-lg mb-1 text-gray-900 group-hover:text-green-600 transition-colors line-clamp-1">{product.name}</h4>
+                    <p className="text-green-600 font-extrabold text-base mb-4">{product.price} جنيه</p>
+                  </div>
                   <button
                     onClick={() => addToCart(product)}
-                    className="w-full bg-gray-900 hover:bg-black text-white font-medium py-3 rounded-xl transition-all active:scale-95"
+                    className="w-full bg-gray-900 hover:bg-black text-white font-medium py-2.5 rounded-xl transition-all active:scale-95 text-sm"
                   >
                     أضف للسلة
                   </button>
@@ -239,20 +651,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* قسم التواصل */}
+      {/* قسم تواصل معنا */}
       <section id="contact" className="py-20 px-6 text-center bg-gray-900 text-white rounded-t-[3rem] mt-10">
         <div className="max-w-2xl mx-auto">
-          <h3 className="text-3xl md:text-4xl font-bold mb-6">هل تبحث عن ستايل مخصص؟</h3>
+          <h3 className="text-3xl md:text-4xl font-bold mb-6">هل تحتاج مساعدة بخصوص المقاسات؟</h3>
           <p className="text-gray-300 mb-10 text-lg">
-            فريق خدمة العملاء جاهز لخدمتك ومساعدتك في اختيار مقاسك المناسب وتأكيد طلبك عبر واتساب مباشرة.
+            فريق خدمة العملاء متواجد لمساعدتك في تنسيق الملابس واختيار أنسب مقاس لك وشحن طلبك فوراً.
           </p>
           <a
             href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-500 hover:bg-green-600 text-white font-bold px-10 py-4 rounded-full inline-flex items-center gap-2 transition-transform hover:scale-105 shadow-lg"
+            className="bg-green-500 hover:bg-green-600 text-white font-bold px-10 py-4 rounded-full inline-flex items-center gap-2 transition-transform hover:scale-105 shadow-lg text-lg"
           >
-            <span>💬</span> تحدث معنا الآن
+            <span>💬</span> تحدث معنا عبر الواتساب الآن
           </a>
         </div>
       </section>
@@ -272,7 +684,7 @@ export default function Home() {
         </span>
       </button>
 
-      {/* مودال تفاصيل المنتج */}
+      {/* نافذة تفاصيل ووصف المنتج عند الضغط على الصورة */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200">
@@ -303,7 +715,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* نافذة السلة */}
+      {/* شاشة السلة النبثقة */}
       {cartOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center">
           <div className="bg-white w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300">
@@ -352,7 +764,7 @@ export default function Home() {
                   href={`https://wa.me/${whatsappNumber}?text=${orderText}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-all"
+                  className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-all text-center"
                 >
                   <span>إتمام الطلب عبر واتساب</span>
                   <span>📱</span>
@@ -363,7 +775,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* الفوتر باسم المتجر الجديد */}
+      {/* الفوتر */}
       <footer className="bg-white border-t text-center py-8 text-gray-500">
         <p className="mb-2">© {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر 3l_nagar</p>
         <p className="text-sm font-medium">تم التطوير بواسطة محمد العريني</p>
