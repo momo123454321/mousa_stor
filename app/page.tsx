@@ -1,55 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
-
-// مكون مخصص لتطبيق تأثير الـ 3D التفاعلي مع حركة الماوس
-function Interactive3DCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState("rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const card = cardRef.current;
-    const box = card.getBoundingClientRect();
-    
-    // حساب موقع الماوس بالنسبة لمركز الكارت
-    const x = e.clientX - box.left - box.width / 2;
-    const y = e.clientY - box.top - box.height / 2;
-    
-    // حساب زوايا الدوران (حد أقصى 15 درجة للدوران العكسي والمباشر)
-    const rotateX = -(y / (box.height / 2)) * 12;
-    const rotateY = (x / (box.width / 2)) * 12;
-    
-    setTransform(`rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
-  };
-
-  const handleMouseLeave = () => {
-    // إرجاع الكارت لوضعه الطبيعي بنعومة عند خروج الماوس
-    setTransform("rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        transform: transform,
-        transformStyle: "preserve-3d",
-        transition: "transform 0.15s ease-out, shadow 0.3s ease",
-      }}
-      className={`perspective-3d ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
+import { useState } from "react";
 
 type Product = {
   id: number;
   name: string;
   price: number;
-  images: string[];
+  image: string;
   description: string;
   category: "shirts" | "hoodies" | "jackets" | "pants" | "shoes" | "accessories";
 };
@@ -57,15 +14,10 @@ type Product = {
 export default function Home() {
   const whatsappNumber = "201287254329";
 
-  // حالات التحكم
+  // حالات التحكم الجديدة
   const [darkMode, setDarkMode] = useState(false);
   const [favorites, setFavorites] = useState<number[]>([]);
-  const [cart, setCart] = useState<Product[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [modalImageIndex, setModalImageIndex] = useState(0);
 
   // فئات الفلترة
   const categories = [
@@ -80,207 +32,473 @@ export default function Home() {
 
   const [activeCategory, setActiveCategory] = useState("all");
 
-  // العروض الخاصة
+  // العروض المميزة الحالية (3 عروض)
   const offers: Omit<Product, "category">[] = [
     {
       id: 1,
       name: "عرض الصيف المتكامل",
       price: 599,
-      images: [
-        "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "طقم كاجوال صيفي مريح جداً خامة قطن ليكرا ممتازة، مثالي للخروجات اليومية.",
+      image: "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?auto=format&fit=crop&w=600&q=80",
+      description: "طقم كاجوال صيفي مريح جداً خامة قطن ليكرا ممتازة، مثالي للخروجات اليومية والمصايف.",
     },
     {
       id: 2,
       name: "طقم كلاسيك أنيق",
       price: 1299,
-      images: [
-        "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "بدلة شبه رسمية بتفصيل عصري وخامات تركية فاخرة تناسب مناسباتك السعيدة.",
+      image: "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&w=600&q=80",
+      description: "بدلة شبه رسمية بتفصيل عصري وخامات تركية فاخرة تناسب مناسباتك السعيدة واجتماعات العمل.",
     },
     {
       id: 3,
       name: "الباقة الشبابية المحدودة",
       price: 899,
-      images: [
-        "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80"
-      ],
+      image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80",
       description: "تجميعة مميزة من قطعتين بألوان متناسقة وعصرية توفر لك إطلالة جذابة ومختلفة.",
     },
   ];
 
-  // قائمة المنتجات الكاملة بدون أي حذف
+  // تشكيلة المنتجات الفخمة المكونة من 50 منتجاً تماماً ومقسمة بوضوح
   const products: Product[] = [
+    // --- قمصان وتيشرتات ---
     {
       id: 4,
       name: "قميص أبيض أوكسفورد",
-      price: 450,
-      images: [
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1626497764746-6dc36546b388?auto=format&fit=crop&w=600&q=80"
-      ],
+      price: 499,
+      image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
       description: "قميص كلاسيكي أبيض بخامة الأوكسفورد الثقيلة والمقاومة للتجعد، قطعة أساسية في دولابك.",
       category: "shirts"
     },
     {
       id: 5,
-      name: "تيشرت بيزك أسود",
-      price: 250,
-      images: [
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "تيشرت قطن 100% مريح وعملي للاستخدام اليومي.",
+      name: "تيشرت بيزك قطن صافي",
+      price: 249,
+      image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت قطني 100% ناعم على البشرة، متوفر بجميع المقاسات وممتاز لتنسيقه تحت الجواكيت.",
       category: "shirts"
     },
     {
       id: 6,
-      name: "هودي أوفر سايز رصاصي",
-      price: 650,
-      images: [
-        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1556821835-f09b307ec3fc?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "هودي شتوي ثقيل مبطن من الداخل، بتصميم أوفر سايز عصري.",
-      category: "hoodies"
+      name: "قميص جينز كاجوال الأزرق",
+      price: 599,
+      image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
+      description: "قميص جينز عصري مصنوع من الدنيم الخفيف المتين، يعطيك طابعاً شبابياً وعملياً طوال اليوم.",
+      category: "shirts"
     },
     {
       id: 7,
-      name: "سويت شيرت كحلي",
-      price: 550,
-      images: [
-        "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1620799139834-6b8f844fbe61?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "سويت شيرت بياقة دائرية، مناسب للخروجات السريعة.",
-      category: "hoodies"
+      name: "قميص كتان بيج صيفي",
+      price: 520,
+      image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=600&q=80",
+      description: "قميص مصنوع من الكتان الطبيعي بنسبة 100% لتوفير أقصى درجات الانتعاش والراحة في الصيف.",
+      category: "shirts"
     },
     {
       id: 8,
-      name: "جاكيت جلد بايكر",
-      price: 1499,
-      images: [
-        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "جاكيت جلد كاجوال بتصميم راكب الدراجات، متين ويمنحك هيبة وأناقة.",
-      category: "jackets"
+      name: "تيشرت بولو كلاسيك أسود",
+      price: 380,
+      image: "https://images.unsplash.com/photo-1626497764746-6dc36546b388?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت بولو بياقة مقواة وأزرار أمامية أنيقة، مناسب للخروج شبه الرسمي واليومي.",
+      category: "shirts"
     },
     {
       id: 9,
-      name: "جاكيت جينز فاتح",
-      price: 850,
-      images: [
-        "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1601333144130-8cbb312386b6?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "جاكيت جينز كلاسيكي يتناسب مع كل أطقمك الكاجوال.",
-      category: "jackets"
+      name: "قميص مقلم كاجوال عصري",
+      price: 480,
+      image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
+      description: "قميص مقلم بخطوط طولية مميزة تساعد على إعطاء مظهر متناسق وجذاب ومناسب للجسم.",
+      category: "shirts"
     },
     {
       id: 10,
-      name: "بنطلون جينز سليم فيت",
-      price: 600,
-      images: [
-        "https://images.unsplash.com/photo-1542272604-780c878515af?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "جينز أزرق داكن بقصة سليم فيت مريحة بفضل نسبة الليكرا.",
-      category: "pants"
+      name: "تيشرت جرافيك هيب هوب",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت بطباعة ديجيتال خلفية عالية الجودة لا تتأثر بالغسيل، وقصة فضفاضة مريحة للشباب.",
+      category: "shirts"
     },
     {
       id: 11,
-      name: "بنطلون جابردين بيج",
-      price: 550,
-      images: [
-        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1624378441864-6ad2ce9ea43c?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "بنطلون قماش مريح وعملي للشغل والجامعة.",
-      category: "pants"
+      name: "قميص زيتي سليم فيت",
+      price: 460,
+      image: "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=600&q=80",
+      description: "قميص بلون زيتي هادئ وقصة مجسمة تبرز جمال القوام، مصنوع من خليط القطن الفاخر المعالج.",
+      category: "shirts"
     },
     {
       id: 12,
-      name: "حذاء سنيكرز أبيض فاخر",
-      price: 899,
-      images: [
-        "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "حذاء رياضي خفيف الوزن بنعل مريح جداً للمشي الطويل.",
-      category: "shoes"
+      name: "تيشرت أوفرسايز رمادي",
+      price: 340,
+      image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
+      description: "تيشرت رمادي بتصميم فضفاض الأكتاف (Oversized Trend)، شبابي جداً ومواكب لأحدث صيحات الموضة.",
+      category: "shirts"
     },
     {
       id: 13,
-      name: "حذاء كلاسيك أسود",
-      price: 1100,
-      images: [
-        "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "حذاء جلد طبيعي للمناسبات الرسمية والبدل.",
-      category: "shoes"
+      name: "قميص كاروهات أحمر",
+      price: 499,
+      image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80",
+      description: "قميص كاروهات كلاسيكي دافئ وخفيف، رائع للارتداء مفتوحاً فوق تيشرت بيزك أبيض.",
+      category: "shirts"
     },
+
+    // --- هوديز وسويت شيرت ---
     {
       id: 14,
-      name: "ساعة يد أنالوج",
-      price: 1200,
-      images: [
-        "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "ساعة يد كلاسيكية بتصميم فخم لتكمل شياكتك.",
-      category: "accessories"
+      name: "هودي أوفرسايز عصري",
+      price: 799,
+      image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
+      description: "هودي مريح جداً بقصة فضفاضة (Oversized) مبطن من الداخل بالفرو الناعم ليوفر لك أقصى درجات الدفء.",
+      category: "hoodies"
     },
     {
       id: 15,
-      name: "نظارة شمسية سوداء",
-      price: 350,
-      images: [
-        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
-        "https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&w=600&q=80"
-      ],
-      description: "نظارة شمسية بعدسات مستقطبة لحماية كاملة من أشعة الشمس.",
+      name: "سويت شيرت نيفي بيزك",
+      price: 499,
+      image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
+      description: "سويت شيرت كلاسيكي بدون زعبوط بلون كحلي فخم، خامة ثقيلة ومرنة ممتازة للشتاء الخفيف.",
+      category: "hoodies"
+    },
+    {
+      id: 16,
+      name: "هودي بسحاب كامل أسود",
+      price: 850,
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
+      description: "هودي عملي مزود بسحاب (Zip-up) كامل وجيوب أمامية واسعة تتسع لأغراضك اليومية كالموبايل والمفاتيح.",
+      category: "hoodies"
+    },
+    {
+      id: 17,
+      name: "بلوفر تريكو صوف ناعم",
+      price: 690,
+      image: "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?auto=format&fit=crop&w=600&q=80",
+      description: "بلوفر تريكو أنيق من خيوط الصوف عالية الجودة التي لا توبر مع الاستخدام والغسيل المتكرر.",
+      category: "hoodies"
+    },
+    {
+      id: 18,
+      name: "سويت شيرت مطبوع كاجوال",
+      price: 550,
+      image: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=600&q=80",
+      description: "سويت شيرت شبابي بطبعة عصرية دقيقة على الصدر والظهر، يمنحك إطلالة فريدة ومتميزة.",
+      category: "hoodies"
+    },
+    {
+      id: 19,
+      name: "هودي باستيل مبطن",
+      price: 749,
+      image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+      description: "هودي بألوان الباستيل المهدئة والمريحة للعين، مصنوع من خامات قطنية معالجة وناعمة للغسيل الشاق.",
+      category: "hoodies"
+    },
+    {
+      id: 20,
+      name: "سويت شيرت رياضي مريح",
+      price: 480,
+      image: "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?auto=format&fit=crop&w=600&q=80",
+      description: "سويت شيرت خفيف الوزن بنظام طرد الرطوبة، مناسب جداً للجيم أو لممارسة رياضة الجري في الصباح.",
+      category: "hoodies"
+    },
+
+    // --- جواكيت ومعاطف ---
+    {
+      id: 21,
+      name: "جاكيت جلد بريميوم",
+      price: 1499,
+      image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت جلد كاجوال بتصميم راكب الدراجات (Biker)، متين ويمنحك هيبة وأناقة لا مثيل لها.",
+      category: "jackets"
+    },
+    {
+      id: 22,
+      name: "جاكيت جينز كلاسيك ممزق",
+      price: 799,
+      image: "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت دنيم أزرق مع بعض اللمسات الكاجوال العصرية، يتماشى بشكل مذهل مع تيشرت أبيض سادة بنطلون أسود.",
+      category: "jackets"
+    },
+    {
+      id: 23,
+      name: "بالطو صوف طويل فخم",
+      price: 2400,
+      image: "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80",
+      description: "معطف شتوي طويل مصنوع من الصوف الفاخر بقصة إنجليزية مستقيمة، يوفر الدفء الأمثل والأناقة الفخمة.",
+      category: "jackets"
+    },
+    {
+      id: 24,
+      name: "جاكيت بامب ووتربروف",
+      price: 1100,
+      image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت منفوخ (Puffer) عازل تماماً للمياه والهواء، خفيف الوزن ومناسب جداً لأيام المطر الغزير والبرد القارس.",
+      category: "jackets"
+    },
+    {
+      id: 25,
+      name: "جاكيت بومبر شبابي أسود",
+      price: 899,
+      image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80",
+      description: "جاكيت بومبر (Bomber) بأطراف مطاطية عند المعصم والخصر، مظهر عصري وخامة مقاومة للرياح.",
+      category: "jackets"
+    },
+    {
+      id: 26,
+      name: "جاكيت وندبريكر خفيف",
+      price: 650,
+      image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت رياضي خفيف ومثالي لفصلي الخريف والربيع، يحميك من تقلبات الجو والرياح المفاجئة السريعة.",
+      category: "jackets"
+    },
+    {
+      id: 27,
+      name: "جاكيت جباردين زيتي بجيوب",
+      price: 950,
+      image: "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?auto=format&fit=crop&w=600&q=80",
+      description: "جاكيت سفاري مصنوع من قماش الجباردين المتين ومزود بـ 4 جيوب أمامية كبيرة وتصميم عملي وعسكري رائع.",
+      category: "jackets"
+    },
+    {
+      id: 28,
+      name: "بليزر كاجوال رمادي",
+      price: 1350,
+      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+      description: "بليزر بتفصيلة كاجوال ناعمة بدون بطانة ثقيلة، يمكن ارتداؤه مع الجينز للحصول على مظهر ذكي (Smart Casual).",
+      category: "jackets"
+    },
+
+    // --- بنطلونات وشورتات ---
+    {
+      id: 29,
+      name: "بنطلون تشينو كلاسيك بيج",
+      price: 549,
+      image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون مريح بخامة قطنية متينة وقصة سليم فيت، يجمع بين راحة الكاجوال وأناقة الكلاسيك.",
+      category: "pants"
+    },
+    {
+      id: 30,
+      name: "بنطلون جينز أزرق غامق",
+      price: 499,
+      image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80",
+      description: "جينز متين بقصة مريحة وألوان ثابتة لا تبهت بكثرة الغسيل، مزود بـ 5 جيوب تقليدية عملية.",
+      category: "pants"
+    },
+    {
+      id: 31,
+      name: "بنطلون جينز أسود سليم ليكرا",
+      price: 520,
+      image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80",
+      description: "جينز أسود شديد السواد بخامة مرنة ومطاطية (ليكرا) تضمن لك سهولة تامة وحرية فائقة في الحركة اليومية.",
+      category: "pants"
+    },
+    {
+      id: 32,
+      name: "بنطلون كارغو زيتي بجيوب",
+      price: 599,
+      image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون كارغو (Cargo) بستايل هيب هوب شبابي مميز بجيوب جانبية ضخمة وأساور مطاطية من الأسفل.",
+      category: "pants"
+    },
+    {
+      id: 33,
+      name: "بنطلون جوجر قطن رمادي",
+      price: 399,
+      image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون جوجر رياضي مريح جداً للمنزل أو المشاوير السريعة والتمارين، برباط خصر مرن وقابل للتعديل.",
+      category: "pants"
+    },
+    {
+      id: 34,
+      name: "شورت كاجوال قطن كحلي",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=600&q=80",
+      description: "شورت صيفي خفيف الوزن وطري، مناسب جداً للارتداء على الشواطئ والمصايف والتمشية الصيفية.",
+      category: "pants"
+    },
+    {
+      id: 35,
+      name: "بنطلون قماش رمادي رسمي",
+      price: 580,
+      image: "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=600&q=80",
+      description: "بنطلون قماش فاخر مخصص للمناسبات والبدل والاجتماعات، خامة فاخرة باردة تمنحك الثقة والأناقة.",
+      category: "pants"
+    },
+    {
+      id: 36,
+      name: "بنطلون جينز ثلجي هادي",
+      price: 540,
+      image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=600&q=80",
+      description: "جينز بلون ثلجي فاتح مميز ومفضل جداً في فترات الصيف والنهار، قصة عصرية جذابة وتناسب الأحذية الفاتحة.",
+      category: "pants"
+    },
+
+    // --- أحذية وسنيكرز ---
+    {
+      id: 37,
+      name: "حذاء سنيكرز أبيض فاخر",
+      price: 899,
+      image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء رياضي خفيف الوزن بنعل مريح جداً للمشي الطويل، يتماشى مع جميع ملابسك الكاجوال والدنيم البسيطة.",
+      category: "shoes"
+    },
+    {
+      id: 38,
+      name: "حذاء كلاسيك جلد بني",
+      price: 1100,
+      image: "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء رسمي أوكسفورد من الجلد الطبيعي اللامع، قصة كلاسيكية ونعل متين ومريح للأفراح والاجتماعات الفخمة.",
+      category: "shoes"
+    },
+    {
+      id: 40,
+      name: "هاف بوت شمواه هافان",
+      price: 950,
+      image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء بوت كاحل (Chelsea Boot) مصنوع من الشمواه الفاخر، يعطي لمسة شتوية غنية وأنيقة مع الجينز.",
+      category: "shoes"
+    },
+    {
+      id: 41,
+      name: "سنيكرز رمادي رياضي عصري",
+      price: 699,
+      image: "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80",
+      description: "كوتشي كاجوال خفيف الوزن للمشاوير والجامعة، خامة قماش شبكي يسمح بمرور الهواء وتبريد القدمين.",
+      category: "shoes"
+    },
+    {
+      id: 42,
+      name: "حذاء لوفرز مريح بدون أربطة",
+      price: 850,
+      image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
+      description: "حذاء لوفرز (Loafers) كاجوال سهل الارتداء والخلع سريعاً، مبطن داخلياً بفرش مساج طبي مرن ومريح.",
+      category: "shoes"
+    },
+    {
+      id: 43,
+      name: "بوت جلدي شتوي متين",
+      price: 1390,
+      image: "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=600&q=80",
+      description: "بوت مبطن من الداخل لحماية كاملة في الشتاء والأراضي الوعرة، مظهر خشن ورجالي وقوي للغاية.",
+      category: "shoes"
+    },
+    {
+      id: 44,
+      name: "سليبر جلدي منزلي مريح",
+      price: 250,
+      image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+      description: "سليبر مريح ومفتوح للمنزل أو الشاطئ مصنوع من خامات لينة تمنع الانزلاق وتوفر راحة مستمرة.",
+      category: "shoes"
+    },
+
+    // --- إكسسوارات وعناية ---
+    {
+      id: 45,
+      name: "ساعة كوارتز سوداء بسير جلدي",
+      price: 1200,
+      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+      description: "ساعة يد كلاسيكية أنيقة تناسب الإطلالات الكلاسيكية والكاجوال، مقاومة لرذاذ الماء والخدوش البسيطة.",
+      category: "accessories"
+    },
+    {
+      id: 46,
+      name: "نظارة شمسية بولارايزد كلاسيك",
+      price: 450,
+      image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
+      description: "نظارة شمسية توفر حماية 100% من الأشعة فوق البنفسجية UV400 بعدسات واضحة تمنع انعكاس الضوء المزعج.",
+      category: "accessories"
+    },
+    {
+      id: 47,
+      name: "حزام جلد طبيعي 100% أسود",
+      price: 299,
+      image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
+      description: "حزام مصنوع من طبقات الجلد الطبيعي السميك بتصميم كلاسيكي متين وإبزيم معدني مقاوم للصدأ.",
+      category: "accessories"
+    },
+    {
+      id: 48,
+      name: "كاب قطني رياضي أسود",
+      price: 180,
+      image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80",
+      description: "كاب رياضي قطني لحمايتك من أشعة الشمس، مزود بفتحات تهوية وحزام خلفي قابل لتعديل المقاس بدقة.",
+      category: "accessories"
+    },
+    {
+      id: 49,
+      name: "محفظة كروت جلدية نحيفة",
+      price: 220,
+      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=600&q=80",
+      description: "محفظة كروت بتصميم نحيف وعصري (Slim Cardholder) تتسع لـ 6 كروت ونقود ورقية دون تضخم الجيب.",
+      category: "accessories"
+    },
+    {
+      id: 50,
+      name: "برفان رجالي نايت ليميتد إيديشن",
+      price: 850,
+      image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80",
+      description: "عطر رجالي فواح وثابت يدوم لأكثر من 24 ساعة، برائحة الأخشاب الشرقية واللافندر الجذابة والنادرة.",
+      category: "accessories"
+    },
+    {
+      id: 51,
+      name: "طقم جوارب قطنية طويلة (3 قطع)",
+      price: 150,
+      image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+      description: "مجموعة من ثلاثة أزواج جوارب مصنوعة من القطن الطبيعي لامتصاص العرق وتوفير راحة مثالية طوال اليوم داخل الحذاء.",
+      category: "accessories"
+    },
+    {
+      id: 52,
+      name: "سوار جلدي كاجوال رجالي",
+      price: 130,
+      image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80",
+      description: "حظاظة أو إسورة من الجلد المضفر الفاخر بقفل مغناطيسي قوي مصنوع من التيتانيوم، تضيف لمسة شبابية.",
+      category: "accessories"
+    },
+    {
+      id: 53,
+      name: "شنطة كروس للمتعلقات الشخصية",
+      price: 390,
+      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+      description: "حقيبة كروس صغيرة مقاومة للمياه تتسع للمحفظة، الموبايل، النظارة والباوربانك، ومثالية للارتداء اليومي السريع.",
       category: "accessories"
     }
   ];
 
-  // دوال التحكم بالعمليات
+  const [cart, setCart] = useState<Product[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
   const addToCart = (item: Product | Omit<Product, "category">) => {
     const formattedItem = { ...item, category: (item as Product).category || "shirts" } as Product;
     setCart((prev) => [...prev, formattedItem]);
-    showToast(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
+    setToastMessage(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
+    
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 1000);
   };
 
   const toggleFavorite = (id: number, name: string) => {
     if (favorites.includes(id)) {
       setFavorites((prev) => prev.filter((favId) => favId !== id));
-      showToast(`تمت إزالة "${name}" من المفضلة 💔`);
+      setToastMessage(`تمت إزالة "${name}" من المفضلة 💔`);
     } else {
       setFavorites((prev) => [...prev, id]);
-      showToast(`تمت إضافة "${name}" للمفضلة ❤️`);
+      setToastMessage(`تمت إضافة "${name}" للمفضلة ❤️`);
     }
+    setTimeout(() => setToastMessage(null), 1000);
   };
 
   const removeFromCart = (index: number) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 2000);
-  };
-
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   const orderText = encodeURIComponent(
     cart.length
-      ? `طلب جديد من متجر 3l_nagar\n\n${cart
+      ? `طلب جديد من متجر 3l_nagar Clothing\n\n${cart
           .map((item, i) => `${i + 1}- ${item.name} | ${item.price} جنيه`)
           .join("\n")}\n\nالإجمالي: ${total} جنيه`
       : "أرغب بالاستفسار عن المنتجات"
@@ -290,6 +508,7 @@ export default function Home() {
     ? products 
     : products.filter(p => p.category === activeCategory);
 
+  // استخراج كائنات المنتجات المفضلة الفعالة
   const favoriteItems = products.filter(p => favorites.includes(p.id)).concat(
     (offers.filter(o => favorites.includes(o.id)) as unknown as Product[])
   );
@@ -297,24 +516,34 @@ export default function Home() {
   return (
     <main 
       dir="rtl" 
-      className={`min-h-screen font-sans pb-20 selection:bg-green-200 transition-colors duration-500 overflow-x-hidden ${
+      className={`min-h-screen font-sans pb-20 selection:bg-green-200 transition-colors duration-500 ${
         darkMode ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-gray-900"
       }`}
     >
+      {/* ستايل مخصص لتأثير العمق والمظاهر ثلاثية الأبعاد بدون مكتبات خارجية ثقيلة */}
       <style jsx global>{`
-        .perspective-3d { perspective: 1200px; }
+        .perspective-3d {
+          perspective: 1000px;
+        }
+        .card-3d-effect {
+          transform-style: preserve-3d;
+          transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), shadow 0.5s;
+        }
+        .card-3d-effect:hover {
+          transform: rotateX(6deg) rotateY(-6deg) translateZ(15px);
+        }
       `}</style>
       
-      {/* إشعار بمنتصف الشاشة تماماً */}
+      {/* إشعار التوسيط المطلق أعلى الشاشة */}
       {toastMessage && (
-        <div className="fixed inset-0 flex items-center justify-center z-[200] pointer-events-none px-4">
-          <div className="bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-lg font-bold animate-in fade-in zoom-in duration-300">
+        <div className="fixed top-24 inset-x-0 flex justify-center z-[200] pointer-events-none px-4">
+          <div className="bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-sm md:text-base font-bold animate-bounce text-ellipsis overflow-hidden max-w-full">
             {toastMessage}
           </div>
         </div>
       )}
 
-      {/* الهيدر */}
+      {/* الهيدر الرئيسي */}
       <header className={`sticky top-0 z-40 border-b shadow-sm backdrop-blur-md transition-colors ${
         darkMode ? "bg-slate-900/90 border-slate-800" : "bg-white/90 border-gray-200"
       }`}>
@@ -327,185 +556,254 @@ export default function Home() {
             <a href="#" className="hover:text-green-500 transition">الرئيسية</a>
             <a href="#offers" className="hover:text-green-500 transition">العروض</a>
             <a href="#products" className="hover:text-green-500 transition">المنتجات</a>
+            <a href="#contact" className="hover:text-green-500 transition">تواصل معنا</a>
           </nav>
 
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`p-2.5 rounded-full border transition-all active:scale-90 ${
-              darkMode ? "bg-slate-800 border-slate-700 text-yellow-400" : "bg-gray-100 border-gray-200 text-slate-700"
-            }`}
-          >
-            {darkMode ? "☀️" : "🌙"}
-          </button>
+          {/* أزرار التحكم بالوضع والمفضلة في الهيدر */}
+          <div className="flex items-center gap-4">
+            {/* زر تبديل الوضع الليلي / النهاري */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className={`p-2.5 rounded-full border transition-all active:scale-90 ${
+                darkMode ? "bg-slate-800 border-slate-700 text-yellow-400 hover:bg-slate-700" : "bg-gray-100 border-gray-200 text-slate-700 hover:bg-gray-200"
+              }`}
+              title={darkMode ? "الوضع النهاري" : "الوضع الليلي"}
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
+
+            {/* زر فتح قائمة المفضلة من الهيدر */}
+            <button
+              onClick={() => setFavoritesOpen(true)}
+              className={`p-2.5 rounded-full border relative transition-all active:scale-90 ${
+                darkMode ? "bg-slate-800 border-slate-700 text-red-400" : "bg-gray-100 border-gray-200 text-red-500"
+              }`}
+            >
+              ❤️
+              {favorites.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                  {favorites.length}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* القسم الترحيبي التفاعلي (Hero Section 3D) */}
       <section className={`py-20 px-6 transition-colors ${darkMode ? "bg-slate-900" : "bg-white"}`}>
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center perspective-3d">
           <div className="text-right">
             <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
               ارتقِ بأناقتك مع <br /> 3l_nagar
             </h2>
             <p className={`text-lg mb-8 leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-              اكتشف تشكيلتنا الجديدة والحصرية من الملابس الرجالية الفخمة والأحذية المصممة بعناية.
+              اكتشف تشكيلتنا الجديدة والحصرية المكونة من أكثر من 50 قطعة من الملابس الرجالية الفخمة، الكاجوال، والأحذية المصممة بعناية لتناسب أناقتك اليومية.
             </p>
             <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("أهلاً، أريد الاستفسار عن متجر 3l_nagar")}`}
+              href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg text-lg hover:-translate-y-1"
             >
-              تواصل عبر واتساب
+              تواصل عبر واتساب للاستفسارات السريعة
             </a>
           </div>
-          
-          {/* كارت الـ Hero بتأثير 3D تفاعلي */}
-          <Interactive3DCard className="relative cursor-pointer">
+          {/* تأثير تفاعلي مجسم وعميق للصورة الرئيسية */}
+          <div className="relative card-3d-effect cursor-pointer">
             <div className="absolute inset-0 bg-green-600/20 rounded-3xl transform rotate-3 scale-105 -z-10 blur-sm"></div>
             <img
               src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
-              alt="Fashion"
+              alt="3l_nagar Luxury Fashion"
               className="rounded-3xl shadow-2xl w-full object-cover h-[500px] border border-white/10"
-              style={{ transform: "translateZ(30px)" }} // يدفع الصورة للأمام في البُعد الثالث
             />
-          </Interactive3DCard>
+          </div>
         </div>
       </section>
 
-      {/* قسم العروض */}
-      <section id="offers" className="py-20 px-6">
+      {/* قسم أقوى العروض الحالية */}
+      <section id="offers" className="py-20 px-6 perspective-3d">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <span className="text-3xl">🔥</span>
-            <h3 className="text-3xl font-extrabold">أقوى العروض</h3>
+            <h3 className="text-3xl font-extrabold">أقوى العروض الحالية الحصرية</h3>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {offers.map((offer) => (
-              <Interactive3DCard
+              <div 
                 key={offer.id} 
-                className={`group border rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-shadow duration-300 ${
+                className={`group card-3d-effect border rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 ${
                   darkMode ? "bg-slate-900 border-slate-800" : "bg-white border-gray-100"
                 }`}
               >
-                <div className="relative cursor-pointer overflow-hidden h-80" onClick={() => { setSelectedProduct(offer as Product); setModalImageIndex(0); }}>
-                  <img src={offer.images[0]} alt={offer.name} className="w-full h-full object-cover absolute inset-0 transition-opacity duration-500 group-hover:opacity-0" />
-                  {offer.images[1] && (
-                    <img src={offer.images[1]} alt={offer.name} className="w-full h-full object-cover absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100" />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 pointer-events-none"></div>
-                  
-                  {/* زر المفضلة الشفاف الذي يتحول لأبيض */}
+                <div className="relative cursor-pointer overflow-hidden" onClick={() => setSelectedProduct(offer as Product)}>
+                  <img
+                    src={offer.image}
+                    alt={offer.name}
+                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">عرض الوصف والتفاصيل</span>
+                  </div>
+                  {/* زر الإضافة للمفضلة العائم */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleFavorite(offer.id, offer.name);
                     }}
-                    className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 z-20 border-2 ${
-                      favorites.includes(offer.id) 
-                        ? "bg-white border-white text-red-500 shadow-md" 
-                        : "bg-transparent border-white/70 text-white hover:bg-white/20" 
+                    className={`absolute top-4 left-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center backdrop-blur-md transition active:scale-95 z-20 ${
+                      favorites.includes(offer.id) ? "bg-red-50 text-red-500" : "bg-white/80 text-gray-600 hover:text-red-500"
                     }`}
-                    style={{ transform: "translateZ(40px)" }}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill={favorites.includes(offer.id) ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                    </svg>
+                    {favorites.includes(offer.id) ? "❤️" : "🤍"}
                   </button>
                 </div>
-                <div className="p-6" style={{ transform: "translateZ(20px)" }}>
+                <div className="p-6">
                   <h4 className="font-bold text-xl mb-1">{offer.name}</h4>
                   <p className="text-green-600 font-extrabold text-lg mb-5">{offer.price} جنيه</p>
-                  <button onClick={() => addToCart(offer)} className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-3 rounded-xl transition-all">
+                  <button
+                    onClick={() => addToCart(offer)}
+                    className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-3 rounded-xl transition-all active:scale-95"
+                  >
                     أضف للسلة
                   </button>
                 </div>
-              </Interactive3DCard>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* شريط الفلتر */}
-      <div className="max-w-7xl mx-auto px-6 mb-8 flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
-            className={`whitespace-nowrap px-6 py-2.5 rounded-full font-medium transition-all ${
-              activeCategory === cat.id
-                ? "bg-green-600 text-white shadow-md"
-                : darkMode
-                ? "bg-slate-800 text-gray-300 hover:bg-slate-700"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-          >
-            {cat.name}
-          </button>
-        ))}
-      </div>
-
-      {/* قسم المنتجات */}
-      <section id="products" className={`py-10 px-6 border-t rounded-t-[3rem] transition-colors ${darkMode ? "bg-slate-900/50 border-slate-800" : "bg-white border-gray-200"}`}>
+      {/* قسم الـ 50 منتج مع الفلترة */}
+      <section 
+        id="products" 
+        className={`py-20 px-6 border-t rounded-t-[3rem] perspective-3d transition-colors ${
+          darkMode ? "bg-slate-900/50 border-slate-800" : "bg-white border-gray-200"
+        }`}
+      >
         <div className="max-w-7xl mx-auto">
+          <h3 className="text-3xl font-extrabold mb-4 text-center">كل منتجات متجرنا الرجالية</h3>
+          <p className={`text-center mb-12 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>تصفح تشكيلتنا الضخمة المكونة من أرقى الملابس، الأحذية، والإكسسوارات.</p>
+
+          {/* أشرطة الفلترة والتبديل السريع للفئات */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200 ${
+                  activeCategory === cat.id 
+                    ? "bg-green-600 text-white shadow-md scale-105" 
+                    : darkMode ? "bg-slate-800 text-gray-300 hover:bg-slate-700" : "bg-slate-100 text-gray-600 hover:bg-slate-200"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+
+          {/* شبكة عرض المنتجات ثلاثية الأبعاد */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {filteredProducts.map((product) => (
-              <Interactive3DCard 
+              <div 
                 key={product.id} 
-                className={`group border rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-shadow duration-300 flex flex-col justify-between ${darkMode ? "bg-slate-900 border-slate-800" : "bg-slate-50 border-gray-100"}`}
+                className={`group card-3d-effect border rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col justify-between ${
+                  darkMode ? "bg-slate-900 border-slate-800" : "bg-slate-50 border-gray-100"
+                }`}
               >
-                <div className="relative cursor-pointer overflow-hidden aspect-[4/5]" onClick={() => { setSelectedProduct(product); setModalImageIndex(0); }}>
-                  <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover absolute inset-0 transition-opacity duration-500 group-hover:opacity-0" />
-                  {product.images[1] && (
-                    <img src={product.images[1]} alt={product.name} className="w-full h-full object-cover absolute inset-0 transition-opacity duration-500 opacity-0 group-hover:opacity-100" />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 pointer-events-none"></div>
-                  
-                  {/* زر المفضلة الشفاف التفاعلي */}
+                <div className="relative cursor-pointer overflow-hidden aspect-[4/5]" onClick={() => setSelectedProduct(product)}>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm text-sm">تفاصيل القطعة 🔍</span>
+                  </div>
+                  {/* زر الإضافة للمفضلة العائم */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleFavorite(product.id, product.name);
                     }}
-                    className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 z-20 border-2 ${
-                      favorites.includes(product.id) 
-                        ? "bg-white border-white text-red-500 shadow-md"
-                        : "bg-transparent border-white/70 text-white hover:bg-white/20"
+                    className={`absolute top-4 left-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center backdrop-blur-md transition active:scale-95 z-20 ${
+                      favorites.includes(product.id) ? "bg-red-50 text-red-500" : "bg-white/80 text-gray-600 hover:text-red-500"
                     }`}
-                    style={{ transform: "translateZ(40px)" }}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill={favorites.includes(product.id) ? "currentColor" : "none"} viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                    </svg>
+                    {favorites.includes(product.id) ? "❤️" : "🤍"}
                   </button>
                 </div>
-                <div className="p-5 flex-1 flex flex-col justify-between" style={{ transform: "translateZ(20px)" }}>
+                <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h4 className="font-bold text-lg mb-1 line-clamp-1">{product.name}</h4>
+                    <h4 className="font-bold text-lg mb-1 group-hover:text-green-600 transition-colors line-clamp-1">{product.name}</h4>
                     <p className="text-green-600 font-extrabold text-base mb-4">{product.price} جنيه</p>
                   </div>
-                  <button onClick={() => addToCart(product)} className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-2.5 rounded-xl transition-all">
+                  <button
+                    onClick={() => addToCart(product)}
+                    className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-2.5 rounded-xl transition-all active:scale-95 text-sm"
+                  >
                     أضف للسلة
                   </button>
                 </div>
-              </Interactive3DCard>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* الأزرار العائمة للمفضلة والسلة */}
+      {/* قسم تواصل معنا */}
+      <section id="contact" className="py-20 px-6 text-center bg-gray-900 text-white rounded-t-[3rem] mt-10">
+        <div className="max-w-2xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-bold mb-6">هل تحتاج مساعدة بخصوص المقاسات؟</h3>
+          <p className="text-gray-300 mb-10 text-lg">
+            فريق خدمة العملاء متواجد لمساعدتك في تنسيق الملابس واختيار أنسب مقاس لك وشحن طلبك فوراً.
+          </p>
+          <a
+            href={`https://wa.me/${whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-green-500 hover:bg-green-600 text-white font-bold px-10 py-4 rounded-full inline-flex items-center gap-2 transition-transform hover:scale-105 shadow-lg text-lg"
+          >
+            <span>💬</span> تحدث معنا عبر الواتساب الآن
+          </a>
+        </div>
+      </section>
+
+      {/* شريط الأزرار العائمة بالأسفل (السلة + المفضلة) */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-        <button onClick={() => setFavoritesOpen(true)} className="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl transition-transform hover:scale-110 relative">
-          ❤️ {favorites.length > 0 && <span className="absolute -top-2 -right-3 bg-gray-900 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">{favorites.length}</span>}
+        {/* زر المفضلة العائم السفلي */}
+        <button
+          onClick={() => setFavoritesOpen(true)}
+          className="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl transition-transform hover:scale-110 active:scale-95"
+        >
+          <span className="relative">
+            ❤️
+            {favorites.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-gray-900 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                {favorites.length}
+              </span>
+            )}
+          </span>
         </button>
-        <button onClick={() => setCartOpen(true)} className="bg-gray-900 hover:bg-black text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-110 relative">
-          🛒 {cart.length > 0 && <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">{cart.length}</span>}
+
+        {/* زر السلة العائم */}
+        <button
+          onClick={() => setCartOpen(true)}
+          className="bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-110 active:scale-95"
+        >
+          <span className="relative">
+            🛒
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
+                {cart.length}
+              </span>
+            )}
+          </span>
         </button>
       </div>
 
-      {/* نافذة تفاصيل المنتج - تغلق عند النقر على الخلفية */}
+      {/* نافذة تفاصيل ووصف المنتج - تقفل عند الضغط على الخلفية */}
       {selectedProduct && (
         <div 
           onClick={() => setSelectedProduct(null)}
@@ -517,26 +815,28 @@ export default function Home() {
               darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"
             }`}
           >
-            <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 bg-white/80 text-gray-900 w-10 h-10 rounded-full flex items-center justify-center z-30 font-bold hover:bg-gray-200">
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="absolute top-4 right-4 bg-white/80 backdrop-blur-md text-gray-900 w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200 transition z-10 font-bold"
+            >
               ✕
             </button>
-            <div className="relative w-full h-80 bg-slate-100 dark:bg-slate-950 flex items-center justify-center overflow-hidden">
-              <img src={selectedProduct.images[modalImageIndex]} alt={selectedProduct.name} className="w-full h-full object-cover transition-all duration-300" />
-              <button onClick={() => setModalImageIndex((prev) => (prev === 0 ? selectedProduct.images.length - 1 : prev - 1))} className="absolute right-3 bg-black/50 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/70 z-10 font-bold">❯</button>
-              <button onClick={() => setModalImageIndex((prev) => (prev === selectedProduct.images.length - 1 ? 0 : prev + 1))} className="absolute left-3 bg-black/50 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-black/70 z-10 font-bold">❮</button>
-            </div>
-            <div className="flex justify-center gap-2 py-3 bg-slate-100/50 dark:bg-slate-950/30 border-b dark:border-slate-800">
-              {selectedProduct.images.map((img, idx) => (
-                <button key={idx} onClick={() => setModalImageIndex(idx)} className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${modalImageIndex === idx ? "border-green-600 scale-105 shadow-md" : "border-transparent opacity-60 hover:opacity-100"}`}>
-                  <img src={img} alt="" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+            <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-80 object-cover" />
             <div className="p-8">
               <h3 className="text-2xl font-bold mb-2">{selectedProduct.name}</h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-4">{selectedProduct.description}</p>
               <p className="text-green-600 font-extrabold text-xl mb-4">{selectedProduct.price} جنيه</p>
-              <button onClick={() => { addToCart(selectedProduct); setSelectedProduct(null); }} className="w-full bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-transform active:scale-95 text-lg">
+              <div className={`p-4 rounded-xl border mb-6 leading-relaxed text-sm md:text-base ${
+                darkMode ? "bg-slate-800 border-slate-700 text-gray-300" : "bg-slate-50 border-gray-200 text-gray-600"
+              }`}>
+                {selectedProduct.description}
+              </div>
+              <button
+                onClick={() => {
+                  addToCart(selectedProduct);
+                  setSelectedProduct(null);
+                }}
+                className="w-full bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-transform active:scale-95 text-lg"
+              >
                 أضف للسلة الآن
               </button>
             </div>
@@ -544,7 +844,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* نافذة السلة - تغلق عند النقر على الخلفية */}
+      {/* نافذة السلة - تقفل عند الضغط على الخلفية */}
       {cartOpen && (
         <div 
           onClick={() => setCartOpen(false)}
@@ -552,40 +852,61 @@ export default function Home() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"}`}
+            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${
+              darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"
+            }`}
           >
-            <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-slate-800">
-              <h3 className="font-extrabold text-xl">🛒 سلة المشتريات</h3>
-              <button onClick={() => setCartOpen(false)} className="bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-slate-700">✕</button>
+            <div className={`flex justify-between items-center p-6 border-b ${darkMode ? "border-slate-800" : "border-gray-200"}`}>
+              <h3 className="font-extrabold text-xl flex items-center gap-2">
+                <span>🛒</span> سلة المشتريات
+              </h3>
+              <button onClick={() => setCartOpen(false)} className="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">
+                ✕
+              </button>
             </div>
+
             <div className="p-6 overflow-y-auto flex-1">
               {cart.length === 0 ? (
-                <p className="text-center text-gray-500 py-10">السلة فارغة 🛒</p>
+                <div className="text-center py-12">
+                  <div className="text-5xl mb-4 opacity-50">🛍️</div>
+                  <p className="text-gray-500 font-medium">sلتك فارغة حالياً</p>
+                </div>
               ) : (
-                cart.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center py-4 border-b border-gray-100 dark:border-slate-800 last:border-0">
-                    <div>
-                      <p className="font-bold">{item.name}</p>
-                      <p className="text-green-600 text-sm font-bold">{item.price} جنيه</p>
+                <div className="space-y-4">
+                  {cart.map((item, index) => (
+                    <div key={index} className={`flex justify-between items-center p-4 rounded-2xl border ${
+                      darkMode ? "bg-slate-800/50 border-slate-700" : "bg-slate-50 border-gray-100"
+                    }`}>
+                      <div className="flex items-center gap-4">
+                        <img src={item.image} alt={item.name} className="w-14 h-14 rounded-xl object-cover" />
+                        <div>
+                          <p className="font-bold">{item.name}</p>
+                          <p className="text-green-600 font-semibold">{item.price} جنيه</p>
+                        </div>
+                      </div>
+                      <button onClick={() => removeFromCart(index)} className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-lg transition">
+                        حذف
+                      </button>
                     </div>
-                    <button onClick={() => removeFromCart(index)} className="text-red-500 bg-red-50 dark:bg-red-500/10 px-3 py-1 rounded-lg text-sm font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition-colors">حذف</button>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
+
             {cart.length > 0 && (
-              <div className="p-6 bg-gray-50 dark:bg-slate-800/50 border-t border-gray-200 dark:border-slate-800">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="font-bold">الإجمالي:</span>
-                  <span className="font-extrabold text-xl text-green-600">{total} جنيه</span>
+              <div className={`p-6 border-t rounded-b-3xl ${darkMode ? "bg-slate-800/80 border-slate-700" : "bg-slate-50"}`}>
+                <div className="flex justify-between items-center mb-6">
+                  <span className="text-gray-500 font-medium">الإجمالي</span>
+                  <span className="font-extrabold text-2xl">{total} جنيه</span>
                 </div>
-                <a 
+                <a
                   href={`https://wa.me/${whatsappNumber}?text=${orderText}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-transform active:scale-95"
+                  className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-all text-center"
                 >
-                  إتمام الطلب عبر واتساب
+                  <span>إتمام الطلب عبر واتساب</span>
+                  <span>📱</span>
                 </a>
               </div>
             )}
@@ -593,7 +914,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* نافذة المفضلة - تغلق عند النقر على الخلفية */}
+      {/* نافذة المنتجات المفضلة الجديدة - تقفل عند الضغط على الخلفية */}
       {favoritesOpen && (
         <div 
           onClick={() => setFavoritesOpen(false)}
@@ -601,35 +922,67 @@ export default function Home() {
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"}`}
+            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${
+              darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"
+            }`}
           >
-            <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-slate-800">
-              <h3 className="font-extrabold text-xl">❤️ قائمة المفضلة</h3>
-              <button onClick={() => setFavoritesOpen(false)} className="bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-200 dark:hover:bg-slate-700">✕</button>
+            <div className={`flex justify-between items-center p-6 border-b ${darkMode ? "border-slate-800" : "border-gray-200"}`}>
+              <h3 className="font-extrabold text-xl flex items-center gap-2 text-red-500">
+                <span>❤️</span> المنتجات المفضلة
+              </h3>
+              <button onClick={() => setFavoritesOpen(false)} className="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">
+                ✕
+              </button>
             </div>
+
             <div className="p-6 overflow-y-auto flex-1">
               {favoriteItems.length === 0 ? (
-                <p className="text-center text-gray-500 py-10">قائمة المفضلة فارغة 💔</p>
+                <div className="text-center py-12">
+                  <div className="text-5xl mb-4 opacity-50">❤️</div>
+                  <p className="text-gray-500 font-medium">لم تقم بإضافة منتجات للمفضلة بعد</p>
+                </div>
               ) : (
-                favoriteItems.map((item, index) => (
-                  <div key={index} className="flex gap-4 items-center py-4 border-b border-gray-100 dark:border-slate-800 last:border-0">
-                    <img src={item.images[0]} alt={item.name} className="w-16 h-16 rounded-xl object-cover" />
-                    <div className="flex-1">
-                      <p className="font-bold line-clamp-1">{item.name}</p>
-                      <p className="text-green-600 text-sm font-bold">{item.price} جنيه</p>
+                <div className="space-y-4">
+                  {favoriteItems.map((item) => (
+                    <div key={item.id} className={`flex justify-between items-center p-4 rounded-2xl border ${
+                      darkMode ? "bg-slate-800/50 border-slate-700" : "bg-slate-50 border-gray-100"
+                    }`}>
+                      <div className="flex items-center gap-4 cursor-pointer" onClick={() => { setSelectedProduct(item); setFavoritesOpen(false); }}>
+                        <img src={item.image} alt={item.name} className="w-14 h-14 rounded-xl object-cover" />
+                        <div>
+                          <p className="font-bold line-clamp-1">{item.name}</p>
+                          <p className="text-green-600 font-semibold">{item.price} جنيه</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => addToCart(item)}
+                          className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 rounded-xl text-xs font-bold transition"
+                        >
+                          + 🛒
+                        </button>
+                        <button 
+                          onClick={() => toggleFavorite(item.id, item.name)} 
+                          className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-lg transition text-sm"
+                        >
+                          حذف
+                        </button>
+                      </div>
                     </div>
-                    <button onClick={() => toggleFavorite(item.id, item.name)} className="text-red-500 bg-red-50 dark:bg-red-500/10 px-3 py-1 rounded-lg text-sm font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition-colors">إزالة</button>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
           </div>
         </div>
       )}
+
+      {/* الفوتر */}
+      <footer className={`border-t text-center py-8 transition-colors ${darkMode ? "bg-slate-900 border-slate-800 text-gray-400" : "bg-white text-gray-500"}`}>
+        <p className="mb-2">© {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر 3l_nagar</p>
+        <p className="text-sm font-medium">   تم التطوير بواسطة  موسي النجار </p>
+      </footer>
+
     </main>
   );
-}
-
-
-
-
+      }
