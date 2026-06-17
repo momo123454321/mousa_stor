@@ -14,6 +14,11 @@ type Product = {
 export default function Home() {
   const whatsappNumber = "201287254329";
 
+  // حالات التحكم الجديدة
+  const [darkMode, setDarkMode] = useState(false);
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
+
   // فئات الفلترة
   const categories = [
     { id: "all", name: "كل المنتجات" },
@@ -474,6 +479,17 @@ export default function Home() {
     }, 1000);
   };
 
+  const toggleFavorite = (id: number, name: string) => {
+    if (favorites.includes(id)) {
+      setFavorites((prev) => prev.filter((favId) => favId !== id));
+      setToastMessage(`تمت إزالة "${name}" من المفضلة 💔`);
+    } else {
+      setFavorites((prev) => [...prev, id]);
+      setToastMessage(`تمت إضافة "${name}" للمفضلة ❤️`);
+    }
+    setTimeout(() => setToastMessage(null), 1000);
+  };
+
   const removeFromCart = (index: number) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
   };
@@ -492,8 +508,31 @@ export default function Home() {
     ? products 
     : products.filter(p => p.category === activeCategory);
 
+  // استخراج كائنات المنتجات المفضلة الفعالة
+  const favoriteItems = products.filter(p => favorites.includes(p.id)).concat(
+    (offers.filter(o => favorites.includes(o.id)) as unknown as Product[])
+  );
+
   return (
-    <main dir="rtl" className="min-h-screen bg-slate-50 text-gray-900 font-sans pb-20 selection:bg-green-200">
+    <main 
+      dir="rtl" 
+      className={`min-h-screen font-sans pb-20 selection:bg-green-200 transition-colors duration-500 ${
+        darkMode ? "bg-slate-950 text-slate-100" : "bg-slate-50 text-gray-900"
+      }`}
+    >
+      {/* ستايل مخصص لتأثير العمق والمظاهر ثلاثية الأبعاد بدون مكتبات خارجية ثقيلة */}
+      <style jsx global>{`
+        .perspective-3d {
+          perspective: 1000px;
+        }
+        .card-3d-effect {
+          transform-style: preserve-3d;
+          transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), shadow 0.5s;
+        }
+        .card-3d-effect:hover {
+          transform: rotateX(6deg) rotateY(-6deg) translateZ(15px);
+        }
+      `}</style>
       
       {/* إشعار التوسيط المطلق أعلى الشاشة */}
       {toastMessage && (
@@ -505,62 +544,99 @@ export default function Home() {
       )}
 
       {/* الهيدر الرئيسي */}
-      <header className="sticky top-0 bg-white/90 backdrop-blur-md z-40 border-b shadow-sm">
+      <header className={`sticky top-0 z-40 border-b shadow-sm backdrop-blur-md transition-colors ${
+        darkMode ? "bg-slate-900/90 border-slate-800" : "bg-white/90 border-gray-200"
+      }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">
+          <h1 className="text-2xl font-extrabold tracking-tight">
             3l_nagar <span className="text-green-600">Clothing</span>
           </h1>
 
-          <nav className="hidden md:flex gap-8 font-medium text-gray-600">
-            <a href="#" className="hover:text-black transition">الرئيسية</a>
-            <a href="#offers" className="hover:text-black transition">العروض</a>
-            <a href="#products" className="hover:text-black transition">المنتجات</a>
-            <a href="#contact" className="hover:text-black transition">تواصل معنا</a>
+          <nav className={`hidden md:flex gap-8 font-medium ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+            <a href="#" className="hover:text-green-500 transition">الرئيسية</a>
+            <a href="#offers" className="hover:text-green-500 transition">العروض</a>
+            <a href="#products" className="hover:text-green-500 transition">المنتجات</a>
+            <a href="#contact" className="hover:text-green-500 transition">تواصل معنا</a>
           </nav>
+
+          {/* أزرار التحكم بالوضع والمفضلة في الهيدر */}
+          <div className="flex items-center gap-4">
+            {/* زر تبديل الوضع الليلي / النهاري */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className={`p-2.5 rounded-full border transition-all active:scale-90 ${
+                darkMode ? "bg-slate-800 border-slate-700 text-yellow-400 hover:bg-slate-700" : "bg-gray-100 border-gray-200 text-slate-700 hover:bg-gray-200"
+              }`}
+              title={darkMode ? "الوضع النهاري" : "الوضع الليلي"}
+            >
+              {darkMode ? "☀️" : "🌙"}
+            </button>
+
+            {/* زر فتح قائمة المفضلة من الهيدر */}
+            <button
+              onClick={() => setFavoritesOpen(true)}
+              className={`p-2.5 rounded-full border relative transition-all active:scale-90 ${
+                darkMode ? "bg-slate-800 border-slate-700 text-red-400" : "bg-gray-100 border-gray-200 text-red-500"
+              }`}
+            >
+              ❤️
+              {favorites.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                  {favorites.length}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* القسم الترحيبي (Hero) */}
-      <section className="bg-white py-20 px-6">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+      {/* القسم الترحيبي التفاعلي (Hero Section 3D) */}
+      <section className={`py-20 px-6 transition-colors ${darkMode ? "bg-slate-900" : "bg-white"}`}>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center perspective-3d">
           <div className="text-right">
             <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
               ارتقِ بأناقتك مع <br /> 3l_nagar
             </h2>
-            <p className="text-gray-500 text-lg mb-8 leading-relaxed">
+            <p className={`text-lg mb-8 leading-relaxed ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
               اكتشف تشكيلتنا الجديدة والحصرية المكونة من أكثر من 50 قطعة من الملابس الرجالية الفخمة، الكاجوال، والأحذية المصممة بعناية لتناسب أناقتك اليومية.
             </p>
             <a
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full transition-colors shadow-md hover:shadow-lg text-lg"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg text-lg hover:-translate-y-1"
             >
               تواصل عبر واتساب للاستفسارات السريعة
             </a>
           </div>
-          <div className="relative">
-            <div className="absolute inset-0 bg-green-100 rounded-3xl transform rotate-3 scale-105 -z-10"></div>
+          {/* تأثير تفاعلي مجسم وعميق للصورة الرئيسية */}
+          <div className="relative card-3d-effect cursor-pointer">
+            <div className="absolute inset-0 bg-green-600/20 rounded-3xl transform rotate-3 scale-105 -z-10 blur-sm"></div>
             <img
               src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
               alt="3l_nagar Luxury Fashion"
-              className="rounded-3xl shadow-2xl w-full object-cover h-[500px]"
+              className="rounded-3xl shadow-2xl w-full object-cover h-[500px] border border-white/10"
             />
           </div>
         </div>
       </section>
 
       {/* قسم أقوى العروض الحالية */}
-      <section id="offers" className="py-20 px-6">
+      <section id="offers" className="py-20 px-6 perspective-3d">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-12">
             <span className="text-3xl">🔥</span>
-            <h3 className="text-3xl font-extrabold text-gray-900">أقوى العروض الحالية الحصرية</h3>
+            <h3 className="text-3xl font-extrabold">أقوى العروض الحالية الحصرية</h3>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {offers.map((offer) => (
-              <div key={offer.id} className="group bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div 
+                key={offer.id} 
+                className={`group card-3d-effect border rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 ${
+                  darkMode ? "bg-slate-900 border-slate-800" : "bg-white border-gray-100"
+                }`}
+              >
                 <div className="relative cursor-pointer overflow-hidden" onClick={() => setSelectedProduct(offer as Product)}>
                   <img
                     src={offer.image}
@@ -570,13 +646,25 @@ export default function Home() {
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">عرض الوصف والتفاصيل</span>
                   </div>
+                  {/* زر الإضافة للمفضلة العائم */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(offer.id, offer.name);
+                    }}
+                    className={`absolute top-4 left-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center backdrop-blur-md transition active:scale-95 z-20 ${
+                      favorites.includes(offer.id) ? "bg-red-50 text-red-500" : "bg-white/80 text-gray-600 hover:text-red-500"
+                    }`}
+                  >
+                    {favorites.includes(offer.id) ? "❤️" : "🤍"}
+                  </button>
                 </div>
                 <div className="p-6">
-                  <h4 className="font-bold text-xl mb-1 text-gray-900">{offer.name}</h4>
+                  <h4 className="font-bold text-xl mb-1">{offer.name}</h4>
                   <p className="text-green-600 font-extrabold text-lg mb-5">{offer.price} جنيه</p>
                   <button
                     onClick={() => addToCart(offer)}
-                    className="w-full bg-gray-900 hover:bg-black text-white font-medium py-3 rounded-xl transition-all active:scale-95"
+                    className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-3 rounded-xl transition-all active:scale-95"
                   >
                     أضف للسلة
                   </button>
@@ -588,10 +676,15 @@ export default function Home() {
       </section>
 
       {/* قسم الـ 50 منتج مع الفلترة */}
-      <section id="products" className="py-20 px-6 bg-white border-t rounded-t-[3rem]">
+      <section 
+        id="products" 
+        className={`py-20 px-6 border-t rounded-t-[3rem] perspective-3d transition-colors ${
+          darkMode ? "bg-slate-900/50 border-slate-800" : "bg-white border-gray-200"
+        }`}
+      >
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-3xl font-extrabold text-gray-900 mb-4 text-center">كل منتجات متجرنا الرجالية</h3>
-          <p className="text-gray-500 text-center mb-12">تصفح تشكيلتنا الضخمة المكونة من أرقى الملابس، الأحذية، والإكسسوارات.</p>
+          <h3 className="text-3xl font-extrabold mb-4 text-center">كل منتجات متجرنا الرجالية</h3>
+          <p className={`text-center mb-12 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>تصفح تشكيلتنا الضخمة المكونة من أرقى الملابس، الأحذية، والإكسسوارات.</p>
 
           {/* أشرطة الفلترة والتبديل السريع للفئات */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -602,7 +695,7 @@ export default function Home() {
                 className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200 ${
                   activeCategory === cat.id 
                     ? "bg-green-600 text-white shadow-md scale-105" 
-                    : "bg-slate-100 text-gray-600 hover:bg-slate-200"
+                    : darkMode ? "bg-slate-800 text-gray-300 hover:bg-slate-700" : "bg-slate-100 text-gray-600 hover:bg-slate-200"
                 }`}
               >
                 {cat.name}
@@ -610,10 +703,15 @@ export default function Home() {
             ))}
           </div>
 
-          {/* شبكة عرض المنتجات */}
+          {/* شبكة عرض المنتجات ثلاثية الأبعاد */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="group bg-slate-50 border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+              <div 
+                key={product.id} 
+                className={`group card-3d-effect border rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col justify-between ${
+                  darkMode ? "bg-slate-900 border-slate-800" : "bg-slate-50 border-gray-100"
+                }`}
+              >
                 <div className="relative cursor-pointer overflow-hidden aspect-[4/5]" onClick={() => setSelectedProduct(product)}>
                   <img
                     src={product.image}
@@ -623,15 +721,27 @@ export default function Home() {
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm text-sm">تفاصيل القطعة 🔍</span>
                   </div>
+                  {/* زر الإضافة للمفضلة العائم */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(product.id, product.name);
+                    }}
+                    className={`absolute top-4 left-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center backdrop-blur-md transition active:scale-95 z-20 ${
+                      favorites.includes(product.id) ? "bg-red-50 text-red-500" : "bg-white/80 text-gray-600 hover:text-red-500"
+                    }`}
+                  >
+                    {favorites.includes(product.id) ? "❤️" : "🤍"}
+                  </button>
                 </div>
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h4 className="font-bold text-lg mb-1 text-gray-900 group-hover:text-green-600 transition-colors line-clamp-1">{product.name}</h4>
+                    <h4 className="font-bold text-lg mb-1 group-hover:text-green-600 transition-colors line-clamp-1">{product.name}</h4>
                     <p className="text-green-600 font-extrabold text-base mb-4">{product.price} جنيه</p>
                   </div>
                   <button
                     onClick={() => addToCart(product)}
-                    className="w-full bg-gray-900 hover:bg-black text-white font-medium py-2.5 rounded-xl transition-all active:scale-95 text-sm"
+                    className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-2.5 rounded-xl transition-all active:scale-95 text-sm"
                   >
                     أضف للسلة
                   </button>
@@ -660,30 +770,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* زر السلة العائم */}
-      <button
-        onClick={() => setCartOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-gray-900 hover:bg-black text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-105"
-      >
-        <span className="relative">
-          🛒
-          {cart.length > 0 && (
-            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
-              {cart.length}
-            </span>
-          )}
-        </span>
-      </button>
+      {/* شريط الأزرار العائمة بالأسفل (السلة + المفضلة) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        {/* زر المفضلة العائم السفلي */}
+        <button
+          onClick={() => setFavoritesOpen(true)}
+          className="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl transition-transform hover:scale-110 active:scale-95"
+        >
+          <span className="relative">
+            ❤️
+            {favorites.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-gray-900 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                {favorites.length}
+              </span>
+            )}
+          </span>
+        </button>
 
-      {/* تم التعديل هنا: نافذة تفاصيل ووصف المنتج - تقفل عند الضغط على الخلفية */}
+        {/* زر السلة العائم */}
+        <button
+          onClick={() => setCartOpen(true)}
+          className="bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-110 active:scale-95"
+        >
+          <span className="relative">
+            🛒
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
+                {cart.length}
+              </span>
+            )}
+          </span>
+        </button>
+      </div>
+
+      {/* نافذة تفاصيل ووصف المنتج - تقفل عند الضغط على الخلفية */}
       {selectedProduct && (
         <div 
-          onClick={() => setSelectedProduct(null)} // يقفل لو ضغط على الخلفية
+          onClick={() => setSelectedProduct(null)}
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4 cursor-pointer"
         >
           <div 
-            onClick={(e) => e.stopPropagation()} // يمنع القفل لو ضغطت جوه المربع نفسه
-            className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+            className={`w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200 cursor-default ${
+              darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"
+            }`}
           >
             <button
               onClick={() => setSelectedProduct(null)}
@@ -693,9 +823,11 @@ export default function Home() {
             </button>
             <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-80 object-cover" />
             <div className="p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{selectedProduct.name}</h3>
+              <h3 className="text-2xl font-bold mb-2">{selectedProduct.name}</h3>
               <p className="text-green-600 font-extrabold text-xl mb-4">{selectedProduct.price} جنيه</p>
-              <div className="bg-slate-50 p-4 rounded-xl border mb-6 text-gray-600 leading-relaxed text-sm md:text-base">
+              <div className={`p-4 rounded-xl border mb-6 leading-relaxed text-sm md:text-base ${
+                darkMode ? "bg-slate-800 border-slate-700 text-gray-300" : "bg-slate-50 border-gray-200 text-gray-600"
+              }`}>
                 {selectedProduct.description}
               </div>
               <button
@@ -703,7 +835,7 @@ export default function Home() {
                   addToCart(selectedProduct);
                   setSelectedProduct(null);
                 }}
-                className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl transition-transform active:scale-95 text-lg"
+                className="w-full bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-transform active:scale-95 text-lg"
               >
                 أضف للسلة الآن
               </button>
@@ -712,21 +844,23 @@ export default function Home() {
         </div>
       )}
 
-      {/* تم التعديل هنا أيضاً: شاشة السلة - تقفل عند الضغط على الخلفية */}
+      {/* نافذة السلة - تقفل عند الضغط على الخلفية */}
       {cartOpen && (
         <div 
-          onClick={() => setCartOpen(false)} // يقفل لو ضغط برة سلة المشتريات
+          onClick={() => setCartOpen(false)}
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center cursor-pointer"
         >
           <div 
-            onClick={(e) => e.stopPropagation()} // يمنع غلق السلة عند الضغط على منتجاتها بالداخل
-            className="bg-white w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default"
+            onClick={(e) => e.stopPropagation()}
+            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${
+              darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"
+            }`}
           >
-            <div className="flex justify-between items-center p-6 border-b">
+            <div className={`flex justify-between items-center p-6 border-b ${darkMode ? "border-slate-800" : "border-gray-200"}`}>
               <h3 className="font-extrabold text-xl flex items-center gap-2">
                 <span>🛒</span> سلة المشتريات
               </h3>
-              <button onClick={() => setCartOpen(false)} className="text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition">
+              <button onClick={() => setCartOpen(false)} className="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">
                 ✕
               </button>
             </div>
@@ -735,20 +869,22 @@ export default function Home() {
               {cart.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-5xl mb-4 opacity-50">🛍️</div>
-                  <p className="text-gray-500 font-medium">سلتك فارغة حالياً</p>
+                  <p className="text-gray-500 font-medium">sلتك فارغة حالياً</p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {cart.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-gray-100">
+                    <div key={index} className={`flex justify-between items-center p-4 rounded-2xl border ${
+                      darkMode ? "bg-slate-800/50 border-slate-700" : "bg-slate-50 border-gray-100"
+                    }`}>
                       <div className="flex items-center gap-4">
                         <img src={item.image} alt={item.name} className="w-14 h-14 rounded-xl object-cover" />
                         <div>
-                          <p className="font-bold text-gray-900">{item.name}</p>
+                          <p className="font-bold">{item.name}</p>
                           <p className="text-green-600 font-semibold">{item.price} جنيه</p>
                         </div>
                       </div>
-                      <button onClick={() => removeFromCart(index)} className="text-red-500 hover:bg-red-50 p-2 rounded-lg transition">
+                      <button onClick={() => removeFromCart(index)} className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-lg transition">
                         حذف
                       </button>
                     </div>
@@ -758,10 +894,10 @@ export default function Home() {
             </div>
 
             {cart.length > 0 && (
-              <div className="p-6 border-t bg-slate-50 rounded-b-3xl">
+              <div className={`p-6 border-t rounded-b-3xl ${darkMode ? "bg-slate-800/80 border-slate-700" : "bg-slate-50"}`}>
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-gray-500 font-medium">الإجمالي</span>
-                  <span className="font-extrabold text-2xl text-gray-900">{total} جنيه</span>
+                  <span className="font-extrabold text-2xl">{total} جنيه</span>
                 </div>
                 <a
                   href={`https://wa.me/${whatsappNumber}?text=${orderText}`}
@@ -778,12 +914,76 @@ export default function Home() {
         </div>
       )}
 
+      {/* نافذة المنتجات المفضلة الجديدة - تقفل عند الضغط على الخلفية */}
+      {favoritesOpen && (
+        <div 
+          onClick={() => setFavoritesOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${
+              darkMode ? "bg-slate-900 text-white" : "bg-white text-gray-900"
+            }`}
+          >
+            <div className={`flex justify-between items-center p-6 border-b ${darkMode ? "border-slate-800" : "border-gray-200"}`}>
+              <h3 className="font-extrabold text-xl flex items-center gap-2 text-red-500">
+                <span>❤️</span> المنتجات المفضلة
+              </h3>
+              <button onClick={() => setFavoritesOpen(false)} className="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition">
+                ✕
+              </button>
+            </div>
+
+            <div className="p-6 overflow-y-auto flex-1">
+              {favoriteItems.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-5xl mb-4 opacity-50">❤️</div>
+                  <p className="text-gray-500 font-medium">لم تقم بإضافة منتجات للمفضلة بعد</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {favoriteItems.map((item) => (
+                    <div key={item.id} className={`flex justify-between items-center p-4 rounded-2xl border ${
+                      darkMode ? "bg-slate-800/50 border-slate-700" : "bg-slate-50 border-gray-100"
+                    }`}>
+                      <div className="flex items-center gap-4 cursor-pointer" onClick={() => { setSelectedProduct(item); setFavoritesOpen(false); }}>
+                        <img src={item.image} alt={item.name} className="w-14 h-14 rounded-xl object-cover" />
+                        <div>
+                          <p className="font-bold line-clamp-1">{item.name}</p>
+                          <p className="text-green-600 font-semibold">{item.price} جنيه</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => addToCart(item)}
+                          className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 rounded-xl text-xs font-bold transition"
+                        >
+                          + 🛒
+                        </button>
+                        <button 
+                          onClick={() => toggleFavorite(item.id, item.name)} 
+                          className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-lg transition text-sm"
+                        >
+                          حذف
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* الفوتر */}
-      <footer className="bg-white border-t text-center py-8 text-gray-500">
+      <footer className={`border-t text-center py-8 transition-colors ${darkMode ? "bg-slate-900 border-slate-800 text-gray-400" : "bg-white text-gray-500"}`}>
         <p className="mb-2">© {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر 3l_nagar</p>
         <p className="text-sm font-medium">تم التطوير بواسطة محمد العريني</p>
       </footer>
 
     </main>
   );
-      }
+}
+
