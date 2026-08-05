@@ -717,3 +717,4 @@ export default function Home() {
           {/* العمود الأول */}
           <div>
             <h1 className="text-2xl font-extrabold mb-6 text-gray-900 dark:
+            
