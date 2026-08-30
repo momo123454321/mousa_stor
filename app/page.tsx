@@ -605,7 +605,7 @@ export default function Home() {
 
   const orderText = encodeURIComponent(
     cart.length
-      ? `طلب جديد من متجر 3l_nagar Clothing\n\n${cart
+      ? `mousa elnagar طلب جديد من متجر  \n\n${cart
           .map(
             (item, i) =>
               `${i + 1}- ${item.name} | ${item.price} جنيه`
@@ -737,7 +737,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center perspective-3d">
           <div className="text-right">
             <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-              ارتقِ بأناقتك مع <br /> 3l_nagar
+              ارتقِ بأناقتك مع <br /> 𝙚𝙡𝙣𝙖𝙜𝙖𝙧
             </h2>
 
             <p
@@ -1287,11 +1287,11 @@ export default function Home() {
         }`}
       >
         <p className="mb-2">
-          © {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر 3l_nagar
+          © {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر elnagar 
         </p>
 
         <p className="text-sm font-medium">
-          تم التطوير بواسطة موسي النجار
+          mousa elnagar تم التطوير بواسطة 
         </p>
       </footer>
     </main>
