@@ -19,9 +19,7 @@ type Product = {
   category: Category;
 };
 
-type Offer = Omit<Product, "category"> & {
-  category: Category;
-};
+type Offer = Product;
 
 const whatsappNumber = "201287254329";
 
@@ -37,7 +35,7 @@ const categories = [
 
 const offers: Offer[] = [
   {
-    id: 1,
+    id: 101,
     name: "عرض الصيف المتكامل",
     price: 599,
     image:
@@ -47,7 +45,7 @@ const offers: Offer[] = [
     category: "shirts",
   },
   {
-    id: 2,
+    id: 102,
     name: "طقم كلاسيك أنيق",
     price: 1299,
     image:
@@ -57,7 +55,7 @@ const offers: Offer[] = [
     category: "jackets",
   },
   {
-    id: 3,
+    id: 103,
     name: "الباقة الشبابية المحدودة",
     price: 899,
     image:
@@ -69,6 +67,10 @@ const offers: Offer[] = [
 ];
 
 const products: Product[] = [
+  // =========================
+  // SHIRTS
+  // =========================
+
   {
     id: 4,
     name: "قميص أبيض أوكسفورد",
@@ -160,6 +162,10 @@ const products: Product[] = [
     category: "shirts",
   },
 
+  // =========================
+  // HOODIES
+  // =========================
+
   {
     id: 14,
     name: "هودي أوفرسايز عصري",
@@ -210,7 +216,7 @@ const products: Product[] = [
     name: "هودي باستيل مبطن",
     price: 749,
     image:
-      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1578681994506-b8f463449011?auto=format&fit=crop&w=600&q=80",
     description: "هودي بألوان باستيل وخامة قطنية ناعمة.",
     category: "hoodies",
   },
@@ -223,6 +229,10 @@ const products: Product[] = [
     description: "سويت شيرت خفيف مناسب للجيم والجري.",
     category: "hoodies",
   },
+
+  // =========================
+  // JACKETS
+  // =========================
 
   {
     id: 21,
@@ -256,7 +266,7 @@ const products: Product[] = [
     name: "جاكيت بامب ووتربروف",
     price: 1100,
     image:
-      "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80",
     description: "جاكيت Puffer مقاوم للماء والهواء.",
     category: "jackets",
   },
@@ -296,6 +306,10 @@ const products: Product[] = [
     description: "بليزر رمادي مناسب للـ Smart Casual.",
     category: "jackets",
   },
+
+  // =========================
+  // PANTS
+  // =========================
 
   {
     id: 29,
@@ -370,6 +384,10 @@ const products: Product[] = [
     category: "pants",
   },
 
+  // =========================
+  // SHOES
+  // =========================
+
   {
     id: 37,
     name: "حذاء سنيكرز أبيض فاخر",
@@ -388,8 +406,6 @@ const products: Product[] = [
     description: "حذاء Oxford كلاسيكي من الجلد.",
     category: "shoes",
   },
-
-  // المنتج رقم 39 كان ناقصاً في الكود الأصلي
   {
     id: 39,
     name: "سنيكرز أسود كاجوال",
@@ -399,13 +415,12 @@ const products: Product[] = [
     description: "سنيكرز أسود عملي ومناسب للإطلالات اليومية.",
     category: "shoes",
   },
-
   {
     id: 40,
     name: "هاف بوت شمواه هافان",
     price: 950,
     image:
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=600&q=80",
     description: "Chelsea Boot من الشمواه الفاخر.",
     category: "shoes",
   },
@@ -441,10 +456,14 @@ const products: Product[] = [
     name: "سليبر جلدي منزلي مريح",
     price: 250,
     image:
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=600&q=80",
     description: "سليبر مريح للمنزل والشاطئ.",
     category: "shoes",
   },
+
+  // =========================
+  // ACCESSORIES
+  // =========================
 
   {
     id: 45,
@@ -469,7 +488,7 @@ const products: Product[] = [
     name: "حزام جلد طبيعي 100% أسود",
     price: 299,
     image:
-      "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=600&q=80",
     description: "حزام جلد أسود بتصميم كلاسيكي.",
     category: "accessories",
   },
@@ -505,7 +524,7 @@ const products: Product[] = [
     name: "طقم جوارب قطنية طويلة 3 قطع",
     price: 150,
     image:
-      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?auto=format&fit=crop&w=600&q=80",
     description: "ثلاثة أزواج جوارب قطنية مريحة.",
     category: "accessories",
   },
@@ -514,7 +533,7 @@ const products: Product[] = [
     name: "سوار جلدي كاجوال رجالي",
     price: 130,
     image:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=600&q=80",
     description: "سوار جلدي شبابي بتصميم عصري.",
     category: "accessories",
   },
@@ -535,7 +554,8 @@ export default function Home() {
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [cart, setCart] = useState<Product[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] =
+    useState<Product | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -553,10 +573,10 @@ export default function Home() {
   const addToCart = (item: Product | Offer) => {
     const product: Product = {
       ...item,
-      category: item.category,
     };
 
     setCart((prev) => [...prev, product]);
+
     showToast(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
   };
 
@@ -564,10 +584,12 @@ export default function Home() {
     setFavorites((prev) => {
       if (prev.includes(id)) {
         showToast(`تمت إزالة "${name}" من المفضلة 💔`);
+
         return prev.filter((favId) => favId !== id);
       }
 
       showToast(`تمت إضافة "${name}" للمفضلة ❤️`);
+
       return [...prev, id];
     });
   };
@@ -583,7 +605,10 @@ export default function Home() {
       ? `طلب جديد من متجر 3l_nagar Clothing 🛒
 
 ${cart
-  .map((item, index) => `${index + 1}- ${item.name} | ${item.price} جنيه`)
+  .map(
+    (item, index) =>
+      `${index + 1}- ${item.name} | ${item.price} جنيه`
+  )
   .join("\n")}
 
 الإجمالي: ${total} جنيه
@@ -596,7 +621,9 @@ ${cart
     let result =
       activeCategory === "all"
         ? [...products]
-        : products.filter((product) => product.category === activeCategory);
+        : products.filter(
+            (product) => product.category === activeCategory
+          );
 
     const query = searchQuery.trim().toLowerCase();
 
@@ -620,28 +647,42 @@ ${cart
   }, [activeCategory, searchQuery, sortBy]);
 
   const favoriteItems: Product[] = [
-    ...products.filter((product) => favorites.includes(product.id)),
-    ...offers
-      .filter((offer) => favorites.includes(offer.id))
-      .map((offer) => ({ ...offer }) as Product),
+    ...products.filter((product) =>
+      favorites.includes(product.id)
+    ),
+    ...offers.filter((offer) =>
+      favorites.includes(offer.id)
+    ),
   ];
 
   return (
     <main
       dir="rtl"
-      className={`min-h-screen pb-20 font-sans transition-colors duration-500 ${
+      className={`min-h-screen overflow-x-hidden pb-20 font-sans transition-colors duration-500 ${
         darkMode
           ? "bg-slate-950 text-slate-100"
           : "bg-slate-50 text-gray-900"
       }`}
     >
       <style jsx global>{`
+        * {
+          box-sizing: border-box;
+        }
+
         html {
           scroll-behavior: smooth;
         }
 
         body {
           margin: 0;
+          overflow-x: hidden;
+        }
+
+        button,
+        a,
+        input,
+        select {
+          -webkit-tap-highlight-color: transparent;
         }
 
         .perspective-3d {
@@ -651,25 +692,27 @@ ${cart
         .card-3d-effect {
           transform-style: preserve-3d;
           transition:
-            transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
-            box-shadow 0.5s;
+            transform 0.45s ease,
+            box-shadow 0.45s ease;
         }
 
-        .card-3d-effect:hover {
-          transform:
-            translateY(-8px)
-            rotateX(2deg)
-            rotateY(-2deg)
-            translateZ(10px);
+        @media (hover: hover) and (pointer: fine) {
+          .card-3d-effect:hover {
+            transform:
+              translateY(-8px)
+              rotateX(2deg)
+              rotateY(-2deg)
+              translateZ(8px);
+          }
         }
 
         .glass-header {
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
         }
 
         ::-webkit-scrollbar {
-          width: 8px;
+          width: 7px;
         }
 
         ::-webkit-scrollbar-track {
@@ -678,20 +721,28 @@ ${cart
 
         ::-webkit-scrollbar-thumb {
           background: #16a34a;
-          border-radius: 10px;
+          border-radius: 999px;
+        }
+
+        @media (max-width: 640px) {
+          .mobile-no-3d {
+            transform: none !important;
+          }
         }
       `}</style>
 
-      {/* Toast */}
+      {/* ================= TOAST ================= */}
+
       {toastMessage && (
-        <div className="fixed inset-x-0 top-24 z-[300] flex justify-center px-4">
-          <div className="rounded-2xl border border-gray-700/50 bg-gray-900/95 px-7 py-3.5 font-bold text-white shadow-2xl backdrop-blur-xl">
+        <div className="fixed inset-x-0 top-20 z-[300] flex justify-center px-4 sm:top-24">
+          <div className="max-w-[92vw] rounded-2xl border border-gray-700/50 bg-gray-900/95 px-5 py-3 text-center text-sm font-bold text-white shadow-2xl backdrop-blur-xl sm:px-7 sm:py-3.5 sm:text-base">
             {toastMessage}
           </div>
         </div>
       )}
 
-      {/* Header */}
+      {/* ================= HEADER ================= */}
+
       <header
         className={`sticky top-0 z-50 border-b transition-colors ${
           darkMode
@@ -699,10 +750,10 @@ ${cart
             : "border-gray-200 bg-white/85"
         } glass-header`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+        <div className="mx-auto flex min-h-[68px] max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <a
             href="#"
-            className="text-2xl font-black tracking-tight md:text-3xl"
+            className="shrink-0 text-xl font-black tracking-tight sm:text-2xl md:text-3xl"
           >
             3l_nagar{" "}
             <span className="bg-gradient-to-l from-green-400 to-green-600 bg-clip-text text-transparent">
@@ -711,29 +762,41 @@ ${cart
           </a>
 
           <nav
-            className={`hidden gap-7 text-sm font-bold md:flex ${
+            className={`hidden gap-5 text-sm font-bold lg:flex xl:gap-7 ${
               darkMode ? "text-gray-300" : "text-gray-600"
             }`}
           >
             <a className="transition hover:text-green-500" href="#">
               الرئيسية
             </a>
-            <a className="transition hover:text-green-500" href="#offers">
+
+            <a
+              className="transition hover:text-green-500"
+              href="#offers"
+            >
               العروض
             </a>
-            <a className="transition hover:text-green-500" href="#products">
+
+            <a
+              className="transition hover:text-green-500"
+              href="#products"
+            >
               المنتجات
             </a>
-            <a className="transition hover:text-green-500" href="#contact">
+
+            <a
+              className="transition hover:text-green-500"
+              href="#contact"
+            >
               تواصل معنا
             </a>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               aria-label="تغيير الوضع"
               onClick={() => setDarkMode((prev) => !prev)}
-              className={`rounded-full border p-2.5 transition hover:scale-110 ${
+              className={`rounded-full border p-2 text-base transition hover:scale-110 sm:p-2.5 sm:text-lg ${
                 darkMode
                   ? "border-slate-700 bg-slate-800 text-yellow-400"
                   : "border-gray-200 bg-slate-100 text-slate-700"
@@ -745,7 +808,11 @@ ${cart
             <button
               aria-label="المفضلة"
               onClick={() => setFavoritesOpen(true)}
-              className="relative rounded-full border border-gray-200 bg-slate-100 p-2.5 text-red-500 transition hover:scale-110 dark:border-slate-700 dark:bg-slate-800"
+              className={`relative rounded-full border p-2 text-base text-red-500 transition hover:scale-110 sm:p-2.5 sm:text-lg ${
+                darkMode
+                  ? "border-slate-700 bg-slate-800"
+                  : "border-gray-200 bg-slate-100"
+              }`}
             >
               ❤️
 
@@ -759,22 +826,24 @@ ${cart
         </div>
       </header>
 
-      {/* Hero */}
+      {/* ================= HERO ================= */}
+
       <section
-        className={`relative overflow-hidden px-6 py-20 md:py-28 ${
+        className={`relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20 md:py-28 ${
           darkMode ? "bg-slate-900" : "bg-slate-50"
         }`}
       >
-        <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-green-500/20 blur-[100px]" />
-        <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-[100px]" />
+        <div className="absolute left-1/4 top-0 h-60 w-60 rounded-full bg-green-500/20 blur-[90px] sm:h-96 sm:w-96" />
 
-        <div className="perspective-3d mx-auto grid max-w-7xl items-center gap-12 md:grid-cols-2">
-          <div className="relative z-10">
-            <span className="mb-6 inline-block rounded-full border border-green-200 bg-green-100 px-4 py-1.5 text-sm font-bold text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400">
+        <div className="absolute bottom-0 right-1/4 h-60 w-60 rounded-full bg-blue-500/10 blur-[90px] sm:h-96 sm:w-96" />
+
+        <div className="perspective-3d mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-12">
+          <div className="relative z-10 text-center md:text-right">
+            <span className="mb-5 inline-block rounded-full border border-green-200 bg-green-100 px-4 py-1.5 text-xs font-bold text-green-700 dark:border-green-800 dark:bg-green-900/30 dark:text-green-400 sm:text-sm">
               🌟 التشكيلة الجديدة
             </span>
 
-            <h2 className="mb-6 text-5xl font-black leading-tight md:text-7xl">
+            <h2 className="mb-5 text-4xl font-black leading-tight sm:text-5xl md:mb-6 md:text-6xl lg:text-7xl">
               ارتقِ بأناقتك مع
               <br />
               <span className="bg-gradient-to-l from-green-500 to-emerald-700 bg-clip-text text-transparent">
@@ -783,18 +852,19 @@ ${cart
             </h2>
 
             <p
-              className={`mb-10 max-w-2xl text-lg leading-relaxed md:text-xl ${
+              className={`mx-auto mb-8 max-w-2xl text-base leading-relaxed sm:text-lg md:mx-0 md:mb-10 md:text-xl ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
-              اكتشف تشكيلتنا الحصرية من الملابس الرجالية والكاجوال والأحذية
-              والإكسسوارات المصممة بعناية لتبرز شخصيتك وتميزك في كل وقت.
+              اكتشف تشكيلتنا الحصرية من الملابس الرجالية والكاجوال
+              والأحذية والإكسسوارات المصممة بعناية لتبرز شخصيتك
+              وتميزك في كل وقت.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
               <a
                 href="#products"
-                className="rounded-full bg-gray-900 px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl dark:bg-white dark:text-gray-900"
+                className="rounded-full bg-gray-900 px-7 py-3.5 text-base font-bold text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl sm:px-8 sm:py-4 sm:text-lg dark:bg-white dark:text-gray-900"
               >
                 تسوق الآن 🛒
               </a>
@@ -803,36 +873,40 @@ ${cart
                 href={`https://wa.me/${whatsappNumber}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-green-600 px-8 py-4 text-lg font-bold text-white shadow-lg transition hover:-translate-y-1 hover:bg-green-700"
+                className="rounded-full bg-green-600 px-7 py-3.5 text-base font-bold text-white shadow-lg transition hover:-translate-y-1 hover:bg-green-700 sm:px-8 sm:py-4 sm:text-lg"
               >
                 تواصل عبر واتساب 💬
               </a>
             </div>
           </div>
 
-          <div className="card-3d-effect relative">
+          <div className="card-3d-effect mobile-no-3d relative mx-auto w-full max-w-xl">
             <div className="absolute inset-0 -z-10 scale-105 rotate-3 rounded-[2rem] bg-green-600/30 blur-md" />
 
             <img
               src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1000&q=80"
               alt="3l_nagar Fashion"
-              className="h-[450px] w-full rounded-[2rem] border-4 border-white/20 object-cover shadow-2xl md:h-[550px]"
+              className="h-[380px] w-full rounded-[1.5rem] border-4 border-white/20 object-cover shadow-2xl sm:h-[480px] sm:rounded-[2rem] md:h-[550px]"
             />
           </div>
         </div>
       </section>
 
-      {/* Offers */}
-      <section id="offers" className="perspective-3d px-6 py-24">
+      {/* ================= OFFERS ================= */}
+
+      <section
+        id="offers"
+        className="perspective-3d px-4 py-16 sm:px-6 sm:py-20 md:py-24"
+      >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12">
-            <h3 className="flex items-center gap-3 text-3xl font-black md:text-4xl">
+          <div className="mb-9 sm:mb-12">
+            <h3 className="flex items-center gap-2 text-2xl font-black sm:gap-3 sm:text-3xl md:text-4xl">
               <span>🔥</span>
               عروض حصرية لفترة محدودة
             </h3>
 
             <p
-              className={`mt-3 text-lg ${
+              className={`mt-2 text-sm sm:mt-3 sm:text-lg ${
                 darkMode ? "text-gray-400" : "text-gray-500"
               }`}
             >
@@ -840,17 +914,17 @@ ${cart
             </p>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3">
             {offers.map((offer) => (
               <div
                 key={offer.id}
-                className={`card-3d-effect group relative overflow-hidden rounded-[2rem] border ${
+                className={`card-3d-effect group relative overflow-hidden rounded-[1.5rem] border sm:rounded-[2rem] ${
                   darkMode
                     ? "border-slate-800 bg-slate-900"
                     : "border-gray-100 bg-white"
                 }`}
               >
-                <span className="absolute right-4 top-4 z-20 rounded-full bg-red-600 px-3 py-1.5 text-xs font-bold text-white shadow-lg">
+                <span className="absolute right-3 top-3 z-20 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-bold text-white shadow-lg sm:right-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-xs">
                   عرض خاص 🔥
                 </span>
 
@@ -871,23 +945,27 @@ ${cart
                       e.stopPropagation();
                       toggleFavorite(offer.id, offer.name);
                     }}
-                    className="absolute left-4 top-4 z-30 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-lg backdrop-blur-md transition hover:scale-110"
+                    className="absolute left-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-sm shadow-lg backdrop-blur-md transition hover:scale-110 sm:left-4 sm:top-4 sm:h-11 sm:w-11 sm:text-base"
                   >
                     {favorites.includes(offer.id) ? "❤️" : "🤍"}
                   </button>
                 </div>
 
-                <div className="p-6 md:p-8">
-                  <h4 className="mb-2 text-2xl font-black">{offer.name}</h4>
+                <div className="p-5 sm:p-7 md:p-8">
+                  <h4 className="mb-2 text-xl font-black sm:text-2xl">
+                    {offer.name}
+                  </h4>
 
-                  <p className="mb-6 text-2xl font-black text-green-600">
+                  <p className="mb-5 text-xl font-black text-green-600 sm:mb-6 sm:text-2xl">
                     {offer.price}{" "}
-                    <span className="text-sm text-gray-500">ج.م</span>
+                    <span className="text-xs text-gray-500 sm:text-sm">
+                      ج.م
+                    </span>
                   </p>
 
                   <button
                     onClick={() => addToCart(offer)}
-                    className="w-full rounded-xl bg-gray-900 py-3.5 font-bold text-white transition hover:bg-black dark:bg-green-600 dark:hover:bg-green-700"
+                    className="w-full rounded-xl bg-gray-900 py-3 font-bold text-white transition hover:bg-black sm:py-3.5 dark:bg-green-600 dark:hover:bg-green-700"
                   >
                     أضف للسلة 🛒
                   </button>
@@ -898,10 +976,11 @@ ${cart
         </div>
       </section>
 
-      {/* Search / Sort */}
-      <section className="relative z-10 -mb-10 px-6">
+      {/* ================= SEARCH ================= */}
+
+      <section className="relative z-10 -mb-8 px-4 sm:-mb-10 sm:px-6">
         <div
-          className={`mx-auto flex max-w-7xl flex-col gap-4 rounded-[2rem] border p-4 shadow-xl backdrop-blur-xl md:flex-row md:items-center md:justify-between md:p-6 ${
+          className={`mx-auto flex max-w-7xl flex-col gap-3 rounded-[1.5rem] border p-4 shadow-xl backdrop-blur-xl sm:gap-4 sm:rounded-[2rem] sm:p-6 md:flex-row md:items-center md:justify-between ${
             darkMode
               ? "border-slate-700 bg-slate-800/80"
               : "border-gray-100 bg-white/80"
@@ -917,7 +996,7 @@ ${cart
               onChange={(e) => setSearchQuery(e.target.value)}
               type="text"
               placeholder="ابحث عن قميص، بنطلون، سنيكرز..."
-              className={`w-full rounded-xl border py-3.5 pl-4 pr-12 font-medium outline-none transition focus:ring-2 focus:ring-green-500 ${
+              className={`w-full rounded-xl border py-3 pr-12 pl-4 text-sm font-medium outline-none transition focus:ring-2 focus:ring-green-500 sm:py-3.5 sm:text-base ${
                 darkMode
                   ? "border-slate-700 bg-slate-900 text-white placeholder-gray-500"
                   : "border-gray-200 bg-gray-50 text-gray-900"
@@ -926,12 +1005,14 @@ ${cart
           </div>
 
           <div className="flex w-full items-center gap-3 md:w-auto">
-            <span className="whitespace-nowrap font-bold">ترتيب حسب:</span>
+            <span className="whitespace-nowrap text-sm font-bold sm:text-base">
+              ترتيب حسب:
+            </span>
 
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className={`w-full cursor-pointer rounded-xl border px-4 py-3.5 font-medium outline-none focus:ring-2 focus:ring-green-500 md:w-auto ${
+              className={`w-full cursor-pointer rounded-xl border px-3 py-3 text-sm font-medium outline-none focus:ring-2 focus:ring-green-500 sm:px-4 sm:py-3.5 sm:text-base md:w-auto ${
                 darkMode
                   ? "border-slate-700 bg-slate-900 text-white"
                   : "border-gray-200 bg-gray-50 text-gray-900"
@@ -945,19 +1026,22 @@ ${cart
         </div>
       </section>
 
-      {/* Products */}
+      {/* ================= PRODUCTS ================= */}
+
       <section
         id="products"
-        className={`px-6 pb-24 pt-32 ${
+        className={`px-4 pb-20 pt-24 sm:px-6 sm:pb-24 sm:pt-32 ${
           darkMode ? "bg-slate-900/50" : "bg-slate-100/50"
         }`}
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <h3 className="mb-4 text-4xl font-black">التشكيلة الكاملة</h3>
+          <div className="mb-9 text-center sm:mb-12">
+            <h3 className="mb-3 text-3xl font-black sm:mb-4 sm:text-4xl">
+              التشكيلة الكاملة
+            </h3>
 
             <p
-              className={`mx-auto max-w-2xl text-lg ${
+              className={`mx-auto max-w-2xl text-sm sm:text-lg ${
                 darkMode ? "text-gray-400" : "text-gray-500"
               }`}
             >
@@ -966,12 +1050,13 @@ ${cart
           </div>
 
           {/* Categories */}
-          <div className="mb-12 flex flex-wrap justify-center gap-2 md:gap-3">
+
+          <div className="mb-9 flex gap-2 overflow-x-auto pb-2 sm:mb-12 sm:flex-wrap sm:justify-center sm:gap-3">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`rounded-full px-5 py-2.5 text-sm font-bold transition ${
+                className={`shrink-0 rounded-full px-4 py-2.5 text-xs font-bold transition sm:px-5 sm:text-sm ${
                   activeCategory === category.id
                     ? "scale-105 bg-green-600 text-white shadow-lg"
                     : darkMode
@@ -988,27 +1073,27 @@ ${cart
             <div className="py-20 text-center">
               <div className="mb-4 text-6xl">🕵️‍♂️</div>
 
-              <h4 className="mb-2 text-2xl font-bold">
+              <h4 className="mb-2 text-xl font-bold sm:text-2xl">
                 لم نتمكن من العثور على نتائج!
               </h4>
 
-              <p className="text-gray-500">
+              <p className="text-sm text-gray-500 sm:text-base">
                 حاول البحث بكلمات مختلفة أو إزالة الفلاتر.
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-7">
               {filteredAndSortedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className={`card-3d-effect group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border ${
+                  className={`card-3d-effect mobile-no-3d group relative flex flex-col justify-between overflow-hidden rounded-[1.25rem] border sm:rounded-[1.75rem] ${
                     darkMode
                       ? "border-slate-800 bg-slate-900"
                       : "border-transparent bg-white shadow-sm"
                   }`}
                 >
                   {product.price >= 1000 && (
-                    <span className="absolute right-4 top-4 z-20 rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 px-3 py-1 text-xs font-bold text-white shadow-md">
+                    <span className="absolute right-2 top-2 z-20 rounded-full bg-gradient-to-r from-yellow-600 to-yellow-400 px-2 py-1 text-[9px] font-bold text-white shadow-md sm:right-4 sm:top-4 sm:px-3 sm:py-1 sm:text-xs">
                       Premium 🌟
                     </span>
                   )}
@@ -1030,35 +1115,39 @@ ${cart
                         e.stopPropagation();
                         toggleFavorite(product.id, product.name);
                       }}
-                      className="absolute left-4 top-4 z-30 flex h-10 w-10 items-center justify-center rounded-full bg-white/85 shadow-md backdrop-blur-md transition hover:scale-110"
+                      className="absolute left-2 top-2 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-sm shadow-md backdrop-blur-md transition hover:scale-110 sm:left-4 sm:top-4 sm:h-10 sm:w-10"
                     >
-                      {favorites.includes(product.id) ? "❤️" : "🤍"}
+                      {favorites.includes(product.id)
+                        ? "❤️"
+                        : "🤍"}
                     </button>
                   </div>
 
-                  <div className="flex flex-1 flex-col justify-between p-5">
+                  <div className="flex flex-1 flex-col justify-between p-3 sm:p-5">
                     <div>
-                      <h4 className="mb-1 line-clamp-1 text-lg font-bold transition group-hover:text-green-600">
+                      <h4 className="mb-1 line-clamp-2 text-sm font-bold transition group-hover:text-green-600 sm:text-lg">
                         {product.name}
                       </h4>
 
-                      <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-gray-500">
+                      <p className="mb-2 line-clamp-2 text-[11px] leading-relaxed text-gray-500 sm:mb-3 sm:text-sm">
                         {product.description}
                       </p>
                     </div>
 
-                    <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4 dark:border-slate-800">
-                      <p className="text-xl font-black">
+                    <div className="mt-3 flex items-center justify-between gap-2 border-t border-gray-100 pt-3 dark:border-slate-800 sm:mt-4 sm:pt-4">
+                      <p className="text-base font-black sm:text-xl">
                         {product.price}{" "}
-                        <span className="text-xs text-gray-400">ج.م</span>
+                        <span className="text-[9px] text-gray-400 sm:text-xs">
+                          ج.م
+                        </span>
                       </p>
 
                       <button
                         onClick={() => addToCart(product)}
                         title="أضف للسلة"
-                        className="rounded-xl bg-gray-100 p-3 font-bold text-gray-900 transition hover:bg-green-600 hover:text-white dark:bg-slate-800 dark:text-white"
+                        className="rounded-lg bg-gray-100 p-2 text-sm font-bold text-gray-900 transition hover:bg-green-600 hover:text-white sm:rounded-xl sm:p-3 sm:text-base dark:bg-slate-800 dark:text-white"
                       >
-                        ➕ 🛒
+                        🛒
                       </button>
                     </div>
                   </div>
@@ -1069,10 +1158,11 @@ ${cart
         </div>
       </section>
 
-      {/* Contact */}
+      {/* ================= CONTACT ================= */}
+
       <section
         id="contact"
-        className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-black px-6 py-24 text-center text-white"
+        className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-black px-4 py-20 text-center text-white sm:px-6 sm:py-24"
       >
         <div
           className="absolute inset-0 bg-cover bg-center opacity-10"
@@ -1083,39 +1173,41 @@ ${cart
         />
 
         <div className="relative z-10 mx-auto max-w-3xl">
-          <span className="mb-4 block font-bold text-green-400">
+          <span className="mb-4 block text-sm font-bold text-green-400 sm:text-base">
             نحن هنا لخدمتك 24/7
           </span>
 
-          <h3 className="mb-6 text-4xl font-black md:text-5xl">
+          <h3 className="mb-5 text-3xl font-black sm:mb-6 sm:text-4xl md:text-5xl">
             محتار في المقاس أو التنسيق؟
           </h3>
 
-          <p className="mb-10 text-lg leading-relaxed text-gray-300 md:text-xl">
-            تواصل معنا الآن للحصول على استشارة مجانية أو لطلب منتجاتك مباشرة.
+          <p className="mb-8 text-base leading-relaxed text-gray-300 sm:mb-10 sm:text-lg md:text-xl">
+            تواصل معنا الآن للحصول على استشارة مجانية أو لطلب
+            منتجاتك مباشرة.
           </p>
 
           <a
             href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 rounded-full bg-green-500 px-10 py-5 text-lg font-black text-white shadow-lg transition hover:scale-105 hover:bg-green-600"
+            className="inline-flex items-center gap-3 rounded-full bg-green-500 px-7 py-4 text-base font-black text-white shadow-lg transition hover:scale-105 hover:bg-green-600 sm:px-10 sm:py-5 sm:text-lg"
           >
             💬 تحدث معنا عبر الواتساب
           </a>
         </div>
       </section>
 
-      {/* Floating buttons */}
-      <div className="fixed bottom-6 right-6 z-[80] flex flex-col gap-4">
+      {/* ================= FLOATING BUTTONS ================= */}
+
+      <div className="fixed bottom-4 right-4 z-[80] flex flex-col gap-3 sm:bottom-6 sm:right-6 sm:gap-4">
         <button
           onClick={() => setFavoritesOpen(true)}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full border bg-white text-xl text-red-500 shadow-2xl transition hover:scale-110 dark:border-slate-700 dark:bg-slate-800"
+          className="relative flex h-12 w-12 items-center justify-center rounded-full border bg-white text-lg text-red-500 shadow-2xl transition hover:scale-110 sm:h-14 sm:w-14 sm:text-xl dark:border-slate-700 dark:bg-slate-800"
         >
           ❤️
 
           {favorites.length > 0 && (
-            <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white sm:h-6 sm:w-6 sm:text-xs">
               {favorites.length}
             </span>
           )}
@@ -1123,27 +1215,28 @@ ${cart
 
         <button
           onClick={() => setCartOpen(true)}
-          className="relative flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-green-600 text-2xl text-white shadow-2xl transition hover:scale-110 dark:border-slate-900"
+          className="relative flex h-14 w-14 items-center justify-center rounded-full border-4 border-white bg-green-600 text-xl text-white shadow-2xl transition hover:scale-110 sm:h-16 sm:w-16 sm:text-2xl dark:border-slate-900"
         >
           🛒
 
           {cart.length > 0 && (
-            <span className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-white">
+            <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-gray-900 text-[10px] font-bold text-white sm:h-7 sm:w-7 sm:text-xs">
               {cart.length}
             </span>
           )}
         </button>
       </div>
 
-      {/* Product Modal */}
+      {/* ================= PRODUCT MODAL ================= */}
+
       {selectedProduct && (
         <div
-          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 p-3 backdrop-blur-sm sm:p-4"
           onClick={() => setSelectedProduct(null)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[2rem] shadow-2xl md:flex-row ${
+            className={`relative flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-[1.5rem] shadow-2xl sm:rounded-[2rem] md:flex-row ${
               darkMode
                 ? "border border-slate-800 bg-slate-900 text-white"
                 : "bg-white text-gray-900"
@@ -1151,12 +1244,12 @@ ${cart
           >
             <button
               onClick={() => setSelectedProduct(null)}
-              className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white"
+              className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-sm text-white sm:right-4 sm:top-4 sm:h-10 sm:w-10"
             >
               ✕
             </button>
 
-            <div className="h-64 md:h-auto md:w-1/2">
+            <div className="h-56 shrink-0 sm:h-72 md:h-auto md:w-1/2">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
@@ -1164,22 +1257,24 @@ ${cart
               />
             </div>
 
-            <div className="flex flex-col justify-center overflow-y-auto p-7 md:w-1/2 md:p-8">
-              <span className="mb-2 text-sm font-bold uppercase text-green-500">
+            <div className="flex flex-col justify-center overflow-y-auto p-5 sm:p-7 md:w-1/2 md:p-8">
+              <span className="mb-2 text-xs font-bold uppercase text-green-500 sm:text-sm">
                 {selectedProduct.category}
               </span>
 
-              <h3 className="mb-3 text-3xl font-black">
+              <h3 className="mb-3 text-2xl font-black sm:text-3xl">
                 {selectedProduct.name}
               </h3>
 
-              <p className="mb-6 text-2xl font-black text-green-600">
+              <p className="mb-5 text-2xl font-black text-green-600">
                 {selectedProduct.price}{" "}
-                <span className="text-sm text-gray-500">جنيه مصري</span>
+                <span className="text-xs text-gray-500 sm:text-sm">
+                  جنيه مصري
+                </span>
               </p>
 
               <div
-                className={`mb-8 rounded-2xl p-5 text-sm leading-relaxed ${
+                className={`mb-6 rounded-2xl p-4 text-sm leading-relaxed sm:mb-8 sm:p-5 ${
                   darkMode
                     ? "bg-slate-800 text-gray-300"
                     : "bg-gray-50 text-gray-700"
@@ -1193,7 +1288,7 @@ ${cart
                   addToCart(selectedProduct);
                   setSelectedProduct(null);
                 }}
-                className="w-full rounded-xl bg-green-600 py-4 text-lg font-bold text-white transition hover:bg-green-700"
+                className="w-full rounded-xl bg-green-600 py-3.5 text-base font-bold text-white transition hover:bg-green-700 sm:py-4 sm:text-lg"
               >
                 أضف للسلة الآن 🛒
               </button>
@@ -1202,7 +1297,8 @@ ${cart
         </div>
       )}
 
-      {/* Cart Modal */}
+      {/* ================= CART ================= */}
+
       {cartOpen && (
         <div
           className="fixed inset-0 z-[110] flex items-end justify-center bg-black/60 backdrop-blur-sm md:items-center"
@@ -1210,42 +1306,46 @@ ${cart
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`flex max-h-[88vh] w-full flex-col overflow-hidden rounded-t-[2rem] shadow-2xl md:w-[500px] md:rounded-[2rem] ${
+            className={`flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-[1.5rem] shadow-2xl sm:rounded-t-[2rem] md:w-[500px] md:rounded-[2rem] ${
               darkMode
                 ? "border border-slate-800 bg-slate-900 text-white"
                 : "bg-white text-gray-900"
             }`}
           >
-            <div className="flex items-center justify-between border-b p-6 dark:border-slate-800">
-              <h3 className="text-2xl font-black">🛒 سلة المشتريات</h3>
+            <div className="flex items-center justify-between border-b p-4 sm:p-6 dark:border-slate-800">
+              <h3 className="text-xl font-black sm:text-2xl">
+                🛒 سلة المشتريات
+              </h3>
 
               <button
                 onClick={() => setCartOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-800"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 sm:h-10 sm:w-10 dark:bg-slate-800"
               >
                 ✕
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               {cart.length === 0 ? (
-                <div className="py-16 text-center text-gray-500">
-                  <div className="mb-6 text-7xl opacity-30">🪹</div>
+                <div className="py-14 text-center text-gray-500 sm:py-16">
+                  <div className="mb-5 text-6xl opacity-30 sm:text-7xl">
+                    🪹
+                  </div>
 
-                  <p className="mb-2 text-xl font-bold">
+                  <p className="mb-2 text-lg font-bold sm:text-xl">
                     سلتك فارغة تماماً!
                   </p>
 
-                  <p className="text-sm">
+                  <p className="text-xs sm:text-sm">
                     أضف بعض المنتجات إلى السلة أولاً.
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {cart.map((item, index) => (
                     <div
                       key={`${item.id}-${index}`}
-                      className={`flex items-center gap-4 rounded-2xl border p-4 ${
+                      className={`flex items-center gap-3 rounded-2xl border p-3 sm:gap-4 sm:p-4 ${
                         darkMode
                           ? "border-slate-700 bg-slate-800/50"
                           : "border-gray-100 bg-gray-50"
@@ -1254,22 +1354,22 @@ ${cart
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="h-20 w-20 rounded-xl object-cover"
+                        className="h-16 w-16 shrink-0 rounded-xl object-cover sm:h-20 sm:w-20"
                       />
 
-                      <div className="flex-1">
-                        <h4 className="mb-1 line-clamp-2 font-bold">
+                      <div className="min-w-0 flex-1">
+                        <h4 className="mb-1 line-clamp-2 text-sm font-bold sm:text-base">
                           {item.name}
                         </h4>
 
-                        <p className="font-black text-green-600">
+                        <p className="text-sm font-black text-green-600 sm:text-base">
                           {item.price} ج.م
                         </p>
                       </div>
 
                       <button
                         onClick={() => removeFromCart(index)}
-                        className="rounded-xl p-2.5 text-red-500 transition hover:bg-red-100 dark:hover:bg-red-900/30"
+                        className="shrink-0 rounded-xl p-2 text-red-500 transition hover:bg-red-100 dark:hover:bg-red-900/30"
                       >
                         🗑️
                       </button>
@@ -1280,13 +1380,17 @@ ${cart
             </div>
 
             {cart.length > 0 && (
-              <div className="border-t bg-gray-50 p-6 dark:border-slate-800 dark:bg-slate-800/50">
-                <div className="mb-6 flex items-center justify-between">
-                  <span className="font-bold text-gray-500">الإجمالي:</span>
+              <div className="border-t bg-gray-50 p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-800/50">
+                <div className="mb-5 flex items-center justify-between sm:mb-6">
+                  <span className="font-bold text-gray-500">
+                    الإجمالي:
+                  </span>
 
-                  <span className="text-3xl font-black">
+                  <span className="text-2xl font-black sm:text-3xl">
                     {total}{" "}
-                    <span className="text-lg text-gray-500">ج.م</span>
+                    <span className="text-base text-gray-500 sm:text-lg">
+                      ج.م
+                    </span>
                   </span>
                 </div>
 
@@ -1294,7 +1398,7 @@ ${cart
                   href={`https://wa.me/${whatsappNumber}?text=${orderText}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex w-full items-center justify-center gap-3 rounded-xl bg-green-600 py-4 text-lg font-bold text-white shadow-lg transition hover:bg-green-700"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 py-3.5 text-base font-bold text-white shadow-lg transition hover:bg-green-700 sm:gap-3 sm:py-4 sm:text-lg"
                 >
                   إتمام الطلب عبر واتساب 💬
                 </a>
@@ -1304,7 +1408,8 @@ ${cart
         </div>
       )}
 
-      {/* Favorites Modal */}
+      {/* ================= FAVORITES ================= */}
+
       {favoritesOpen && (
         <div
           className="fixed inset-0 z-[110] flex items-end justify-center bg-black/60 backdrop-blur-sm md:items-center"
@@ -1312,42 +1417,46 @@ ${cart
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`flex max-h-[88vh] w-full flex-col overflow-hidden rounded-t-[2rem] shadow-2xl md:w-[500px] md:rounded-[2rem] ${
+            className={`flex max-h-[90vh] w-full flex-col overflow-hidden rounded-t-[1.5rem] shadow-2xl sm:rounded-t-[2rem] md:w-[500px] md:rounded-[2rem] ${
               darkMode
                 ? "border border-slate-800 bg-slate-900 text-white"
                 : "bg-white text-gray-900"
             }`}
           >
-            <div className="flex items-center justify-between border-b p-6 dark:border-slate-800">
-              <h3 className="text-2xl font-black">❤️ المفضلة</h3>
+            <div className="flex items-center justify-between border-b p-4 sm:p-6 dark:border-slate-800">
+              <h3 className="text-xl font-black sm:text-2xl">
+                ❤️ المفضلة
+              </h3>
 
               <button
                 onClick={() => setFavoritesOpen(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-800"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 sm:h-10 sm:w-10 dark:bg-slate-800"
               >
                 ✕
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6">
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
               {favoriteItems.length === 0 ? (
-                <div className="py-16 text-center text-gray-500">
-                  <div className="mb-6 text-7xl opacity-30">💔</div>
+                <div className="py-14 text-center text-gray-500 sm:py-16">
+                  <div className="mb-5 text-6xl opacity-30 sm:text-7xl">
+                    💔
+                  </div>
 
-                  <p className="mb-2 text-xl font-bold">
+                  <p className="mb-2 text-lg font-bold sm:text-xl">
                     قائمة المفضلة فارغة!
                   </p>
 
-                  <p className="text-sm">
+                  <p className="text-xs sm:text-sm">
                     اضغط ❤️ على أي منتج لإضافته إلى المفضلة.
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {favoriteItems.map((item, index) => (
                     <div
                       key={`${item.id}-${index}`}
-                      className={`flex items-center gap-4 rounded-2xl border p-4 ${
+                      className={`flex items-center gap-3 rounded-2xl border p-3 sm:gap-4 sm:p-4 ${
                         darkMode
                           ? "border-slate-700 bg-slate-800/50"
                           : "border-gray-100 bg-gray-50"
@@ -1356,130 +1465,7 @@ ${cart
                       <img
                         src={item.image}
                         alt={item.name}
-                        onClick={() => setSelectedProduct(item)}
-                        className="h-20 w-20 cursor-pointer rounded-xl object-cover"
-                      />
-
-                      <div
-                        className="flex-1 cursor-pointer"
-                        onClick={() => setSelectedProduct(item)}
-                      >
-                        <h4 className="mb-1 line-clamp-2 font-bold">
-                          {item.name}
-                        </h4>
-
-                        <p className="font-bold text-green-600">
-                          {item.price} ج.م
-                        </p>
-                      </div>
-
-                      <div className="flex flex-col gap-2">
-                        <button
-                          onClick={() => addToCart(item)}
-                          className="rounded-lg bg-green-600 p-2.5 text-white"
-                        >
-                          🛒
-                        </button>
-
-                        <button
-                          onClick={() =>
-                            toggleFavorite(item.id, item.name)
-                          }
-                          className="rounded-lg bg-red-50 p-2.5 text-red-500 dark:bg-slate-700"
-                        >
-                          🗑️
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Footer */}
-      <footer
-        className={`border-t px-6 pb-10 pt-20 ${
-          darkMode
-            ? "border-slate-800 bg-slate-950 text-gray-400"
-            : "border-gray-200 bg-gray-50 text-gray-600"
-        }`}
-      >
-        <div className="mx-auto mb-16 grid max-w-7xl gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <h3 className="mb-5 text-2xl font-black text-gray-900 dark:text-white">
-              3l_nagar{" "}
-              <span className="text-green-600">Clothing</span>
-            </h3>
-
-            <p className="leading-relaxed">
-              متجر متخصص في الأزياء الرجالية والملابس الكاجوال والأحذية
-              والإكسسوارات.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="mb-5 text-lg font-black text-gray-900 dark:text-white">
-              روابط سريعة
-            </h4>
-
-            <div className="flex flex-col gap-3">
-              <a href="#" className="transition hover:text-green-600">
-                الرئيسية
-              </a>
-
-              <a href="#offers" className="transition hover:text-green-600">
-                العروض
-              </a>
-
-              <a href="#products" className="transition hover:text-green-600">
-                المنتجات
-              </a>
-
-              <a href="#contact" className="transition hover:text-green-600">
-                تواصل معنا
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="mb-5 text-lg font-black text-gray-900 dark:text-white">
-              الأقسام
-            </h4>
-
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setActiveCategory("shirts");
-                  document
-                    .getElementById("products")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="text-right transition hover:text-green-600"
-              >
-                قمصان وتيشرتات
-              </button>
-
-              <button
-                onClick={() => {
-                  setActiveCategory("hoodies");
-                  document
-                    .getElementById("products")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="text-right transition hover:text-green-600"
-              >
-                هوديز وسويت شيرت
-              </button>
-
-              <button
-                onClick={() => {
-                  setActiveCategory("jackets");
-                  document
-                    .getElementById("products")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="text-right transition hover:text-green-600"
-              >
+                        onClick={() =>
+                          setSelectedProduct(item)
+                        }
+                        className="h-16 w-16 shrink-0 cursor-po
