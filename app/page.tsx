@@ -674,7 +674,7 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <h1 className="text-2xl font-extrabold tracking-tight">
-            3l_nagar <span className="text-green-600">Clothing</span>
+            elnagar <span className="text-green-600">Clothing</span>
           </h1>
 
           <nav
