@@ -1,1144 +1,1470 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Product = {
   id: number;
   name: string;
+  brand: string;
+  category: string;
   price: number;
+  oldPrice?: number;
+  storage: string;
+  ram: string;
+  color: string;
   image: string;
-  description: string;
-  category:
-    | "shirts"
-    | "hoodies"
-    | "jackets"
-    | "pants"
-    | "shoes"
-    | "accessories";
+  badge?: string;
+  stock: number;
 };
 
-export default function Home() {
-  const whatsappNumber = "201203632925";
+type CartItem = Product & {
+  quantity: number;
+};
 
+const products: Product[] = [
+  {
+    id: 1,
+    name: "iPhone 15",
+    brand: "Apple",
+    category: "موبايلات",
+    price: 39999,
+    oldPrice: 42999,
+    storage: "128GB",
+    ram: "6GB",
+    color: "أسود",
+    image:
+      "https://images.unsplash.com/photo-1592286927505-2fd6b7a4e3d4?auto=format&fit=crop&w=900&q=85",
+    badge: "الأكثر مبيعًا",
+    stock: 8,
+  },
+  {
+    id: 2,
+    name: "iPhone 15 Pro Max",
+    brand: "Apple",
+    category: "موبايلات",
+    price: 59999,
+    oldPrice: 63999,
+    storage: "256GB",
+    ram: "8GB",
+    color: "تيتانيوم",
+    image:
+      "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=900&q=85",
+    badge: "جديد",
+    stock: 5,
+  },
+  {
+    id: 3,
+    name: "Samsung Galaxy S24 Ultra",
+    brand: "Samsung",
+    category: "موبايلات",
+    price: 48999,
+    oldPrice: 52999,
+    storage: "256GB",
+    ram: "12GB",
+    color: "أسود",
+    image:
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
+    badge: "خصم",
+    stock: 6,
+  },
+  {
+    id: 4,
+    name: "Samsung Galaxy A55",
+    brand: "Samsung",
+    category: "موبايلات",
+    price: 18999,
+    oldPrice: 20999,
+    storage: "256GB",
+    ram: "8GB",
+    color: "أزرق",
+    image:
+      "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=900&q=85",
+    stock: 12,
+  },
+  {
+    id: 5,
+    name: "Xiaomi Redmi Note 13 Pro",
+    brand: "Xiaomi",
+    category: "موبايلات",
+    price: 13999,
+    oldPrice: 15999,
+    storage: "256GB",
+    ram: "8GB",
+    color: "أسود",
+    image:
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=85",
+    badge: "عرض",
+    stock: 15,
+  },
+  {
+    id: 6,
+    name: "Oppo Reno 12",
+    brand: "Oppo",
+    category: "موبايلات",
+    price: 19999,
+    oldPrice: 21999,
+    storage: "256GB",
+    ram: "12GB",
+    color: "فضي",
+    image:
+      "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=900&q=85",
+    stock: 7,
+  },
+  {
+    id: 7,
+    name: "Realme 13 Pro",
+    brand: "Realme",
+    category: "موبايلات",
+    price: 15999,
+    oldPrice: 17999,
+    storage: "256GB",
+    ram: "8GB",
+    color: "أخضر",
+    image:
+      "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=85",
+    badge: "جديد",
+    stock: 10,
+  },
+  {
+    id: 8,
+    name: "Honor 200",
+    brand: "Honor",
+    category: "موبايلات",
+    price: 21999,
+    oldPrice: 23999,
+    storage: "512GB",
+    ram: "12GB",
+    color: "أبيض",
+    image:
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85",
+    stock: 9,
+  },
+  {
+    id: 9,
+    name: "AirPods Pro",
+    brand: "Apple",
+    category: "سماعات",
+    price: 8999,
+    oldPrice: 9999,
+    storage: "-",
+    ram: "-",
+    color: "أبيض",
+    image:
+      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=85",
+    badge: "خصم",
+    stock: 20,
+  },
+  {
+    id: 10,
+    name: "Samsung Galaxy Buds",
+    brand: "Samsung",
+    category: "سماعات",
+    price: 4999,
+    oldPrice: 5799,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image:
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
+    stock: 18,
+  },
+  {
+    id: 11,
+    name: "Apple Watch Series",
+    brand: "Apple",
+    category: "ساعات ذكية",
+    price: 15999,
+    oldPrice: 17999,
+    storage: "32GB",
+    ram: "-",
+    color: "أسود",
+    image:
+      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=85",
+    badge: "جديد",
+    stock: 6,
+  },
+  {
+    id: 12,
+    name: "Power Bank 20000mAh",
+    brand: "Baseus",
+    category: "إكسسوارات",
+    price: 2499,
+    oldPrice: 2999,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image:
+      "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
+    stock: 25,
+  },
+];
+
+const categories = [
+  { name: "موبايلات", icon: "📱", count: "120+ منتج" },
+  { name: "سماعات", icon: "🎧", count: "35+ منتج" },
+  { name: "ساعات ذكية", icon: "⌚", count: "20+ منتج" },
+  { name: "شواحن", icon: "🔌", count: "45+ منتج" },
+  { name: "كفرات", icon: "📦", count: "80+ منتج" },
+  { name: "إكسسوارات", icon: "🎮", count: "100+ منتج" },
+];
+
+const brands = [
+  "الكل",
+  "Apple",
+  "Samsung",
+  "Xiaomi",
+  "Oppo",
+  "Realme",
+  "Honor",
+  "Baseus",
+];
+
+function SearchIcon() {
+  return (
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-4-4" />
+    </svg>
+  );
+}
+
+function HeartIcon({ filled = false }: { filled?: boolean }) {
+  return (
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 24 24"
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" />
+    </svg>
+  );
+}
+
+function CartIcon() {
+  return (
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <circle cx="9" cy="20" r="1" />
+      <circle cx="19" cy="20" r="1" />
+      <path d="M3 4h2l2.5 11.5a2 2 0 0 0 2 1.5h7.8a2 2 0 0 0 1.9-1.4L21 8H6" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z" />
+    </svg>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg
+      width="21"
+      height="21"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  );
+}
+
+function XIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  );
+}
+
+function ArrowLeft() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M17.47 14.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.46-.89-.79-1.49-1.76-1.67-2.06-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.09 4.5.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35ZM12 2a9.9 9.9 0 0 0-8.5 15.02L2 22l5.14-1.47A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.05.87.88-2.97-.2-.31A8.2 8.2 0 1 1 12 20.2Z" />
+    </svg>
+  );
+}
+
+export default function HomePage() {
   const [darkMode, setDarkMode] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [search, setSearch] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("الكل");
+  const [selectedCategory, setSelectedCategory] = useState("الكل");
   const [favorites, setFavorites] = useState<number[]>([]);
-  const [favoritesOpen, setFavoritesOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [showCart, setShowCart] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [notification, setNotification] = useState("");
+  const [sort, setSort] = useState("default");
 
-  const categories = [
-    { id: "all", name: "كل المنتجات" },
-    { id: "shirts", name: "قمصان وتيشرتات" },
-    { id: "hoodies", name: "هوديز وسويت شيرت" },
-    { id: "jackets", name: "جواكيت ومعاطف" },
-    { id: "pants", name: "بنطلونات وشورتات" },
-    { id: "shoes", name: "أحذية وسنيكرز" },
-    { id: "accessories", name: "إكسسوارات وعناية" },
-  ];
+  const filteredProducts = useMemo(() => {
+    let result = products.filter((product) => {
+      const text = search.toLowerCase().trim();
 
-  const offers: Omit<Product, "category">[] = [
-    {
-      id: 1,
-      name: "عرض الصيف المتكامل",
-      price: 599,
-      image:
-        "https://images.unsplash.com/photo-1618886614638-80e3c103d31a?auto=format&fit=crop&w=600&q=80",
-      description:
-        "طقم كاجوال صيفي مريح جداً خامة قطن ليكرا ممتازة، مثالي للخروجات اليومية والمصايف.",
-    },
-    {
-      id: 2,
-      name: "طقم كلاسيك أنيق",
-      price: 1299,
-      image:
-        "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بدلة شبه رسمية بتفصيل عصري وخامات تركية فاخرة تناسب مناسباتك السعيدة واجتماعات العمل.",
-    },
-    {
-      id: 3,
-      name: "الباقة الشبابية المحدودة",
-      price: 899,
-      image:
-        "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80",
-      description:
-        "تجميعة مميزة من قطعتين بألوان متناسقة وعصرية توفر لك إطلالة جذابة ومختلفة.",
-    },
-  ];
+      const matchesSearch =
+        !text ||
+        product.name.toLowerCase().includes(text) ||
+        product.brand.toLowerCase().includes(text) ||
+        product.category.toLowerCase().includes(text);
 
-  const products: Product[] = [
-    {
-      id: 4,
-      name: "قميص أبيض أوكسفورد",
-      price: 499,
-      image:
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
-      description:
-        "قميص كلاسيكي أبيض بخامة الأوكسفورد الثقيلة والمقاومة للتجعد، قطعة أساسية في دولابك.",
-      category: "shirts",
-    },
-    {
-      id: 5,
-      name: "تيشرت بيزك قطن صافي",
-      price: 249,
-      image:
-        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
-      description:
-        "تيشرت قطني 100% ناعم على البشرة، متوفر بجميع المقاسات وممتاز لتنسيقه تحت الجواكيت.",
-      category: "shirts",
-    },
-    {
-      id: 6,
-      name: "قميص جينز كاجوال الأزرق",
-      price: 599,
-      image:
-        "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=600&q=80",
-      description:
-        "قميص جينز عصري مصنوع من الدنيم الخفيف المتين، يعطيك طابعاً شبابياً وعملياً طوال اليوم.",
-      category: "shirts",
-    },
-    {
-      id: 7,
-      name: "قميص كتان بيج صيفي",
-      price: 520,
-      image:
-        "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=600&q=80",
-      description:
-        "قميص مصنوع من الكتان الطبيعي بنسبة 100% لتوفير أقصى درجات الانتعاش والراحة في الصيف.",
-      category: "shirts",
-    },
-    {
-      id: 8,
-      name: "تيشرت بولو كلاسيك أسود",
-      price: 380,
-      image:
-        "https://images.unsplash.com/photo-1626497764746-6dc36546b388?auto=format&fit=crop&w=600&q=80",
-      description:
-        "تيشرت بولو بياقة مقواة وأزرار أمامية أنيقة، مناسب للخروج شبه الرسمي واليومي.",
-      category: "shirts",
-    },
-    {
-      id: 9,
-      name: "قميص مقلم كاجوال عصري",
-      price: 480,
-      image:
-        "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80",
-      description:
-        "قميص مقلم بخطوط طولية مميزة تساعد على إعطاء مظهر متناسق وجذاب ومناسب للجسم.",
-      category: "shirts",
-    },
-    {
-      id: 10,
-      name: "تيشرت جرافيك هيب هوب",
-      price: 299,
-      image:
-        "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-      description:
-        "تيشرت بطباعة ديجيتال خلفية عالية الجودة لا تتأثر بالغسيل، وقصة فضفاضة مريحة للشباب.",
-      category: "shirts",
-    },
-    {
-      id: 11,
-      name: "قميص زيتي سليم فيت",
-      price: 460,
-      image:
-        "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=600&q=80",
-      description:
-        "قميص بلون زيتي هادئ وقصة مجسمة تبرز جمال القوام، مصنوع من خليط القطن الفاخر المعالج.",
-      category: "shirts",
-    },
-    {
-      id: 12,
-      name: "تيشرت أوفرسايز رمادي",
-      price: 340,
-      image:
-        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
-      description:
-        "تيشرت رمادي بتصميم فضفاض الأكتاف (Oversized Trend)، شبابي جداً ومواكب لأحدث صيحات الموضة.",
-      category: "shirts",
-    },
-    {
-      id: 13,
-      name: "قميص كاروهات أحمر",
-      price: 499,
-      image:
-        "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80",
-      description:
-        "قميص كاروهات كلاسيكي دافئ وخفيف، رائع للارتداء مفتوحاً فوق تيشرت بيزك أبيض.",
-      category: "shirts",
-    },
+      const matchesBrand =
+        selectedBrand === "الكل" || product.brand === selectedBrand;
 
-    {
-      id: 14,
-      name: "هودي أوفرسايز عصري",
-      price: 799,
-      image:
-        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
-      description:
-        "هودي مريح جداً بقصة فضفاضة (Oversized) مبطن من الداخل بالفرو الناعم ليوفر لك أقصى درجات الدفء.",
-      category: "hoodies",
-    },
-    {
-      id: 15,
-      name: "سويت شيرت نيفي بيزك",
-      price: 499,
-      image:
-        "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
-      description:
-        "سويت شيرت كلاسيكي بدون زعبوط بلون كحلي فخم، خامة ثقيلة ومرنة ممتازة للشتاء الخفيف.",
-      category: "hoodies",
-    },
-    {
-      id: 16,
-      name: "هودي بسحاب كامل أسود",
-      price: 850,
-      image:
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
-      description:
-        "هودي عملي مزود بسحاب (Zip-up) كامل وجيوب أمامية واسعة تتسع لأغراضك اليومية كالموبايل والمفاتيح.",
-      category: "hoodies",
-    },
-    {
-      id: 17,
-      name: "بلوفر تريكو صوف ناعم",
-      price: 690,
-      image:
-        "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بلوفر تريكو أنيق من خيوط الصوف عالية الجودة التي لا توبر مع الاستخدام والغسيل المتكرر.",
-      category: "hoodies",
-    },
-    {
-      id: 18,
-      name: "سويت شيرت مطبوع كاجوال",
-      price: 550,
-      image:
-        "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=600&q=80",
-      description:
-        "سويت شيرت شبابي بطبعة عصرية دقيقة على الصدر والظهر، يمنحك إطلالة فريدة ومتميزة.",
-      category: "hoodies",
-    },
-    {
-      id: 19,
-      name: "هودي باستيل مبطن",
-      price: 749,
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
-      description:
-        "هودي بألوان الباستيل المهدئة والمريحة للعين، مصنوع من خامات قطنية معالجة وناعمة للغسيل الشاق.",
-      category: "hoodies",
-    },
-    {
-      id: 20,
-      name: "سويت شيرت رياضي مريح",
-      price: 480,
-      image:
-        "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?auto=format&fit=crop&w=600&q=80",
-      description:
-        "سويت شيرت خفيف الوزن بنظام طرد الرطوبة، مناسب جداً للجيم أو لممارسة رياضة الجري في الصباح.",
-      category: "hoodies",
-    },
+      const matchesCategory =
+        selectedCategory === "الكل" ||
+        product.category === selectedCategory;
 
-    {
-      id: 21,
-      name: "جاكيت جلد بريميوم",
-      price: 1499,
-      image:
-        "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جاكيت جلد كاجوال بتصميم راكب الدراجات (Biker)، متين ويمنحك هيبة وأناقة لا مثيل لها.",
-      category: "jackets",
-    },
-    {
-      id: 22,
-      name: "جاكيت جينز كلاسيك ممزق",
-      price: 799,
-      image:
-        "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جاكيت دنيم أزرق مع بعض اللمسات الكاجوال العصرية، يتماشى بشكل مذهل مع تيشرت أبيض سادة بنطلون أسود.",
-      category: "jackets",
-    },
-    {
-      id: 23,
-      name: "بالطو صوف طويل فخم",
-      price: 2400,
-      image:
-        "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=600&q=80",
-      description:
-        "معطف شتوي طويل مصنوع من الصوف الفاخر بقصة إنجليزية مستقيمة، يوفر الدفء الأمثل والأناقة الفخمة.",
-      category: "jackets",
-    },
-    {
-      id: 24,
-      name: "جاكيت بامب ووتربروف",
-      price: 1100,
-      image:
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جاكيت منفوخ (Puffer) عازل تماماً للمياه والهواء، خفيف الوزن ومناسب جداً لأيام المطر الغزير والبرد القارس.",
-      category: "jackets",
-    },
-    {
-      id: 25,
-      name: "جاكيت بومبر شبابي أسود",
-      price: 899,
-      image:
-        "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80",
-      description:
-        "جاكيت بومبر (Bomber) بأطراف مطاطية عند المعصم والخصر، مظهر عصري وخامة مقاومة للرياح.",
-      category: "jackets",
-    },
-    {
-      id: 26,
-      name: "جاكيت وندبريكر خفيف",
-      price: 650,
-      image:
-        "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جاكيت رياضي خفيف ومثالي لفصلي الخريف والربيع، يحميك من تقلبات الجو والرياح المفاجئة السريعة.",
-      category: "jackets",
-    },
-    {
-      id: 27,
-      name: "جاكيت جباردين زيتي بجيوب",
-      price: 950,
-      image:
-        "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جاكيت سفاري مصنوع من قماش الجباردين المتين ومزود بـ 4 جيوب أمامية كبيرة وتصميم عملي وعسكري رائع.",
-      category: "jackets",
-    },
-    {
-      id: 28,
-      name: "بليزر كاجوال رمادي",
-      price: 1350,
-      image:
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بليزر بتفصيلة كاجوال ناعمة بدون بطانة ثقيلة، يمكن ارتداؤه مع الجينز للحصول على مظهر ذكي (Smart Casual).",
-      category: "jackets",
-    },
+      return matchesSearch && matchesBrand && matchesCategory;
+    });
 
-    {
-      id: 29,
-      name: "بنطلون تشينو كلاسيك بيج",
-      price: 549,
-      image:
-        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بنطلون مريح بخامة قطنية متينة وقصة سليم فيت، يجمع بين راحة الكاجوال وأناقة الكلاسيك.",
-      category: "pants",
-    },
-    {
-      id: 30,
-      name: "بنطلون جينز أزرق غامق",
-      price: 499,
-      image:
-        "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جينز متين بقصة مريحة وألوان ثابتة لا تبهت بكثرة الغسيل، مزود بـ 5 جيوب تقليدية عملية.",
-      category: "pants",
-    },
-    {
-      id: 31,
-      name: "بنطلون جينز أسود سليم ليكرا",
-      price: 520,
-      image:
-        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جينز أسود شديد السواد بخامة مرنة ومطاطية (ليكرا) تضمن لك سهولة تامة وحرية فائقة في الحركة اليومية.",
-      category: "pants",
-    },
-    {
-      id: 32,
-      name: "بنطلون كارغو زيتي بجيوب",
-      price: 599,
-      image:
-        "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بنطلون كارغو (Cargo) بستايل هيب هوب شبابي مميز بجيوب جانبية ضخمة وأساور مطاطية من الأسفل.",
-      category: "pants",
-    },
-    {
-      id: 33,
-      name: "بنطلون جوجر قطن رمادي",
-      price: 399,
-      image:
-        "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بنطلون جوجر رياضي مريح جداً للمنزل أو المشاوير السريعة والتمارين، برباط خصر مرن وقابل للتعديل.",
-      category: "pants",
-    },
-    {
-      id: 34,
-      name: "شورت كاجوال قطن كحلي",
-      price: 299,
-      image:
-        "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=600&q=80",
-      description:
-        "شورت صيفي خفيف الوزن وطري، مناسب جداً للارتداء على الشواطئ والمصايف والتمشية الصيفية.",
-      category: "pants",
-    },
-    {
-      id: 35,
-      name: "بنطلون قماش رمادي رسمي",
-      price: 580,
-      image:
-        "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بنطلون قماش فاخر مخصص للمناسبات والبدل والاجتماعات، خامة فاخرة باردة تمنحك الثقة والأناقة.",
-      category: "pants",
-    },
-    {
-      id: 36,
-      name: "بنطلون جينز ثلجي هادي",
-      price: 540,
-      image:
-        "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=600&q=80",
-      description:
-        "جينز بلون ثلجي فاتح مميز ومفضل جداً في فترات الصيف والنهار، قصة عصرية جذابة وتناسب الأحذية الفاتحة.",
-      category: "pants",
-    },
-
-    {
-      id: 37,
-      name: "حذاء سنيكرز أبيض فاخر",
-      price: 899,
-      image:
-        "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حذاء رياضي خفيف الوزن بنعل مريح جداً للمشي الطويل، يتماشى مع جميع ملابسك الكاجوال والدنيم البسيطة.",
-      category: "shoes",
-    },
-    {
-      id: 38,
-      name: "حذاء كلاسيك جلد بني",
-      price: 1100,
-      image:
-        "https://images.unsplash.com/photo-1533867617858-e7b97e060509?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حذاء رسمي أوكسفورد من الجلد الطبيعي اللامع، قصة كلاسيكية ونعل متين ومريح للأفراح والاجتماعات الفخمة.",
-      category: "shoes",
-    },
-    {
-      id: 40,
-      name: "هاف بوت شمواه هافان",
-      price: 950,
-      image:
-        "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حذاء بوت كاحل (Chelsea Boot) مصنوع من الشمواه الفاخر، يعطي لمسة شتوية غنية وأنيقة مع الجينز.",
-      category: "shoes",
-    },
-    {
-      id: 41,
-      name: "سنيكرز رمادي رياضي عصري",
-      price: 699,
-      image:
-        "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=600&q=80",
-      description:
-        "كوتشي كاجوال خفيف الوزن للمشاوير والجامعة، خامة قماش شبكي يسمح بمرور الهواء وتبريد القدمين.",
-      category: "shoes",
-    },
-    {
-      id: 42,
-      name: "حذاء لوفرز مريح بدون أربطة",
-      price: 850,
-      image:
-        "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حذاء لوفرز (Loafers) كاجوال سهل الارتداء والخلع سريعاً، مبطن داخلياً بفرش مساج طبي مرن ومريح.",
-      category: "shoes",
-    },
-    {
-      id: 43,
-      name: "بوت جلدي شتوي متين",
-      price: 1390,
-      image:
-        "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=600&q=80",
-      description:
-        "بوت مبطن من الداخل لحماية كاملة في الشتاء والأراضي الوعرة، مظهر خشن ورجالي وقوي للغاية.",
-      category: "shoes",
-    },
-    {
-      id: 44,
-      name: "سليبر جلدي منزلي مريح",
-      price: 250,
-      image:
-        "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80",
-      description:
-        "سليبر مريح ومفتوح للمنزل أو الشاطئ مصنوع من خامات لينة تمنع الانزلاق وتوفر راحة مستمرة.",
-      category: "shoes",
-    },
-
-    {
-      id: 45,
-      name: "ساعة كوارتز سوداء بسير جلدي",
-      price: 1200,
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
-      description:
-        "ساعة يد كلاسيكية أنيقة تناسب الإطلالات الكلاسيكية والكاجوال، مقاومة لرذاذ الماء والخدوش البسيطة.",
-      category: "accessories",
-    },
-    {
-      id: 46,
-      name: "نظارة شمسية بولارايزد كلاسيك",
-      price: 450,
-      image:
-        "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
-      description:
-        "نظارة شمسية توفر حماية 100% من الأشعة فوق البنفسجية UV400 بعدسات واضحة تمنع انعكاس الضوء المزعج.",
-      category: "accessories",
-    },
-    {
-      id: 47,
-      name: "حزام جلد طبيعي 100% أسود",
-      price: 299,
-      image:
-        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حزام مصنوع من طبقات الجلد الطبيعي السميك بتصميم كلاسيكي متين وإبزيم معدني مقاوم للصدأ.",
-      category: "accessories",
-    },
-    {
-      id: 48,
-      name: "كاب قطني رياضي أسود",
-      price: 180,
-      image:
-        "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80",
-      description:
-        "كاب رياضي قطني لحمايتك من أشعة الشمس، مزود بفتحات تهوية وحزام خلفي قابل لتعديل المقاس بدقة.",
-      category: "accessories",
-    },
-    {
-      id: 49,
-      name: "محفظة كروت جلدية نحيفة",
-      price: 220,
-      image:
-        "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=600&q=80",
-      description:
-        "محفظة كروت بتصميم نحيف وعصري (Slim Cardholder) تتسع لـ 6 كروت ونقود ورقية دون تضخم الجيب.",
-      category: "accessories",
-    },
-    {
-      id: 50,
-      name: "برفان رجالي نايت ليميتد إيديشن",
-      price: 850,
-      image:
-        "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80",
-      description:
-        "عطر رجالي فواح وثابت يدوم لأكثر من 24 ساعة، برائحة الأخشاب الشرقية واللافندر الجذابة والنادرة.",
-      category: "accessories",
-    },
-    {
-      id: 51,
-      name: "طقم جوارب قطنية طويلة (3 قطع)",
-      price: 150,
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
-      description:
-        "مجموعة من ثلاثة أزواج جوارب مصنوعة من القطن الطبيعي لامتصاص العرق وتوفير راحة مثالية طوال اليوم داخل الحذاء.",
-      category: "accessories",
-    },
-    {
-      id: 52,
-      name: "سوار جلدي كاجوال رجالي",
-      price: 130,
-      image:
-        "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حظاظة أو إسورة من الجلد المضفر الفاخر بقفل مغناطيسي قوي مصنوع من التيتانيوم، تضيف لمسة شبابية.",
-      category: "accessories",
-    },
-    {
-      id: 53,
-      name: "شنطة كروس للمتعلقات الشخصية",
-      price: 390,
-      image:
-        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
-      description:
-        "حقيبة كروس صغيرة مقاومة للمياه تتسع للمحفظة، الموبايل، النظارة والباوربانك، ومثالية للارتداء اليومي السريع.",
-      category: "accessories",
-    },
-  ];
-
-  const [cart, setCart] = useState<Product[]>([]);
-  const [cartOpen, setCartOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
-  const addToCart = (item: Product | Omit<Product, "category">) => {
-    const formattedItem = {
-      ...item,
-      category: "category" in item ? item.category : "shirts",
-    } as Product;
-
-    setCart((prev) => [...prev, formattedItem]);
-
-    setToastMessage(`تمت إضافة "${item.name}" للسلة بنجاح! 🛒`);
-
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 1000);
-  };
-
-  const toggleFavorite = (id: number, name: string) => {
-    if (favorites.includes(id)) {
-      setFavorites((prev) => prev.filter((favId) => favId !== id));
-      setToastMessage(`تمت إزالة "${name}" من المفضلة 💔`);
-    } else {
-      setFavorites((prev) => [...prev, id]);
-      setToastMessage(`تمت إضافة "${name}" للمفضلة ❤️`);
+    if (sort === "low") {
+      result = [...result].sort((a, b) => a.price - b.price);
     }
 
+    if (sort === "high") {
+      result = [...result].sort((a, b) => b.price - a.price);
+    }
+
+    if (sort === "new") {
+      result = [...result].sort((a, b) => b.id - a.id);
+    }
+
+    return result;
+  }, [search, selectedBrand, selectedCategory, sort]);
+
+  const favoriteProducts = products.filter((product) =>
+    favorites.includes(product.id)
+  );
+
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+  const cartTotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  const formatPrice = (price: number) => {
+    return price.toLocaleString("ar-EG");
+  };
+
+  const showMessage = (message: string) => {
+    setNotification(message);
+
     setTimeout(() => {
-      setToastMessage(null);
-    }, 1000);
+      setNotification("");
+    }, 2500);
   };
 
-  const removeFromCart = (index: number) => {
-    setCart((prev) => prev.filter((_, i) => i !== index));
+  const toggleFavorite = (id: number) => {
+    setFavorites((current) => {
+      if (current.includes(id)) {
+        showMessage("تم حذف المنتج من المفضلة ❤️");
+        return current.filter((item) => item !== id);
+      }
+
+      showMessage("تمت إضافة المنتج إلى المفضلة ❤️");
+      return [...current, id];
+    });
   };
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const addToCart = (product: Product) => {
+    setCart((current) => {
+      const existing = current.find((item) => item.id === product.id);
 
-  const orderText = encodeURIComponent(
-    cart.length
-      ? `mousa elnagar طلب جديد من متجر  \n\n${cart
-          .map(
-            (item, i) =>
-              `${i + 1}- ${item.name} | ${item.price} جنيه`
-          )
-          .join("\n")}\n\nالإجمالي: ${total} جنيه`
-      : "أرغب بالاستفسار عن المنتجات"
-  );
+      if (existing) {
+        if (existing.quantity >= product.stock) {
+          showMessage("لا توجد كمية إضافية من هذا المنتج");
+          return current;
+        }
 
-  const filteredProducts =
-    activeCategory === "all"
-      ? products
-      : products.filter((p) => p.category === activeCategory);
+        return current.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
 
-  const favoriteItems = products.filter((p) => favorites.includes(p.id)).concat(
-    offers
-      .filter((o) => favorites.includes(o.id))
-      .map(
-        (o) =>
-          ({
-            ...o,
-            category: "shirts",
-          }) as Product
+      return [...current, { ...product, quantity: 1 }];
+    });
+
+    showMessage("تمت إضافة المنتج إلى السلة 🛒");
+  };
+
+  const increaseQuantity = (id: number) => {
+    setCart((current) =>
+      current.map((item) =>
+        item.id === id && item.quantity < item.stock
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       )
-  );
+    );
+  };
+
+  const decreaseQuantity = (id: number) => {
+    setCart((current) =>
+      current
+        .map((item) =>
+          item.id === id
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart((current) => current.filter((item) => item.id !== id));
+    showMessage("تم حذف المنتج من السلة");
+  };
+
+  const openWhatsApp = (product?: Product) => {
+    const message = product
+      ? `مرحبًا، أريد الاستفسار عن ${product.name} - ${formatPrice(
+          product.price
+        )} جنيه`
+      : "مرحبًا، أريد الاستفسار عن المنتجات المتاحة";
+
+    window.open(
+      `https://wa.me/201203632925?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
+  const orderOnWhatsApp = () => {
+    if (cart.length === 0) {
+      showMessage("السلة فارغة");
+      return;
+    }
+
+    const items = cart
+      .map(
+        (item) =>
+          `${item.name} × ${item.quantity} = ${formatPrice(
+            item.price * item.quantity
+          )} جنيه`
+      )
+      .join("\n");
+
+    const message = `مرحبًا، أريد عمل طلب:\n\n${items}\n\nالإجمالي: ${formatPrice(
+      cartTotal
+    )} جنيه`;
+
+    window.open(
+      `https://wa.me/201203632925?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+  };
+
+  const scrollToProducts = () => {
+    document
+      .getElementById("products")
+      ?.scrollIntoView({ behavior: "smooth" });
+
+    setMobileMenu(false);
+  };
 
   return (
-    <main
+    <div
       dir="rtl"
-      className={`min-h-screen font-sans pb-20 selection:bg-green-200 transition-colors duration-500 ${
+      className={
         darkMode
-          ? "bg-slate-950 text-slate-100"
-          : "bg-slate-50 text-gray-900"
-      }`}
+          ? "min-h-screen bg-[#070b14] text-white"
+          : "min-h-screen bg-[#f7f9fc] text-slate-900"
+      }
     >
-      <style jsx global>{`
-        .perspective-3d {
-          perspective: 1000px;
-        }
-
-        .card-3d-effect {
-          transform-style: preserve-3d;
-          transition:
-            transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
-            box-shadow 0.5s;
-        }
-
-        .card-3d-effect:hover {
-          transform: rotateX(6deg) rotateY(-6deg) translateZ(15px);
-        }
-      `}</style>
-
-      {toastMessage && (
-        <div className="fixed top-24 inset-x-0 flex justify-center z-[200] pointer-events-none px-4">
-          <div className="bg-gray-900/95 backdrop-blur-md text-white px-8 py-4 rounded-full shadow-2xl border border-gray-800 text-center text-sm md:text-base font-bold animate-bounce text-ellipsis overflow-hidden max-w-full">
-            {toastMessage}
-          </div>
+      {/* Notification */}
+      {notification && (
+        <div className="fixed left-1/2 top-5 z-[100] -translate-x-1/2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-2xl">
+          {notification}
         </div>
       )}
 
+      {/* Navbar */}
       <header
-        className={`sticky top-0 z-40 border-b shadow-sm backdrop-blur-md transition-colors ${
+        className={
           darkMode
-            ? "bg-slate-900/90 border-slate-800"
-            : "bg-white/90 border-gray-200"
-        }`}
+            ? "sticky top-0 z-50 border-b border-slate-800 bg-[#070b14]/95 backdrop-blur-xl"
+            : "sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl"
+        }
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <h1 className="text-2xl font-extrabold tracking-tight">
-            elnagar <span className="text-green-600">Clothing</span>
-          </h1>
-
-          <nav
-            className={`hidden md:flex gap-8 font-medium ${
-              darkMode ? "text-gray-300" : "text-gray-600"
-            }`}
+        <div className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          {/* Logo */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-3"
           >
-            <a href="#" className="hover:text-green-500 transition">
-              الرئيسية
-            </a>
-            <a href="#offers" className="hover:text-green-500 transition">
-              العروض
-            </a>
-            <a href="#products" className="hover:text-green-500 transition">
-              المنتجات
-            </a>
-            <a href="#contact" className="hover:text-green-500 transition">
-              تواصل معنا
-            </a>
-          </nav>
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-2xl shadow-lg shadow-blue-500/20">
+              📱
+            </div>
 
-          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <div className="text-lg font-black tracking-tight">
+                Mobile<span className="text-blue-600">Store</span>
+              </div>
+              <div
+                className={
+                  darkMode
+                    ? "text-[10px] text-slate-500"
+                    : "text-[10px] text-slate-400"
+                }
+              >
+                كل اللي محتاجه في مكان واحد
+              </div>
+            </div>
+          </button>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center gap-7 lg:flex">
             <button
-              onClick={() => setDarkMode(!darkMode)}
-              className={`p-2.5 rounded-full border transition-all active:scale-90 ${
-                darkMode
-                  ? "bg-slate-800 border-slate-700 text-yellow-400 hover:bg-slate-700"
-                  : "bg-gray-100 border-gray-200 text-slate-700 hover:bg-gray-200"
-              }`}
-              title={darkMode ? "الوضع النهاري" : "الوضع الليلي"}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="text-sm font-bold text-blue-600"
             >
-              {darkMode ? "☀️" : "🌙"}
+              الرئيسية
             </button>
 
             <button
-              onClick={() => setFavoritesOpen(true)}
-              className={`p-2.5 rounded-full border relative transition-all active:scale-90 ${
-                darkMode
-                  ? "bg-slate-800 border-slate-700 text-red-400"
-                  : "bg-gray-100 border-gray-200 text-red-500"
-              }`}
+              onClick={scrollToProducts}
+              className="text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
             >
-              ❤️
+              الموبايلات
+            </button>
+
+            <button
+              onClick={() => {
+                document
+                  .getElementById("categories")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
+            >
+              التصنيفات
+            </button>
+
+            <button
+              onClick={() => {
+                document
+                  .getElementById("offers")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
+            >
+              العروض
+            </button>
+
+            <button
+              onClick={() => openWhatsApp()}
+              className="text-sm font-bold text-green-600"
+            >
+              تواصل معنا
+            </button>
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setDarkMode((value) => !value)}
+              className={
+                darkMode
+                  ? "flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-yellow-400 transition hover:border-blue-500"
+                  : "flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 transition hover:border-blue-400"
+              }
+              aria-label="الوضع الليلي"
+            >
+              {darkMode ? <SunIcon /> : <MoonIcon />}
+            </button>
+
+            <button
+              onClick={() => setShowFavorites(true)}
+              className={
+                darkMode
+                  ? "relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-red-500 hover:text-red-500"
+                  : "relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 transition hover:border-red-300 hover:text-red-500"
+              }
+              aria-label="المفضلة"
+            >
+              <HeartIcon filled={favorites.length > 0} />
 
               {favorites.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
                   {favorites.length}
                 </span>
               )}
             </button>
-          </div>
-        </div>
-      </header>
 
-      <section
-        className={`py-20 px-6 transition-colors ${
-          darkMode ? "bg-slate-900" : "bg-white"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center perspective-3d">
-          <div className="text-right">
-            <h2 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-              ارتقِ بأناقتك مع <br /> elnagar 
-            </h2>
-
-            <p
-              className={`text-lg mb-8 leading-relaxed ${
-                darkMode ? "text-gray-400" : "text-gray-500"
-              }`}
-            >
-              اكتشف تشكيلتنا الجديدة والحصرية المكونة من أكثر من 50 قطعة من
-              الملابس الرجالية الفخمة، الكاجوال، والأحذية المصممة بعناية لتناسب
-              أناقتك اليومية.
-            </p>
-
-            <a
-              href={`https://wa.me/${whatsappNumber}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-4 rounded-full transition-all shadow-md hover:shadow-lg text-lg hover:-translate-y-1"
-            >
-              تواصل عبر واتساب للاستفسارات السريعة
-            </a>
-          </div>
-
-          <div className="relative card-3d-effect cursor-pointer">
-            <div className="absolute inset-0 bg-green-600/20 rounded-3xl transform rotate-3 scale-105 -z-10 blur-sm"></div>
-
-            <img
-              src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=800&q=80"
-              alt="3l_nagar Luxury Fashion"
-              className="rounded-3xl shadow-2xl w-full object-cover h-[500px] border border-white/10"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section id="offers" className="py-20 px-6 perspective-3d">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-12">
-            <span className="text-3xl">🔥</span>
-            <h3 className="text-3xl font-extrabold">
-              أقوى العروض الحالية الحصرية
-            </h3>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {offers.map((offer) => (
-              <div
-                key={offer.id}
-                className={`group card-3d-effect border rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 ${
-                  darkMode
-                    ? "bg-slate-900 border-slate-800"
-                    : "bg-white border-gray-100"
-                }`}
-              >
-                <div
-                  className="relative cursor-pointer overflow-hidden"
-                  onClick={() =>
-                    setSelectedProduct({
-                      ...offer,
-                      category: "shirts",
-                    })
-                  }
-                >
-                  <img
-                    src={offer.image}
-                    alt={offer.name}
-                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">
-                      عرض الوصف والتفاصيل
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(offer.id, offer.name);
-                    }}
-                    className={`absolute top-4 left-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center backdrop-blur-md transition active:scale-95 z-20 ${
-                      favorites.includes(offer.id)
-                        ? "bg-red-50 text-red-500"
-                        : "bg-white/80 text-gray-600 hover:text-red-500"
-                    }`}
-                  >
-                    {favorites.includes(offer.id) ? "❤️" : "🤍"}
-                  </button>
-                </div>
-
-                <div className="p-6">
-                  <h4 className="font-bold text-xl mb-1">{offer.name}</h4>
-
-                  <p className="text-green-600 font-extrabold text-lg mb-5">
-                    {offer.price} جنيه
-                  </p>
-
-                  <button
-                    onClick={() => addToCart(offer)}
-                    className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-3 rounded-xl transition-all active:scale-95"
-                  >
-                    أضف للسلة
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="products"
-        className={`py-20 px-6 border-t rounded-t-[3rem] perspective-3d transition-colors ${
-          darkMode
-            ? "bg-slate-900/50 border-slate-800"
-            : "bg-white border-gray-200"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto">
-          <h3 className="text-3xl font-extrabold mb-4 text-center">
-            كل منتجات متجرنا الرجالية
-          </h3>
-
-          <p
-            className={`text-center mb-12 ${
-              darkMode ? "text-gray-400" : "text-gray-500"
-            }`}
-          >
-            تصفح تشكيلتنا الضخمة المكونة من أرقى الملابس، الأحذية، والإكسسوارات.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-200 ${
-                  activeCategory === cat.id
-                    ? "bg-green-600 text-white shadow-md scale-105"
-                    : darkMode
-                      ? "bg-slate-800 text-gray-300 hover:bg-slate-700"
-                      : "bg-slate-100 text-gray-600 hover:bg-slate-200"
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className={`group card-3d-effect border rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col justify-between ${
-                  darkMode
-                    ? "bg-slate-900 border-slate-800"
-                    : "bg-slate-50 border-gray-100"
-                }`}
-              >
-                <div
-                  className="relative cursor-pointer overflow-hidden aspect-[4/5]"
-                  onClick={() => setSelectedProduct(product)}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-white font-medium bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm text-sm">
-                      تفاصيل القطعة 🔍
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(product.id, product.name);
-                    }}
-                    className={`absolute top-4 left-4 w-10 h-10 rounded-full shadow-md flex items-center justify-center backdrop-blur-md transition active:scale-95 z-20 ${
-                      favorites.includes(product.id)
-                        ? "bg-red-50 text-red-500"
-                        : "bg-white/80 text-gray-600 hover:text-red-500"
-                    }`}
-                  >
-                    {favorites.includes(product.id) ? "❤️" : "🤍"}
-                  </button>
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h4 className="font-bold text-lg mb-1 group-hover:text-green-600 transition-colors line-clamp-1">
-                      {product.name}
-                    </h4>
-
-                    <p className="text-green-600 font-extrabold text-base mb-4">
-                      {product.price} جنيه
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => addToCart(product)}
-                    className="w-full bg-gray-900 hover:bg-black text-white dark:bg-green-600 dark:hover:bg-green-700 font-medium py-2.5 rounded-xl transition-all active:scale-95 text-sm"
-                  >
-                    أضف للسلة
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="contact"
-        className="py-20 px-6 text-center bg-gray-900 text-white rounded-t-[3rem] mt-10"
-      >
-        <div className="max-w-2xl mx-auto">
-          <h3 className="text-3xl md:text-4xl font-bold mb-6">
-            هل تحتاج مساعدة بخصوص المقاسات؟
-          </h3>
-
-          <p className="text-gray-300 mb-10 text-lg">
-            فريق خدمة العملاء متواجد لمساعدتك في تنسيق الملابس واختيار أنسب
-            مقاس لك وشحن طلبك فوراً.
-          </p>
-
-          <a
-            href={`https://wa.me/${whatsappNumber}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green-500 hover:bg-green-600 text-white font-bold px-10 py-4 rounded-full inline-flex items-center gap-2 transition-transform hover:scale-105 shadow-lg text-lg"
-          >
-            <span>💬</span>
-            تحدث معنا عبر الواتساب الآن
-          </a>
-        </div>
-      </section>
-
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-        <button
-          onClick={() => setFavoritesOpen(true)}
-          className="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl transition-transform hover:scale-110 active:scale-95"
-        >
-          <span className="relative">
-            ❤️
-
-            {favorites.length > 0 && (
-              <span className="absolute -top-2 -right-3 bg-gray-900 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
-                {favorites.length}
-              </span>
-            )}
-          </span>
-        </button>
-
-        <button
-          onClick={() => setCartOpen(true)}
-          className="bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-2xl transition-transform hover:scale-110 active:scale-95"
-        >
-          <span className="relative">
-            🛒
-
-            {cart.length > 0 && (
-              <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">
-                {cart.length}
-              </span>
-            )}
-          </span>
-        </button>
-      </div>
-
-      {selectedProduct && (
-        <div
-          onClick={() => setSelectedProduct(null)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[120] flex items-center justify-center p-4 cursor-pointer"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-200 cursor-default ${
-              darkMode
-                ? "bg-slate-900 text-white"
-                : "bg-white text-gray-900"
-            }`}
-          >
             <button
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-4 right-4 bg-white/80 backdrop-blur-md text-gray-900 w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200 transition z-10 font-bold"
+              onClick={() => setShowCart(true)}
+              className={
+                darkMode
+                  ? "relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-blue-500 hover:text-blue-400"
+                  : "relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 transition hover:border-blue-400 hover:text-blue-600"
+              }
+              aria-label="السلة"
             >
-              ✕
+              <CartIcon />
+
+              {cartCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-              className="w-full h-80 object-cover"
-            />
+            <button
+              onClick={() => setMobileMenu((value) => !value)}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 lg:hidden"
+            >
+              {mobileMenu ? <XIcon /> : <MenuIcon />}
+            </button>
+          </div>
+        </div>
 
-            <div className="p-8">
-              <h3 className="text-2xl font-bold mb-2">
-                {selectedProduct.name}
-              </h3>
-
-              <p className="text-green-600 font-extrabold text-xl mb-4">
-                {selectedProduct.price} جنيه
-              </p>
-
-              <div
-                className={`p-4 rounded-xl border mb-6 leading-relaxed text-sm md:text-base ${
-                  darkMode
-                    ? "bg-slate-800 border-slate-700 text-gray-300"
-                    : "bg-slate-50 border-gray-200 text-gray-600"
-                }`}
+        {/* Mobile Menu */}
+        {mobileMenu && (
+          <div
+            className={
+              darkMode
+                ? "border-t border-slate-800 bg-[#070b14] p-4 lg:hidden"
+                : "border-t border-slate-200 bg-white p-4 lg:hidden"
+            }
+          >
+            <div className="mx-auto flex max-w-7xl flex-col gap-2">
+              <button
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  setMobileMenu(false);
+                }}
+                className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600"
               >
-                {selectedProduct.description}
-              </div>
+                الرئيسية
+              </button>
+
+              <button
+                onClick={scrollToProducts}
+                className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600"
+              >
+                الموبايلات
+              </button>
 
               <button
                 onClick={() => {
-                  addToCart(selectedProduct);
-                  setSelectedProduct(null);
+                  document
+                    .getElementById("categories")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                  setMobileMenu(false);
                 }}
-                className="w-full bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-transform active:scale-95 text-lg"
+                className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600"
               >
-                أضف للسلة الآن
+                التصنيفات
+              </button>
+
+              <button
+                onClick={() => openWhatsApp()}
+                className="rounded-xl p-3 text-right font-bold text-green-600 hover:bg-green-50"
+              >
+                💬 تواصل عبر WhatsApp
               </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </header>
 
-      {cartOpen && (
-        <div
-          onClick={() => setCartOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center cursor-pointer"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${
-              darkMode
-                ? "bg-slate-900 text-white"
-                : "bg-white text-gray-900"
-            }`}
-          >
-            <div
-              className={`flex justify-between items-center p-6 border-b ${
-                darkMode ? "border-slate-800" : "border-gray-200"
-              }`}
-            >
-              <h3 className="font-extrabold text-xl flex items-center gap-2">
-                <span>🛒</span>
-                سلة المشتريات
-              </h3>
+      {/* Hero */}
+      <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8 lg:pt-8">
+        <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#0b2a68] via-[#1558c7] to-[#4f46e5] px-6 py-12 text-white shadow-2xl shadow-blue-900/20 sm:px-10 md:py-16 lg:px-16 lg:py-20">
+          {/* Background decorations */}
+          <div className="absolute -left-20 -top-24 h-72 w-72 rounded-full bg-white/10 blur-2xl" />
+          <div className="absolute -bottom-32 right-20 h-80 w-80 rounded-full bg-indigo-400/20 blur-3xl" />
+
+          <div className="relative z-10 max-w-2xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold backdrop-blur">
+              🔥 عروض قوية وأسعار مميزة
+            </div>
+
+            <h1 className="text-4xl font-black leading-[1.2] tracking-tight sm:text-5xl lg:text-6xl">
+              موبايلك الجديد
+              <br />
+              <span className="text-blue-200">مستنيك هنا</span>
+            </h1>
+
+            <p className="mt-5 max-w-xl text-base leading-8 text-blue-100 sm:text-lg">
+              أحدث الموبايلات والإكسسوارات الأصلية بأسعار منافسة، اختار جهازك
+              واطلبه بسهولة.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button
+                onClick={scrollToProducts}
+                className="flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 font-black text-blue-700 shadow-lg transition hover:-translate-y-0.5 hover:bg-blue-50"
+              >
+                تصفح المنتجات
+                <ArrowLeft />
+              </button>
 
               <button
-                onClick={() => setCartOpen(false)}
-                className="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition"
+                onClick={() => openWhatsApp()}
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 py-3.5 font-black backdrop-blur transition hover:bg-white/20"
               >
-                ✕
+                <WhatsAppIcon />
+                اطلب عبر واتساب
+              </button>
+            </div>
+          </div>
+
+          {/* Hero phone decoration */}
+          <div className="absolute left-5 top-1/2 hidden -translate-y-1/2 rotate-6 lg:block">
+            <div className="relative h-[300px] w-[160px] rounded-[35px] border-[6px] border-slate-900 bg-slate-950 shadow-2xl">
+              <div className="absolute left-1/2 top-2 h-5 w-20 -translate-x-1/2 rounded-full bg-black" />
+              <div className="flex h-full items-center justify-center overflow-hidden rounded-[28px]">
+                <div className="h-40 w-40 rounded-full bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600 blur-sm" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div
+          className={
+            darkMode
+              ? "grid overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 sm:grid-cols-2 lg:grid-cols-4"
+              : "grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:grid-cols-2 lg:grid-cols-4"
+          }
+        >
+          {[
+            ["🚚", "توصيل سريع", "لحد باب بيتك"],
+            ["🛡️", "منتجات أصلية", "جودة مضمونة"],
+            ["💳", "دفع آمن", "طرق دفع متعددة"],
+            ["💬", "دعم مستمر", "تواصل عبر واتساب"],
+          ].map(([icon, title, desc], index) => (
+            <div
+              key={title}
+              className={`flex items-center gap-4 p-5 ${
+                index > 0
+                  ? darkMode
+                    ? "border-t border-slate-800 sm:border-r lg:border-t-0"
+                    : "border-t border-slate-100 sm:border-r lg:border-t-0"
+                  : ""
+              }`}
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-2xl">
+                {icon}
+              </div>
+
+              <div>
+                <div className="font-black">{title}</div>
+                <div className="mt-1 text-xs text-slate-500">{desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section
+        id="categories"
+        className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
+      >
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <span className="text-sm font-black text-blue-600">
+              اختار اللي يناسبك
+            </span>
+            <h2 className="mt-1 text-2xl font-black sm:text-3xl">
+              تصفح التصنيفات
+            </h2>
+          </div>
+
+          <button
+            onClick={() => {
+              setSelectedCategory("الكل");
+              scrollToProducts();
+            }}
+            className="hidden items-center gap-1 text-sm font-bold text-blue-600 sm:flex"
+          >
+            عرض الكل <ArrowLeft />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {categories.map((category) => (
+            <button
+              key={category.name}
+              onClick={() => {
+                setSelectedCategory(category.name);
+                scrollToProducts();
+              }}
+              className={
+                darkMode
+                  ? "group rounded-2xl border border-slate-800 bg-slate-900 p-5 text-center transition hover:-translate-y-1 hover:border-blue-600"
+                  : "group rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg"
+              }
+            >
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-3xl transition group-hover:scale-110">
+                {category.icon}
+              </div>
+
+              <h3 className="mt-3 font-black">{category.name}</h3>
+
+              <p className="mt-1 text-[11px] text-slate-500">
+                {category.count}
+              </p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Offers */}
+      <section
+        id="offers"
+        className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
+      >
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 to-red-500 p-6 text-white shadow-xl sm:p-8">
+          <div className="relative z-10 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+            <div>
+              <div className="mb-2 text-sm font-bold text-orange-100">
+                🔥 لفترة محدودة
+              </div>
+
+              <h2 className="text-2xl font-black sm:text-3xl">
+                خصومات حقيقية على أحدث الأجهزة
+              </h2>
+
+              <p className="mt-2 text-sm text-orange-100">
+                الحق العروض قبل انتهاء الكمية.
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                setSearch("");
+                setSelectedBrand("الكل");
+                setSelectedCategory("الكل");
+                scrollToProducts();
+              }}
+              className="shrink-0 rounded-xl bg-white px-6 py-3 font-black text-red-600 transition hover:bg-orange-50"
+            >
+              شوف العروض
+            </button>
+          </div>
+
+          <div className="absolute -left-10 -top-20 h-56 w-56 rounded-full bg-white/10" />
+          <div className="absolute -bottom-24 right-1/3 h-64 w-64 rounded-full bg-yellow-300/10" />
+        </div>
+      </section>
+
+      {/* Products */}
+      <section
+        id="products"
+        className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
+      >
+        <div className="mb-6">
+          <span className="text-sm font-black text-blue-600">
+            اختار جهازك
+          </span>
+
+          <div className="mt-1 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <h2 className="text-2xl font-black sm:text-3xl">
+              أحدث المنتجات
+            </h2>
+
+            <div className="text-sm text-slate-500">
+              {filteredProducts.length} منتج
+            </div>
+          </div>
+        </div>
+
+        {/* Search & Filters */}
+        <div
+          className={
+            darkMode
+              ? "mb-7 rounded-2xl border border-slate-800 bg-slate-900 p-4"
+              : "mb-7 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+          }
+        >
+          <div className="flex flex-col gap-3 lg:flex-row">
+            <div className="relative flex-1">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                <SearchIcon />
+              </div>
+
+              <input
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="ابحث باسم الموبايل أو الشركة..."
+                className={
+                  darkMode
+                    ? "h-12 w-full rounded-xl border border-slate-700 bg-slate-800 pr-12 pl-4 text-sm outline-none transition placeholder:text-slate-500 focus:border-blue-500"
+                    : "h-12 w-full rounded-xl border border-slate-200 bg-slate-50 pr-12 pl-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500"
+                }
+              />
+            </div>
+
+            <select
+              value={selectedBrand}
+              onChange={(event) => setSelectedBrand(event.target.value)}
+              className={
+                darkMode
+                  ? "h-12 rounded-xl border border-slate-700 bg-slate-800 px-4 text-sm font-bold outline-none"
+                  : "h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold outline-none"
+              }
+            >
+              {brands.map((brand) => (
+                <option key={brand} value={brand}>
+                  {brand === "الكل" ? "كل الشركات" : brand}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={sort}
+              onChange={(event) => setSort(event.target.value)}
+              className={
+                darkMode
+                  ? "h-12 rounded-xl border border-slate-700 bg-slate-800 px-4 text-sm font-bold outline-none"
+                  : "h-12 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-bold outline-none"
+              }
+            >
+              <option value="default">ترتيب افتراضي</option>
+              <option value="low">السعر: الأقل أولًا</option>
+              <option value="high">السعر: الأعلى أولًا</option>
+              <option value="new">الأحدث</option>
+            </select>
+          </div>
+
+          {/* Brand Chips */}
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
+            {brands.map((brand) => (
+              <button
+                key={brand}
+                onClick={() => setSelectedBrand(brand)}
+                className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold transition ${
+                  selectedBrand === brand
+                    ? "bg-blue-600 text-white"
+                    : darkMode
+                    ? "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                    : "bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600"
+                }`}
+              >
+                {brand}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Selected Category */}
+        {selectedCategory !== "الكل" && (
+          <div className="mb-5 flex items-center gap-2">
+            <span className="text-sm text-slate-500">التصنيف:</span>
+
+            <button
+              onClick={() => setSelectedCategory("الكل")}
+              className="rounded-full bg-blue-100 px-4 py-2 text-xs font-black text-blue-700"
+            >
+              {selectedCategory} ×
+            </button>
+          </div>
+        )}
+
+        {/* Products Grid */}
+        {filteredProducts.length === 0 ? (
+          <div
+            className={
+              darkMode
+                ? "rounded-3xl border border-slate-800 bg-slate-900 py-20 text-center"
+                : "rounded-3xl border border-slate-200 bg-white py-20 text-center"
+            }
+          >
+            <div className="text-5xl">🔎</div>
+            <h3 className="mt-4 text-xl font-black">مش لاقيين المنتج</h3>
+            <p className="mt-2 text-sm text-slate-500">
+              جرب تغير كلمة البحث أو الشركة.
+            </p>
+
+            <button
+              onClick={() => {
+                setSearch("");
+                setSelectedBrand("الكل");
+                setSelectedCategory("الكل");
+              }}
+              className="mt-5 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white"
+            >
+              عرض كل المنتجات
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredProducts.map((product) => {
+              const isFavorite = favorites.includes(product.id);
+
+              const discount = product.oldPrice
+                ? Math.round(
+                    ((product.oldPrice - product.price) /
+                      product.oldPrice) *
+                      100
+                  )
+                : 0;
+
+              return (
+                <article
+                  key={product.id}
+                  className={
+                    darkMode
+                      ? "group overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 transition duration-300 hover:-translate-y-1 hover:border-blue-700 hover:shadow-2xl hover:shadow-blue-950/30"
+                      : "group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  }
+                >
+                  {/* Image */}
+                  <div className="relative aspect-square overflow-hidden bg-slate-100">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+
+                    <div className="absolute right-3 top-3 flex flex-col gap-2">
+                      {product.badge && (
+                        <span className="rounded-full bg-blue-600 px-3 py-1.5 text-[10px] font-black text-white shadow-lg">
+                          {product.badge}
+                        </span>
+                      )}
+
+                      {discount > 0 && (
+                        <span className="rounded-full bg-red-500 px-3 py-1.5 text-[10px] font-black text-white shadow-lg">
+                          -{discount}%
+                        </span>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => toggleFavorite(product.id)}
+                      className={`absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-lg transition hover:scale-110 ${
+                        isFavorite
+                          ? "text-red-500"
+                          : "text-slate-500 hover:text-red-500"
+                      }`}
+                      aria-label="إضافة للمفضلة"
+                    >
+                      <HeartIcon filled={isFavorite} />
+                    </button>
+                  </div>
+
+                  {/* Info */}
+                  <div className="p-5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-black text-blue-600">
+                        {product.brand}
+                      </span>
+
+                      <span className="text-[10px] font-bold text-green-600">
+                        ● متوفر
+                      </span>
+                    </div>
+
+                    <h3 className="mt-2 truncate text-lg font-black">
+                      {product.name}
+                    </h3>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {product.storage !== "-" && (
+                        <span
+                          className={
+                            darkMode
+                              ? "rounded-lg bg-slate-800 px-2.5 py-1 text-[10px] font-bold text-slate-400"
+                              : "rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-500"
+                          }
+                        >
+                          {product.storage}
+                        </span>
+                      )}
+
+                      {product.ram !== "-" && (
+                        <span
+                          className={
+                            darkMode
+                              ? "rounded-lg bg-slate-800 px-2.5 py-1 text-[10px] font-bold text-slate-400"
+                              : "rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-500"
+                          }
+                        >
+                          RAM {product.ram}
+                        </span>
+                      )}
+
+                      <span
+                        className={
+                          darkMode
+                            ? "rounded-lg bg-slate-800 px-2.5 py-1 text-[10px] font-bold text-slate-400"
+                            : "rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold text-slate-500"
+                        }
+                      >
+                        {product.color}
+                      </span>
+                    </div>
+
+                    <div className="mt-5 flex items-end gap-2">
+                      <span className="text-xl font-black text-blue-600">
+                        {formatPrice(product.price)}
+                      </span>
+
+                      <span className="mb-0.5 text-xs font-bold text-slate-400">
+                        جنيه
+                      </span>
+
+                      {product.oldPrice && (
+                        <span className="mb-0.5 text-xs text-slate-400 line-through">
+                          {formatPrice(product.oldPrice)}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => addToCart(product)}
+                        className="rounded-xl bg-blue-600 py-3 text-xs font-black text-white transition hover:bg-blue-700 active:scale-95"
+                      >
+                        🛒 أضف للسلة
+                      </button>
+
+                      <button
+                        onClick={() => openWhatsApp(product)}
+                        className="flex items-center justify-center gap-1 rounded-xl bg-green-500 py-3 text-xs font-black text-white transition hover:bg-green-600 active:scale-95"
+                      >
+                        <WhatsAppIcon />
+                        واتساب
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      {/* CTA */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div
+          className={
+            darkMode
+              ? "overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-8"
+              : "overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+          }
+        >
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div>
+              <div className="text-sm font-black text-green-600">
+                💬 محتاج مساعدة؟
+              </div>
+
+              <h2 className="mt-2 text-2xl font-black">
+                مش عارف تختار موبايل؟
+              </h2>
+
+              <p className="mt-2 text-sm leading-7 text-slate-500">
+                كلمنا على واتساب ونساعدك تختار الجهاز المناسب لميزانيتك.
+              </p>
+            </div>
+
+            <button
+              onClick={() => openWhatsApp()}
+              className="flex items-center gap-2 rounded-xl bg-green-500 px-7 py-3.5 font-black text-white shadow-lg shadow-green-500/20 transition hover:bg-green-600"
+            >
+              <WhatsAppIcon />
+              01203632925
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer
+        className={
+          darkMode
+            ? "mt-8 border-t border-slate-800 bg-[#050810]"
+            : "mt-8 border-t border-slate-200 bg-white"
+        }
+      >
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="grid gap-10 md:grid-cols-3">
+            <div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-xl text-white">
+                  📱
+                </div>
+
+                <div>
+                  <div className="font-black">
+                    Mobile<span className="text-blue-600">Store</span>
+                  </div>
+
+                  <div className="text-[10px] text-slate-500">
+                    عالم الموبايلات
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-4 max-w-sm text-sm leading-7 text-slate-500">
+                أحدث الموبايلات والإكسسوارات بأفضل الأسعار وخدمة مميزة.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-black">روابط سريعة</h3>
+
+              <div className="mt-4 flex flex-col gap-3 text-sm text-slate-500">
+                <button
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
+                  className="text-right hover:text-blue-600"
+                >
+                  الرئيسية
+                </button>
+
+                <button
+                  onClick={scrollToProducts}
+                  className="text-right hover:text-blue-600"
+                >
+                  الموبايلات
+                </button>
+
+                <button
+                  onClick={() =>
+                    document
+                      .getElementById("categories")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="text-right hover:text-blue-600"
+                >
+                  التصنيفات
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-black">تواصل معنا</h3>
+
+              <div className="mt-4 space-y-3">
+                <button
+                  onClick={() => openWhatsApp()}
+                  className="flex w-full items-center gap-3 rounded-xl bg-green-50 p-3 text-right text-sm font-bold text-green-700 transition hover:bg-green-100"
+                >
+                  <WhatsAppIcon />
+                  01203632925
+                </button>
+
+                <p className="text-xs text-slate-500">
+                  متاحين للرد على استفساراتك وطلباتك عبر WhatsApp.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500 dark:border-slate-800">
+            © {new Date().getFullYear()} Mobile Store — جميع الحقوق محفوظة
+          </div>
+        </div>
+      </footer>
+
+      {/* Floating WhatsApp */}
+      <button
+        onClick={() => openWhatsApp()}
+        className="fixed bottom-5 left-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl shadow-green-500/30 transition hover:scale-110 hover:bg-green-600"
+        aria-label="WhatsApp"
+      >
+        <WhatsAppIcon />
+      </button>
+
+      {/* Cart Drawer */}
+      {showCart && (
+        <div className="fixed inset-0 z-[90]">
+          <button
+            onClick={() => setShowCart(false)}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            aria-label="إغلاق"
+          />
+
+          <aside
+            className={
+              darkMode
+                ? "absolute left-0 top-0 flex h-full w-full max-w-md flex-col bg-slate-950 text-white shadow-2xl"
+                : "absolute left-0 top-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+            }
+          >
+            <div className="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">
+              <div>
+                <h2 className="text-xl font-black">🛒 سلة المشتريات</h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  {cartCount} منتج
+                </p>
+              </div>
+
+              <button
+                onClick={() => setShowCart(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+              >
+                <XIcon />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1">
+            <div className="flex-1 overflow-y-auto p-5">
               {cart.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="text-5xl mb-4 opacity-50">🛍</div>
-                  <p className="text-gray-500 font-medium">
-                    سلتك فارغة حالياً
+                <div className="flex h-full flex-col items-center justify-center text-center">
+                  <div className="text-6xl">🛒</div>
+
+                  <h3 className="mt-5 text-xl font-black">
+                    السلة فاضية
+                  </h3>
+
+                  <p className="mt-2 text-sm text-slate-500">
+                    أضف المنتجات اللي عجبتك وهتظهر هنا.
                   </p>
+
+                  <button
+                    onClick={() => {
+                      setShowCart(false);
+                      scrollToProducts();
+                    }}
+                    className="mt-6 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white"
+                  >
+                    تصفح المنتجات
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {cart.map((item, index) => (
+                  {cart.map((item) => (
                     <div
-                      key={index}
-                      className={`flex justify-between items-center p-4 rounded-2xl border ${
+                      key={item.id}
+                      className={
                         darkMode
-                          ? "bg-slate-800/50 border-slate-700"
-                          : "bg-slate-50 border-gray-100"
-                      }`}
+                          ? "rounded-2xl border border-slate-800 bg-slate-900 p-3"
+                          : "rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                      }
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex gap-3">
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-14 h-14 rounded-xl object-cover"
+                          className="h-20 w-20 rounded-xl object-cover"
                         />
 
-                        <div>
-                          <p className="font-bold">{item.name}</p>
-                          <p className="text-green-600 font-semibold">
-                            {item.price} جنيه
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3 className="truncate text-sm font-black">
+                              {item.name}
+                            </h3>
+
+                            <button
+                              onClick={() => removeFromCart(item.id)}
+                              className="text-xs text-red-500"
+                            >
+                              حذف
+                            </button>
+                          </div>
+
+                          <p className="mt-1 text-xs text-blue-600">
+                            {formatPrice(item.price)} جنيه
                           </p>
+
+                          <div className="mt-3 flex items-center justify-between">
+                            <div className="flex items-center overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
+                              <button
+                                onClick={() => decreaseQuantity(item.id)}
+                                className="flex h-8 w-8 items-center justify-center font-black hover:bg-slate-100 dark:hover:bg-slate-800"
+                              >
+                                −
+                              </button>
+
+                              <span className="flex h-8 min-w-8 items-center justify-center text-xs font-black">
+                                {item.quantity}
+                              </span>
+
+                              <button
+                                onClick={() => increaseQuantity(item.id)}
+                                className="flex h-8 w-8 items-center justify-center font-black hover:bg-slate-100 dark:hover:bg-slate-800"
+                              >
+                                +
+                              </button>
+                            </div>
+
+                            <span className="text-sm font-black">
+                              {formatPrice(item.price * item.quantity)} ج
+                            </span>
+                          </div>
                         </div>
                       </div>
-
-                      <button
-                        onClick={() => removeFromCart(index)}
-                        className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-lg transition"
-                      >
-                        حذف
-                      </button>
                     </div>
                   ))}
                 </div>
@@ -1146,154 +1472,136 @@ export default function Home() {
             </div>
 
             {cart.length > 0 && (
-              <div
-                className={`p-6 border-t rounded-b-3xl ${
-                  darkMode
-                    ? "bg-slate-800/80 border-slate-700"
-                    : "bg-slate-50"
-                }`}
-              >
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-gray-500 font-medium">
+              <div className="border-t border-slate-200 p-5 dark:border-slate-800">
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="font-bold text-slate-500">
                     الإجمالي
                   </span>
 
-                  <span className="font-extrabold text-2xl">
-                    {total} جنيه
+                  <span className="text-2xl font-black text-blue-600">
+                    {formatPrice(cartTotal)} ج
                   </span>
                 </div>
 
-                <a
-                  href={`https://wa.me/${whatsappNumber}?text=${orderText}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition-all text-center"
+                <button
+                  onClick={orderOnWhatsApp}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 py-4 font-black text-white transition hover:bg-green-600"
                 >
-                  <span>إتمام الطلب عبر واتساب</span>
-                  <span>📱</span>
-                </a>
+                  <WhatsAppIcon />
+                  إتمام الطلب عبر WhatsApp
+                </button>
               </div>
             )}
-          </div>
+          </aside>
         </div>
       )}
 
-      {favoritesOpen && (
-        <div
-          onClick={() => setFavoritesOpen(false)}
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center cursor-pointer"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={`w-full md:w-[450px] max-h-[85vh] flex flex-col rounded-t-[2rem] md:rounded-3xl shadow-2xl animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-0 md:zoom-in-95 duration-300 cursor-default ${
+      {/* Favorites Drawer */}
+      {showFavorites && (
+        <div className="fixed inset-0 z-[90]">
+          <button
+            onClick={() => setShowFavorites(false)}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            aria-label="إغلاق"
+          />
+
+          <aside
+            className={
               darkMode
-                ? "bg-slate-900 text-white"
-                : "bg-white text-gray-900"
-            }`}
+                ? "absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-slate-950 text-white shadow-2xl"
+                : "absolute right-0 top-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+            }
           >
-            <div
-              className={`flex justify-between items-center p-6 border-b ${
-                darkMode ? "border-slate-800" : "border-gray-200"
-              }`}
-            >
-              <h3 className="font-extrabold text-xl flex items-center gap-2 text-red-500">
-                <span>❤️</span>
-                المنتجات المفضلة
-              </h3>
+            <div className="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">
+              <div>
+                <h2 className="text-xl font-black">❤️ المفضلة</h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  {favoriteProducts.length} منتج
+                </p>
+              </div>
 
               <button
-                onClick={() => setFavoritesOpen(false)}
-                className="text-gray-400 hover:text-red-500 bg-gray-100 dark:bg-slate-800 w-8 h-8 rounded-full flex items-center justify-center transition"
+                onClick={() => setShowFavorites(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-300"
               >
-                ✕
+                <XIcon />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1">
-              {favoriteItems.length === 0 ? (
-                <div className="text-center py-12">
-                  <div className="text-5xl mb-4 opacity-50">❤️</div>
+            <div className="flex-1 overflow-y-auto p-5">
+              {favoriteProducts.length === 0 ? (
+                <div className="flex h-full flex-col items-center justify-center text-center">
+                  <div className="text-6xl">❤️</div>
 
-                  <p className="text-gray-500 font-medium">
-                    لم تقم بإضافة منتجات للمفضلة بعد
+                  <h3 className="mt-5 text-xl font-black">
+                    مفيش منتجات مفضلة
+                  </h3>
+
+                  <p className="mt-2 text-sm text-slate-500">
+                    اضغط على القلب ❤️ عند أي منتج لإضافته هنا.
                   </p>
+
+                  <button
+                    onClick={() => {
+                      setShowFavorites(false);
+                      scrollToProducts();
+                    }}
+                    className="mt-6 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white"
+                  >
+                    تصفح المنتجات
+                  </button>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {favoriteItems.map((item) => (
+                <div className="space-y-3">
+                  {favoriteProducts.map((product) => (
                     <div
-                      key={item.id}
-                      className={`flex justify-between items-center p-4 rounded-2xl border ${
+                      key={product.id}
+                      className={
                         darkMode
-                          ? "bg-slate-800/50 border-slate-700"
-                          : "bg-slate-50 border-gray-100"
-                      }`}
+                          ? "flex gap-3 rounded-2xl border border-slate-800 bg-slate-900 p-3"
+                          : "flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                      }
                     >
-                      <div
-                        className="flex items-center gap-4 cursor-pointer min-w-0"
-                        onClick={() => {
-                          setSelectedProduct(item);
-                          setFavoritesOpen(false);
-                        }}
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-14 h-14 rounded-xl object-cover shrink-0"
-                        />
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-20 w-20 rounded-xl object-cover"
+                      />
 
-                        <div className="min-w-0">
-                          <p className="font-bold line-clamp-1">
-                            {item.name}
-                          </p>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="truncate text-sm font-black">
+                            {product.name}
+                          </h3>
 
-                          <p className="text-green-600 font-semibold">
-                            {item.price} جنيه
-                          </p>
+                          <button
+                            onClick={() => toggleFavorite(product.id)}
+                            className="text-red-500"
+                          >
+                            <HeartIcon filled />
+                          </button>
                         </div>
-                      </div>
 
-                      <div className="flex gap-2 shrink-0">
-                        <button
-                          onClick={() => addToCart(item)}
-                          className="bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 rounded-xl text-xs font-bold transition"
-                        >
-                          + 🛒
-                        </button>
+                        <p className="mt-2 text-sm font-black text-blue-600">
+                          {formatPrice(product.price)} جنيه
+                        </p>
 
                         <button
-                          onClick={() =>
-                            toggleFavorite(item.id, item.name)
-                          }
-                          className="text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 p-2 rounded-lg transition text-sm"
+                          onClick={() => addToCart(product)}
+                          className="mt-2 rounded-lg bg-blue-600 px-3 py-2 text-[10px] font-bold text-white"
                         >
-                          حذف
+                          🛒 أضف للسلة
                         </button>
+                
                       </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-          </div>
+          </aside>
         </div>
       )}
-
-      <footer
-        className={`border-t text-center py-8 transition-colors ${
-          darkMode
-            ? "bg-slate-900 border-slate-800 text-gray-400"
-            : "bg-white text-gray-500"
-        }`}
-      >
-        <p className="mb-2">
-          © {new Date().getFullYear()} جميع الحقوق محفوظة لمتجر elnagar 
-        </p>
-
-        <p className="text-sm font-medium">
-           elnagar تم التطوير بواسطة 
-        </p>
-      </footer>
-    </main>
+    </div>
   );
-      }
+    }
