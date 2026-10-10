@@ -435,7 +435,7 @@ export default function HomePage() {
       : "مرحبًا، أريد الاستفسار عن المنتجات المتاحة";
 
     window.open(
-      `https://wa.me/201203632925?text=${encodeURIComponent(message)}`,
+      `https://wa.me/201055642140?text=${encodeURIComponent(message)}`,
       "_blank"
     );
   };
