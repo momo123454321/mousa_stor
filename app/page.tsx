@@ -25,200 +25,200 @@ type CartItem = Product & {
 const products: Product[] = [
   {
     id: 1,
-    name: "iPhone 15",
+    name: "iPhone 16",
     brand: "Apple",
     category: "موبايلات",
-    price: 39999,
-    oldPrice: 42999,
+    price: 44999,
+    oldPrice: 47999,
     storage: "128GB",
-    ram: "6GB",
-    color: "أسود",
+    ram: "8GB",
+    color: "أزرق صحراوي",
     image:
-      "https://images.unsplash.com/photo-1592286927505-2fd6b7a4e3d4?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=900&q=85",
     badge: "الأكثر مبيعًا",
-    stock: 8,
-    description: "أحدث إصدارات آبل بتصميم أنيق وكاميرا متطورة وشاشة Dynamic Island فائقة الدقة.",
+    stock: 10,
+    description: "الجيل الجديد من آبل مع زر التحكم بالكاميرا Camera Control ومعالج A18 الفائق.",
   },
   {
     id: 2,
-    name: "iPhone 15 Pro Max",
+    name: "iPhone 16 Pro Max",
     brand: "Apple",
     category: "موبايلات",
-    price: 59999,
-    oldPrice: 63999,
+    price: 64999,
+    oldPrice: 69999,
     storage: "256GB",
     ram: "8GB",
-    color: "تيتانيوم",
+    color: "تيتانيوم صحراوي",
     image:
       "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
-    stock: 5,
-    description: "الهيكل الخارجي من التيتانيوم القوي الخفيف مع معالج A17 Pro الأقوى للألعاب والأداء الشاق.",
+    stock: 6,
+    description: "أكبر شاشة في تاريخ آيفون بإطارات أنحف وكاميرا بيريسكوب محسنة وبطارية خارقة.",
   },
   {
     id: 3,
-    name: "Samsung Galaxy S24 Ultra",
+    name: "Samsung Galaxy S25 Ultra",
     brand: "Samsung",
     category: "موبايلات",
-    price: 48999,
-    oldPrice: 52999,
+    price: 54999,
+    oldPrice: 59999,
     storage: "256GB",
     ram: "12GB",
-    color: "أسود",
+    color: "تيتانيوم رمادي",
     image:
       "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
     badge: "خصم",
-    stock: 6,
-    description: "تجارب ذكاء اصطناعي متقدمة Galaxy AI وقلم S-Pen مدمج مع كاميرا رئيسية 200 ميجابكسل.",
+    stock: 8,
+    description: "تحفة سامسونج الرائدة مع ذكاء اصطناعي متطور جداً One UI وكاميرا خارقة 200MP.",
   },
   {
     id: 4,
-    name: "Samsung Galaxy A55",
+    name: "Samsung Galaxy A56",
     brand: "Samsung",
     category: "موبايلات",
-    price: 18999,
-    oldPrice: 20999,
+    price: 20999,
+    oldPrice: 22999,
     storage: "256GB",
     ram: "8GB",
-    color: "أزرق",
+    color: "أخضر ليموني",
     image:
       "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=900&q=85",
-    stock: 12,
-    description: "هاتف الفئة المتوسطة الأفضل بشاشة Super AMOLED وبطارية قوية تدوم طوال اليوم.",
+    badge: "عرض",
+    stock: 14,
+    description: "الفئة المتوسطة بمعالج قوي وتصميم زجاجي فاخر يضاهي الهواتف الرائدة.",
   },
   {
     id: 5,
-    name: "Xiaomi Redmi Note 13 Pro",
+    name: "Xiaomi 14 Pro",
     brand: "Xiaomi",
     category: "موبايلات",
-    price: 13999,
-    oldPrice: 15999,
-    storage: "256GB",
-    ram: "8GB",
-    color: "أسود",
+    price: 34999,
+    oldPrice: 38999,
+    storage: "512GB",
+    ram: "12GB",
+    color: "أسود تيتانيوم",
     image:
       "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=85",
-    badge: "عرض",
-    stock: 15,
-    description: "قيمة عالية مقابل السعر مع شاشة سريعة 120Hz وكاميرا واضحة وشحن فائق السرعة.",
+    stock: 7,
+    description: "شراكة استثنائية مع Leica لتجربة تصوير احترافية وشاشة منحنية الأطراف بدقة فائقة.",
   },
   {
     id: 6,
-    name: "Oppo Reno 12",
+    name: "Oppo Reno 13 Pro",
     brand: "Oppo",
     category: "موبايلات",
-    price: 19999,
-    oldPrice: 21999,
-    storage: "256GB",
+    price: 23999,
+    oldPrice: 25999,
+    storage: "512GB",
     ram: "12GB",
-    color: "فضي",
+    color: "بنفسجي لامع",
     image:
       "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=900&q=85",
-    stock: 7,
-    description: "تصميم عصري جذاب وتركيز كامل على صور السيلفي والبورتريه المدعومة بالذكاء الاصطناعي.",
+    badge: "جديد",
+    stock: 9,
+    description: "الموبايل الأجمل تصميماً مع تركيز فائق على صور البورتريه والبطارية الذكية.",
   },
   {
     id: 7,
-    name: "Realme 13 Pro",
+    name: "Realme GT 6",
     brand: "Realme",
     category: "موبايلات",
-    price: 15999,
-    oldPrice: 17999,
+    price: 27999,
+    oldPrice: 30999,
     storage: "256GB",
-    ram: "8GB",
-    color: "أخضر",
+    ram: "12GB",
+    color: "فضي مرآة",
     image:
       "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=85",
-    badge: "جديد",
-    stock: 10,
-    description: "أداء قوي مستقر مع تصميم فني فريد وبطارية ضخمة تدعم الشحن السريع.",
+    stock: 11,
+    description: "قاتل الهواتف الرائدة بأداء جبار في الألعاب وشحن فائق السرعة 120 واط.",
   },
   {
     id: 8,
-    name: "Honor 200",
+    name: "Honor Magic 6 Pro",
     brand: "Honor",
     category: "موبايلات",
-    price: 21999,
-    oldPrice: 23999,
+    price: 41999,
+    oldPrice: 45999,
     storage: "512GB",
     ram: "12GB",
-    color: "أبيض",
+    color: "أخضر غابي",
     image:
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85",
-    stock: 9,
-    description: "مساحة تخزين ضخمة 512 جيجابايت مع شاشة مريحة للعين ومعالج قوي لتعدد المهام.",
+    stock: 5,
+    description: "كاميرا مقربة فائقة وبطارية سيليكون كربون ضخمة وشاشة مقاومة للكسر.",
   },
   {
     id: 9,
-    name: "AirPods Pro",
+    name: "AirPods Pro 2",
     brand: "Apple",
     category: "سماعات",
-    price: 8999,
-    oldPrice: 9999,
+    price: 9999,
+    oldPrice: 10999,
     storage: "-",
     ram: "-",
     color: "أبيض",
     image:
       "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=85",
-    badge: "خصم",
-    stock: 20,
-    description: "عزل نشط للضوضاء ANC وصوت نقي غامر مع علبة شحن لاسلكية.",
+    badge: "الأكثر مبيعًا",
+    stock: 25,
+    description: "عزل صوتي أقوى بمرتين مع صوت مكاني مخصص وعلبة شحن بمعالج U1.",
   },
   {
     id: 10,
-    name: "Samsung Galaxy Buds",
+    name: "Samsung Galaxy Buds 3 Pro",
     brand: "Samsung",
     category: "سماعات",
-    price: 4999,
-    oldPrice: 5799,
+    price: 6499,
+    oldPrice: 7299,
     storage: "-",
     ram: "-",
-    color: "أسود",
+    color: "فضي عصري",
     image:
       "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
-    stock: 18,
-    description: "تصميم مريح وثابت داخل الأذن مع صوت نقي ومكالمات واضحة للغاية.",
+    stock: 15,
+    description: "تصميم ساق جديد مع إضاءة ليد ذكية وصوت عالي الدقة Hi-Fi.",
   },
   {
     id: 11,
-    name: "Apple Watch Series",
+    name: "Apple Watch Series 10",
     brand: "Apple",
     category: "ساعات ذكية",
-    price: 15999,
-    oldPrice: 17999,
-    storage: "32GB",
+    price: 18999,
+    oldPrice: 20999,
+    storage: "64GB",
     ram: "-",
-    color: "أسود",
+    color: "تيتانيوم أسود",
     image:
       "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
-    stock: 6,
-    description: "مستشعرات صحية متقدمة لتتبع اللياقة البدنية ومعدل نبضات القلب والنشاط اليومي.",
+    stock: 8,
+    description: "أححف وأكبر شاشة ذكية مع مستشعر رصد انقطاع التنفس أثناء النوم.",
   },
   {
     id: 12,
-    name: "Power Bank 20000mAh",
+    name: "Baseus Magnetic Power Bank 10000mAh",
     brand: "Baseus",
     category: "إكسسوارات",
-    price: 2499,
-    oldPrice: 2999,
+    price: 2999,
+    oldPrice: 3499,
     storage: "-",
     ram: "-",
-    color: "أسود",
+    color: "أزرق داكن",
     image:
       "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
-    stock: 25,
-    description: "سعة ضخمة 20000 مللي أمبير لشحن هاتفك عدة مرات مع دعم الشحن السريع.",
+    stock: 30,
+    description: "شاحن مغناطيسي لاسلكي MagSafe نحيف للغاية للاستخدام اليومي أثناء التنقل.",
   },
 ];
 
 const categories = [
-  { name: "موبايلات", icon: "📱", count: "120+ منتج" },
-  { name: "سماعات", icon: "🎧", count: "35+ منتج" },
-  { name: "ساعات ذكية", icon: "⌚", count: "20+ منتج" },
-  { name: "شواحن", icon: "🔌", count: "45+ منتج" },
-  { name: "كفرات", icon: "📦", count: "80+ منتج" },
-  { name: "إكسسوارات", icon: "🎮", count: "100+ منتج" },
+  { name: "موبايلات", icon: "📱", count: "140+ منتج" },
+  { name: "سماعات", icon: "🎧", count: "45+ منتج" },
+  { name: "ساعات ذكية", icon: "⌚", count: "25+ منتج" },
+  { name: "شواحن", icon: "🔌", count: "50+ منتج" },
+  { name: "كفرات", icon: "📦", count: "90+ منتج" },
+  { name: "إكسسوارات", icon: "🎮", count: "120+ منتج" },
 ];
 
 const brands = [
@@ -309,7 +309,6 @@ function WhatsAppIcon() {
 }
 
 export default function HomePage() {
-  // جعل الوضع الليلي هو الافتراضي عند فتح الموقع
   const [darkMode, setDarkMode] = useState(true);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [search, setSearch] = useState("");
@@ -356,10 +355,6 @@ export default function HomePage() {
 
     return result;
   }, [search, selectedBrand, selectedCategory, sort]);
-
-  const favoriteProducts = products.filter((product) =>
-    favorites.includes(product.id)
-  );
 
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
@@ -468,7 +463,7 @@ export default function HomePage() {
       dir="rtl"
       className={
         darkMode
-          ? "min-h-screen bg-[#070b14] text-white"
+          ? "dark min-h-screen bg-[#070b14] text-white"
           : "min-h-screen bg-[#f7f9fc] text-slate-900"
       }
     >
@@ -676,18 +671,17 @@ export default function HomePage() {
 
           <div className="relative z-10 max-w-2xl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold backdrop-blur">
-              🔥 عروض قوية وأسعار مميزة
+              🔥 أحدث إصدارات الأجهزة الذكية
             </div>
 
             <h1 className="text-4xl font-black leading-[1.2] tracking-tight sm:text-5xl lg:text-6xl">
-              موبايلك الجديد
+              متجر الموبايلات
               <br />
-              <span className="text-blue-200">مستنيك هنا</span>
+              <span className="text-blue-200">الأقوى في مصر</span>
             </h1>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-blue-100 sm:text-lg">
-              أحدث الموبايلات والإكسسوارات الأصلية بأسعار منافسة، اختار جهازك
-              واطلبه بسهولة.
+              تصفح التشكيلة الجديدة من أجهزة آيفون، سامسونج، وشاومي بأفضل الأسعار والضمان.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -803,42 +797,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Offers */}
-      <section
-        id="offers"
-        className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
-      >
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 to-red-500 p-6 text-white shadow-xl sm:p-8">
-          <div className="relative z-10 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
-            <div>
-              <div className="mb-2 text-sm font-bold text-orange-100">
-                🔥 لفترة محدودة
-              </div>
-
-              <h2 className="text-2xl font-black sm:text-3xl">
-                خصومات حقيقية على أحدث الأجهزة
-              </h2>
-
-              <p className="mt-2 text-sm text-orange-100">
-                الحق العروض قبل انتهاء الكمية.
-              </p>
-            </div>
-
-            <button
-              onClick={() => {
-                setSearch("");
-                setSelectedBrand("الكل");
-                setSelectedCategory("الكل");
-                scrollToProducts();
-              }}
-              className="shrink-0 rounded-xl bg-white px-6 py-3 font-black text-red-600 transition hover:bg-orange-50"
-            >
-              شوف العروض
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Products */}
       <section
         id="products"
@@ -851,7 +809,7 @@ export default function HomePage() {
 
           <div className="mt-1 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <h2 className="text-2xl font-black sm:text-3xl">
-              أحدث المنتجات
+              أحدث المنتجات المتوفرة
             </h2>
 
             <div className="text-sm text-slate-500">
@@ -938,21 +896,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Selected Category */}
-        {selectedCategory !== "الكل" && (
-          <div className="mb-5 flex items-center gap-2">
-            <span className="text-sm text-slate-500">التصنيف:</span>
-
-            <button
-              onClick={() => setSelectedCategory("الكل")}
-              className="rounded-full bg-blue-100 px-4 py-2 text-xs font-black text-blue-700"
-            >
-              {selectedCategory} ×
-            </button>
-          </div>
-        )}
-
-        {/* Products Grid */}
+        {/* Products Grid with 3D Image Effects */}
         {filteredProducts.length === 0 ? (
           <div
             className={
@@ -966,17 +910,6 @@ export default function HomePage() {
             <p className="mt-2 text-sm text-slate-500">
               جرب تغير كلمة البحث أو الشركة.
             </p>
-
-            <button
-              onClick={() => {
-                setSearch("");
-                setSelectedBrand("الكل");
-                setSelectedCategory("الكل");
-              }}
-              className="mt-5 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white"
-            >
-              عرض كل المنتجات
-            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -1006,7 +939,7 @@ export default function HomePage() {
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-1 group-hover:translate-z-10 shadow-lg"
+                      className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-1 shadow-lg"
                       style={{
                         transformStyle: "preserve-3d",
                       }}
@@ -1136,41 +1069,6 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* CTA */}
-      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div
-          className={
-            darkMode
-              ? "overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-8"
-              : "overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
-          }
-        >
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div>
-              <div className="text-sm font-black text-green-600">
-                💬 محتاج مساعدة؟
-              </div>
-
-              <h2 className="mt-2 text-2xl font-black">
-                مش عارف تختار موبايل؟
-              </h2>
-
-              <p className="mt-2 text-sm leading-7 text-slate-500">
-                كلمنا على واتساب ونساعدك تختار الجهاز المناسب لميزانيتك.
-              </p>
-            </div>
-
-            <button
-              onClick={() => openWhatsApp()}
-              className="flex items-center gap-2 rounded-xl bg-green-500 px-7 py-3.5 font-black text-white shadow-lg shadow-green-500/20 transition hover:bg-green-600"
-            >
-              <WhatsAppIcon />
-              01203632925
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer
         className={
@@ -1222,17 +1120,6 @@ export default function HomePage() {
                 >
                   الموبايلات
                 </button>
-
-                <button
-                  onClick={() =>
-                    document
-                      .getElementById("categories")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
-                  className="text-right hover:text-blue-600"
-                >
-                  التصنيفات
-                </button>
               </div>
             </div>
 
@@ -1247,10 +1134,6 @@ export default function HomePage() {
                   <WhatsAppIcon />
                   01203632925
                 </button>
-
-                <p className="text-xs text-slate-500">
-                  متاحين للرد على استفساراتك وطلباتك عبر WhatsApp.
-                </p>
               </div>
             </div>
           </div>
@@ -1315,10 +1198,6 @@ export default function HomePage() {
                   <h3 className="mt-5 text-xl font-black">
                     السلة فاضية
                   </h3>
-
-                  <p className="mt-2 text-sm text-slate-500">
-                    أضف المنتجات اللي عجبتك وهتظهر هنا.
-                  </p>
 
                   <button
                     onClick={() => {
@@ -1401,4 +1280,20 @@ export default function HomePage() {
 
             {cart.length > 0 && (
               <div className="border-t border-slate-200 p-5 dark:border-slate-800">
-                <div className="mb-4 fle
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="font-bold text-slate-500">
+                    الإجمالي
+                  </span>
+
+                  <span className="text-2xl font-black text-blue-600">
+                    {formatPrice(cartTotal)} ج
+                  </span>
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+      )}
+    </div>
+  );
+}
