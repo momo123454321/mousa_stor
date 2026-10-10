@@ -23,6 +23,7 @@ type CartItem = Product & {
 };
 
 const products: Product[] = [
+  // --- موبايلات (10 منتجات) ---
   {
     id: 1,
     name: "iPhone 16",
@@ -33,8 +34,7 @@ const products: Product[] = [
     storage: "128GB",
     ram: "8GB",
     color: "أزرق صحراوي",
-    image:
-      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=900&q=85",
     badge: "الأكثر مبيعًا",
     stock: 10,
     description: "الجيل الجديد من آبل مع زر التحكم بالكاميرا Camera Control ومعالج A18 الفائق.",
@@ -49,8 +49,7 @@ const products: Product[] = [
     storage: "256GB",
     ram: "8GB",
     color: "تيتانيوم صحراوي",
-    image:
-      "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
     stock: 10,
     description: "أكبر شاشة في تاريخ آيفون بإطارات أنحف وكاميرا بيريسكوب محسنة وبطارية خارقة.",
@@ -65,8 +64,7 @@ const products: Product[] = [
     storage: "256GB",
     ram: "12GB",
     color: "تيتانيوم رمادي",
-    image:
-      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
     badge: "خصم",
     stock: 10,
     description: "تحفة سامسونج الرائدة مع ذكاء اصطناعي متطور جداً One UI وكاميرا خارقة 200MP.",
@@ -81,8 +79,7 @@ const products: Product[] = [
     storage: "256GB",
     ram: "8GB",
     color: "أخضر ليموني",
-    image:
-      "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=900&q=85",
     badge: "عرض",
     stock: 10,
     description: "الفئة المتوسطة بمعالج قوي وتصميم زجاجي فاخر يضاهي الهواتف الرائدة.",
@@ -97,8 +94,7 @@ const products: Product[] = [
     storage: "512GB",
     ram: "12GB",
     color: "أسود تيتانيوم",
-    image:
-      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=85",
     stock: 10,
     description: "شراكة استثنائية مع Leica لتجربة تصوير احترافية وشاشة منحنية الأطراف بدقة فائقة.",
   },
@@ -112,8 +108,7 @@ const products: Product[] = [
     storage: "512GB",
     ram: "12GB",
     color: "بنفسجي لامع",
-    image:
-      "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
     stock: 10,
     description: "الموبايل الأجمل تصميماً مع تركيز فائق على صور البورتريه والبطارية الذكية.",
@@ -128,8 +123,7 @@ const products: Product[] = [
     storage: "256GB",
     ram: "12GB",
     color: "فضي مرآة",
-    image:
-      "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=85",
     stock: 10,
     description: "قاتل الهواتف الرائدة بأداء جبار في الألعاب وشحن فائق السرعة 120 واط.",
   },
@@ -143,13 +137,42 @@ const products: Product[] = [
     storage: "512GB",
     ram: "12GB",
     color: "أخضر غابي",
-    image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85",
     stock: 10,
     description: "كاميرا مقربة فائقة وبطارية سيليكون كربون ضخمة وشاشة مقاومة للكسر.",
   },
   {
     id: 9,
+    name: "iPhone 15",
+    brand: "Apple",
+    category: "موبايلات",
+    price: 38999,
+    oldPrice: 41999,
+    storage: "128GB",
+    ram: "6GB",
+    color: "وردي",
+    image: "https://images.unsplash.com/photo-1592286927505-2fd6b7a4e3d4?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "شاشة Dynamic Island وكاميرا رئيسية 48 ميجابكسل وتصميم زجاجي مشبع باللون.",
+  },
+  {
+    id: 10,
+    name: "Samsung Galaxy S24",
+    brand: "Samsung",
+    category: "موبايلات",
+    price: 32999,
+    oldPrice: 35999,
+    storage: "256GB",
+    ram: "8GB",
+    color: "صفر أصفر",
+    image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "أداء متميز مع ميزات ذكاء اصطناعي مدمجة وتصميم مريح خفيف الوزن.",
+  },
+
+  // --- سماعات (10 منتجات) ---
+  {
+    id: 11,
     name: "AirPods Pro 2",
     brand: "Apple",
     category: "سماعات",
@@ -158,14 +181,13 @@ const products: Product[] = [
     storage: "-",
     ram: "-",
     color: "أبيض",
-    image:
-      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=85",
     badge: "الأكثر مبيعًا",
     stock: 10,
     description: "عزل صوتي أقوى بمرتين مع صوت مكاني مخصص وعلبة شحن بمعالج U1.",
   },
   {
-    id: 10,
+    id: 12,
     name: "Samsung Galaxy Buds 3 Pro",
     brand: "Samsung",
     category: "سماعات",
@@ -174,13 +196,127 @@ const products: Product[] = [
     storage: "-",
     ram: "-",
     color: "فضي عصري",
-    image:
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
     stock: 10,
     description: "تصميم ساق جديد مع إضاءة ليد ذكية وصوت عالي الدقة Hi-Fi.",
   },
   {
-    id: 11,
+    id: 13,
+    name: "Sony WH-1000XM5",
+    brand: "Xiaomi", // للاختيار المجازي أو تفرع عام
+    category: "سماعات",
+    price: 14999,
+    oldPrice: 16999,
+    storage: "-",
+    ram: "-",
+    color: "أسود مطفي",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85",
+    badge: "مميز",
+    stock: 10,
+    description: "أفضل سماعة فوق الأذن للعزل الصوتي الاحترافي والراحة القصوى طوال اليوم.",
+  },
+  {
+    id: 14,
+    name: "JBL Tune 720BT",
+    brand: "Xiaomi",
+    category: "سماعات",
+    price: 3499,
+    oldPrice: 3999,
+    storage: "-",
+    ram: "-",
+    color: "أزرق",
+    image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "صوت باس نقي وقوي مع بطارية تدوم حتى 76 ساعة من التشغيل المستمر.",
+  },
+  {
+    id: 15,
+    name: "Anker Soundcore Liberty 4",
+    brand: "Xiaomi",
+    category: "سماعات",
+    price: 4599,
+    oldPrice: 5199,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "استشعار نبضات القلب وصوت مكاني مذهل مع عزل ضوضاء تكيفي ممتاز.",
+  },
+  {
+    id: 16,
+    name: "Apple AirPods Max",
+    brand: "Apple",
+    category: "سماعات",
+    price: 24999,
+    oldPrice: 27999,
+    storage: "-",
+    ram: "-",
+    color: "فضي",
+    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "فخامة الصوت النقي والتصميم الراقي المصنوع من الألمنيوم والفولاذ المقاوم.",
+  },
+  {
+    id: 17,
+    name: "Xiaomi Buds 5",
+    brand: "Xiaomi",
+    category: "سماعات",
+    price: 2999,
+    oldPrice: 3499,
+    storage: "-",
+    ram: "-",
+    color: "رمادي تيتانيوم",
+    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "صوت احترافي مضبوط بدقة مع خفة وزن مذهلة واستقرار داخل الأذن.",
+  },
+  {
+    id: 18,
+    name: "Oppo Enco Air 3",
+    brand: "Oppo",
+    category: "سماعات",
+    price: 2199,
+    oldPrice: 2599,
+    storage: "-",
+    ram: "-",
+    color: "أبيض شفاف",
+    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "تصميم علبة مبتكر ومقاومة لرذاذ الماء مع زمن تأخير منخفض للغاية للألعاب.",
+  },
+  {
+    id: 19,
+    name: "Realme Buds T300",
+    brand: "Realme",
+    category: "سماعات",
+    price: 1799,
+    oldPrice: 2099,
+    storage: "-",
+    ram: "-",
+    color: "أسود ديناميكي",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "عزل ضوضاء فعال وباس عميق لتجربة استماع ممتعة ومريحة طوال اليوم.",
+  },
+  {
+    id: 20,
+    name: "Honor Choice Earbuds X5",
+    brand: "Honor",
+    category: "سماعات",
+    price: 1599,
+    oldPrice: 1899,
+    storage: "-",
+    ram: "-",
+    color: "أبيض",
+    image: "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "عمر بطارية طويل جداً ومكالمات واضحة بفضل الميكروفونات المزدوجة الذكية.",
+  },
+
+  // --- ساعات ذكية (10 منتجات) ---
+  {
+    id: 21,
     name: "Apple Watch Series 10",
     brand: "Apple",
     category: "ساعات ذكية",
@@ -189,36 +325,576 @@ const products: Product[] = [
     storage: "64GB",
     ram: "-",
     color: "تيتانيوم أسود",
-    image:
-      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
     stock: 10,
-    description: "أححف وأكبر شاشة ذكية مع مستشعر رصد انقطاع التنفس أثناء النوم.",
+    description: "أنحف وأكبر شاشة ذكية مع مستشعر رصد انقطاع التنفس أثناء النوم.",
   },
   {
-    id: 12,
+    id: 22,
+    name: "Samsung Galaxy Watch 7",
+    brand: "Samsung",
+    category: "ساعات ذكية",
+    price: 12999,
+    oldPrice: 14499,
+    storage: "32GB",
+    ram: "-",
+    color: "أخضر عسكري",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "معالج جديد كلياً ومستشعر BioActive لتتبع الصحة واللياقة بدقة متناهية.",
+  },
+  {
+    id: 23,
+    name: "Huawei Watch GT 4",
+    brand: "Xiaomi",
+    category: "ساعات ذكية",
+    price: 9999,
+    oldPrice: 11499,
+    storage: "4GB",
+    ram: "-",
+    color: "بني كلاسيكي",
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=85",
+    badge: "مميز",
+    stock: 10,
+    description: "تصميم هندسي فخم وبطارية تدوم لأسبوعين كاملين مع تتبع شامل للصحة.",
+  },
+  {
+    id: 24,
+    name: "Xiaomi Watch S3",
+    brand: "Xiaomi",
+    category: "ساعات ذكية",
+    price: 6999,
+    oldPrice: 7999,
+    storage: "4GB",
+    ram: "-",
+    color: "فضي أنيق",
+    image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "إطار ساعة قابل للتبديل بسهولة مع شاشة AMOLED ساطعة ونظام HyperOS.",
+  },
+  {
+    id: 25,
+    name: "Amazfit GTR 4",
+    brand: "Xiaomi",
+    category: "ساعات ذكية",
+    price: 7499,
+    oldPrice: 8499,
+    storage: "2GB",
+    ram: "-",
+    color: "أسود تيتانيوم",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "تحديد مواقع GPS مزدوج النطاق بدقة احترافية ومكالمات بلوتوث واضحة.",
+  },
+  {
+    id: 26,
+    name: "Apple Watch Ultra 2",
+    brand: "Apple",
+    category: "ساعات ذكية",
+    price: 39999,
+    oldPrice: 43999,
+    storage: "64GB",
+    ram: "-",
+    color: "تيتانيوم طبيعي",
+    image: "https://images.unsplash.com/photo-1510017803434-a899398421b3?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "الساعة الأقوى للمغامرات والرياضات الشاقة مع أقصى درجة سطوع للشاشة.",
+  },
+  {
+    id: 27,
+    name: "Honor Watch 4",
+    brand: "Honor",
+    category: "ساعات ذكية",
+    price: 4999,
+    oldPrice: 5799,
+    storage: "4GB",
+    ram: "-",
+    color: "أسود ليلي",
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "شاشة مربعة أنيقة مع دعم مكالمات البلوتوث وعمر بطارية طويل.",
+  },
+  {
+    id: 28,
+    name: "Oppo Watch X",
+    brand: "Oppo",
+    category: "ساعات ذكية",
+    price: 11999,
+    oldPrice: 13499,
+    storage: "32GB",
+    ram: "-",
+    color: "بلاتينيوم",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "نظام تشغيل Wear OS لتطبيقات جوجل مع هيكل من الستانلس ستيل المتين.",
+  },
+  {
+    id: 29,
+    name: "Realme Watch 3 Pro",
+    brand: "Realme",
+    category: "ساعات ذكية",
+    price: 2999,
+    oldPrice: 3499,
+    storage: "1GB",
+    ram: "-",
+    color: "رمادي داكن",
+    image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "مكالمات واضحة عبر البلوتوث وشاشة AMOLED منحنية وواجهات متنوعة.",
+  },
+  {
+    id: 30,
+    name: "Garmin Forerunner 55",
+    brand: "Xiaomi",
+    category: "ساعات ذكية",
+    price: 9499,
+    oldPrice: 10499,
+    storage: "4GB",
+    ram: "-",
+    color: "أبيض رياضي",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "الساعة الرياضية المثالية للعدائين لتتبع المسافات والتدريبات باحترافية.",
+  },
+
+  // --- شواحن (10 منتجات) ---
+  {
+    id: 31,
     name: "Baseus Magnetic Power Bank 10000mAh",
     brand: "Baseus",
-    category: "إكسسوارات",
+    category: "شواحن",
     price: 2999,
     oldPrice: 3499,
     storage: "-",
     ram: "-",
     color: "أزرق داكن",
-    image:
-      "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
     stock: 10,
     description: "شاحن مغناطيسي لاسلكي MagSafe نحيف للغاية للاستخدام اليومي أثناء التنقل.",
+  },
+  {
+    id: 32,
+    name: "Anker GaNPrime 65W Charger",
+    brand: "Xiaomi",
+    category: "شواحن",
+    price: 2499,
+    oldPrice: 2899,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=85",
+    badge: "الأكثر مبيعًا",
+    stock: 10,
+    description: "شاحن حائط فائق السرعة وصغير الحجم يشحن الهواتف وأجهزة اللابتوب بكفاءة.",
+  },
+  {
+    id: 33,
+    name: "Samsung 45W PD Fast Charger",
+    brand: "Samsung",
+    category: "شواحن",
+    price: 1599,
+    oldPrice: 1899,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "شاحن سامسونج الأصلي السريع جداً المخصص لهواتف السلسلة الرائدة.",
+  },
+  {
+    id: 34,
+    name: "Apple 20W USB-C Power Adapter",
+    brand: "Apple",
+    category: "شواحن",
+    price: 1299,
+    oldPrice: 1499,
+    storage: "-",
+    ram: "-",
+    color: "أبيض",
+    image: "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "رأس شاحن آبل الأصلي الآمن تماماً على بطارية الآيفون والأيباد.",
+  },
+  {
+    id: 35,
+    name: "Ugreen 100W GaN Fast Charger",
+    brand: "Xiaomi",
+    category: "شواحن",
+    price: 3799,
+    oldPrice: 4299,
+    storage: "-",
+    ram: "-",
+    color: "رمادي غامق",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "4 منافذ شحن ذكية بقوة إجمالية 100 واط لشحن جميع أجهزتك في وقت واحد.",
+  },
+  {
+    id: 36,
+    name: "Xiaomi 120W HyperCharge",
+    brand: "Xiaomi",
+    category: "شواحن",
+    price: 1999,
+    oldPrice: 2399,
+    storage: "-",
+    ram: "-",
+    color: "أبيض",
+    image: "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "شاحن شاومي الخارق لشحن هاتفك من 0 إلى 100% في أقل من 25 دقيقة.",
+  },
+  {
+    id: 37,
+    name: "Anker PowerCore 20000mAh",
+    brand: "Xiaomi",
+    category: "شواحن",
+    price: 2199,
+    oldPrice: 2599,
+    storage: "-",
+    ram: "-",
+    color: "أزرق",
+    image: "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "بنك طاقة ضخم ومتين يشحن هاتفك عدة مرات مع حماية متكاملة ضد ارتفاع الحرارة.",
+  },
+  {
+    id: 38,
+    name: "Belkin 3-in-1 MagSafe Wireless Charger",
+    brand: "Apple",
+    category: "شواحن",
+    price: 5999,
+    oldPrice: 6799,
+    storage: "-",
+    ram: "-",
+    color: "أسود فاخر",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "محطة شحن لاسلكية أنيقة لشحن الآيفون والساعة والسماعة في نفس الوقت.",
+  },
+  {
+    id: 39,
+    name: "Baseus Super Si 30W",
+    brand: "Baseus",
+    category: "شواحن",
+    price: 799,
+    oldPrice: 999,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image: "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "شاحن جداري صغير الحجم وفعال يدعم الشحن السريع لجميع الهواتف الذكية.",
+  },
+  {
+    id: 40,
+    name: "Joyroom Car Charger 63W",
+    brand: "Xiaomi",
+    category: "شواحن",
+    price: 699,
+    oldPrice: 899,
+    storage: "-",
+    ram: "-",
+    color: "أسود معدني",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "شاحن سيارة سريع بمنفذين USB و Type-C مع شاشة رقمية لعرض جهد البطارية.",
+  },
+
+  // --- كفرات (10 منتجات) ---
+  {
+    id: 41,
+    name: "iPhone 16 Pro Max Silicone Case with MagSafe",
+    brand: "Apple",
+    category: "كفرات",
+    price: 899,
+    oldPrice: 1199,
+    storage: "-",
+    ram: "-",
+    color: "أخضر داكن",
+    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=900&q=85",
+    badge: "أصلي",
+    stock: 10,
+    description: "جراب سيليكون أصلي ناعم الملمس من الخارج ومبطن بالألياف الدقيقة من الداخل لحماية كاملة.",
+  },
+  {
+    id: 42,
+    name: "Samsung Galaxy S25 Ultra Clear Protective Case",
+    brand: "Samsung",
+    category: "كفرات",
+    price: 699,
+    oldPrice: 899,
+    storage: "-",
+    ram: "-",
+    color: "شفاف",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "جراب شفاف مقاوم للاصفرار يحافظ على مظهر الهاتف الأصلي مع حماية ضد الصدمات.",
+  },
+  {
+    id: 43,
+    name: "iPhone 16 MagSafe Leather Case",
+    brand: "Apple",
+    category: "كفرات",
+    price: 1299,
+    oldPrice: 1599,
+    storage: "-",
+    ram: "-",
+    color: "بني كلاسيكي",
+    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "جراب جلدي فاخر يضفي مظهرًا أنيقًا ويدعم خاصية الشحن اللاسلكي السريع MagSafe.",
+  },
+  {
+    id: 44,
+    name: "Samsung Galaxy A56 Armor Rugged Case",
+    brand: "Samsung",
+    category: "كفرات",
+    price: 599,
+    oldPrice: 799,
+    storage: "-",
+    ram: "-",
+    color: "أسود عسكري",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "تصميم مدرع مزدوج الطبقات يوفر أقصى حماية ممكنة ضد السقوط القوي.",
+  },
+  {
+    id: 45,
+    name: "Xiaomi 14 Pro Carbon Fiber Case",
+    brand: "Xiaomi",
+    category: "كفرات",
+    price: 499,
+    oldPrice: 699,
+    storage: "-",
+    ram: "-",
+    color: "أسود كربون",
+    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "جراب خفيف الوزن للغاية بنقشة ألياف الكربون الفخمة ومقاوم للبصمات.",
+  },
+  {
+    id: 46,
+    name: "Oppo Reno 13 Pro Liquid Silicon Case",
+    brand: "Oppo",
+    category: "كفرات",
+    price: 450,
+    oldPrice: 599,
+    storage: "-",
+    ram: "-",
+    color: "بنفسجي باستيل",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "سيليكون مرن عالي الجودة يحمي حواف الكاميرا والشاشة بشكل ممتاز.",
+  },
+  {
+    id: 47,
+    name: "Realme GT 6 Magnetic Case",
+    brand: "Realme",
+    category: "كفرات",
+    price: 550,
+    oldPrice: 750,
+    storage: "-",
+    ram: "-",
+    color: "فضي",
+    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "إطار معدني متين مع ظهر شفاف مغناطيسي لحماية أنيقة ومميزة.",
+  },
+  {
+    id: 48,
+    name: "Honor Magic 6 Pro Anti-Fall Case",
+    brand: "Honor",
+    category: "كفرات",
+    price: 520,
+    oldPrice: 699,
+    storage: "-",
+    ram: "-",
+    color: "أخضر داكن",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "زوايا مدعمة بوسائد هوائية لامتصاص الصدمات الناتجة عن السقوط المفاجئ.",
+  },
+  {
+    id: 49,
+    name: "Universal Waterproof Phone Pouch",
+    brand: "Xiaomi",
+    category: "كفرات",
+    price: 250,
+    oldPrice: 350,
+    storage: "-",
+    ram: "-",
+    color: "أصفر مضيء",
+    image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "حافظة مقاومة للماء بالكامل مناسبة للسباحة والتصوير تحت الماء حتى عمق 30 متر.",
+  },
+  {
+    id: 50,
+    name: "Matte Frost Anti-Fingerprint Case",
+    brand: "Apple",
+    category: "كفرات",
+    price: 399,
+    oldPrice: 499,
+    storage: "-",
+    ram: "-",
+    color: "أسود مطفي",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "ملمس مطفي ناعم يمنع انزلاق الهاتف ويحميه من الخدوش والبصمات المزعجة.",
+  },
+
+  // --- إكسسوارات (10 منتجات) ---
+  {
+    id: 51,
+    name: "Bluetooth Selfie Stick & Tripod",
+    brand: "Xiaomi",
+    category: "إكسسوارات",
+    price: 699,
+    oldPrice: 899,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=85",
+    badge: "عملي",
+    stock: 10,
+    description: "عصا سيلفي قابلة للتحويل إلى حامل ثلاثي القوائم Tripod مع زر بلوتوث قابل للإزالة.",
+  },
+  {
+    id: 52,
+    name: "MagSafe Car Mount Phone Holder",
+    brand: "Baseus",
+    category: "إكسسوارات",
+    price: 899,
+    oldPrice: 1199,
+    storage: "-",
+    ram: "-",
+    color: "أسود معدني",
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "حامل سيارة مغناطيسي قوي يثبت على فتحات التكييف ويدعم الشحن اللاسلكي.",
+  },
+  {
+    id: 53,
+    name: "Tempered Glass Screen Protector (2 Pack)",
+    brand: "Apple",
+    category: "إكسسوارات",
+    price: 299,
+    oldPrice: 399,
+    storage: "-",
+    ram: "-",
+    color: "شفاف",
+    image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "طبقة حماية زجاجية صلبة مقاومة للكسر والخدوش مع وضوح تام للشاشة.",
+  },
+  {
+    id: 54,
+    name: "Mobile Gaming Controller Trigger",
+    brand: "Xiaomi",
+    category: "إكسسوارات",
+    price: 350,
+    oldPrice: 499,
+    storage: "-",
+    ram: "-",
+    color: "أسود بأحمر",
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "أزرار تحكم إضافية لألعاب الباتل رويال (PUBG / Call of Duty) لسرعة استجابة فائقة.",
+  },
+  {
+    id: 55,
+    name: "Camera Lens Metal Protector",
+    brand: "Samsung",
+    category: "إكسسوارات",
+    price: 220,
+    oldPrice: 300,
+    storage: "-",
+    ram: "-",
+    color: "تيتانيوم أسود",
+    image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "حماية مستقلة لعدسات الكاميرا من الخدوش والصدمات دون التأثير على جودة الصور.",
+  },
+  {
+    id: 56,
+    name: "Type-C Fast Braided Cable 2M",
+    brand: "Baseus",
+    category: "إكسسوارات",
+    price: 320,
+    oldPrice: 450,
+    storage: "-",
+    ram: "-",
+    color: "رمادي",
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "كابل شحن ونقل بيانات قماشي مضفر عالي المتانة بطول 2 متر يدعم الشحن السريع 100W.",
+  },
+  {
+    id: 57,
+    name: "Desktop Phone & Tablet Stand",
+    brand: "Xiaomi",
+    category: "إكسسوارات",
+    price: 399,
+    oldPrice: 550,
+    storage: "-",
+    ram: "-",
+    color: "فضي",
+    image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "حامل مكتب قابل للتعديل والطي مصنوع من الألمنيوم المتين للهواتف والأجهزة اللوحية.",
+  },
+  {
+    id: 58,
+    name: "Mini Ring Light for Phone",
+    brand: "Oppo",
+    category: "إكسسوارات",
+    price: 349,
+    oldPrice: 499,
+    storage: "-",
+    ram: "-",
+    color: "أبيض",
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "إضاءة سيلفي دائرية قابلة للشحن وثلاث درجات إضاءة لالتقاط صور ومقاطع فيديو احترافية.",
+  },
+  {
+    id: 59,
+    name: "Phone Cleaning Kit 8-in-1",
+    brand: "Xiaomi",
+    category: "إكسسوارات",
+    price: 299,
+    oldPrice: 400,
+    storage: "-",
+    ram: "-",
+    color: "أبيض رمادي",
+    image: "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "أداة تنظيف شاملة ومبتكرة للسماعات، شاشات الهواتف، ولوحات المفاتيح.",
+  },
+  {
+    id: 60,
+    name: "MagSafe Metal Ring Sticker",
+    brand: "Baseus",
+    category: "إكسسوارات",
+    price: 150,
+    oldPrice: 220,
+    storage: "-",
+    ram: "-",
+    color: "أسود",
+    image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=900&q=85",
+    stock: 10,
+    description: "حلقة مغناطيسية لاصقة لتحويل أي جراب عادي إلى جراب يدعم خاصية MagSafe.",
   },
 ];
 
 const categories = [
-  { name: "موبايلات", icon: "📱", count: "140+ منتج" },
-  { name: "سماعات", icon: "🎧", count: "45+ منتج" },
-  { name: "ساعات ذكية", icon: "⌚", count: "25+ منتج" },
-  { name: "شواحن", icon: "🔌", count: "50+ منتج" },
-  { name: "كفرات", icon: "📦", count: "90+ منتج" },
-  { name: "إكسسوارات", icon: "🎮", count: "120+ منتج" },
+  { name: "موبايلات", icon: "📱", count: "10+ منتج" },
+  { name: "سماعات", icon: "🎧", count: "10+ منتج" },
+  { name: "ساعات ذكية", icon: "⌚", count: "10+ منتج" },
+  { name: "شواحن", icon: "🔌", count: "10+ منتج" },
+  { name: "كفرات", icon: "📦", count: "10+ منتج" },
+  { name: "إكسسوارات", icon: "🎮", count: "10+ منتج" },
 ];
 
 const brands = [
@@ -229,7 +905,6 @@ const brands = [
   "Oppo",
   "Realme",
   "Honor",
-  "Baseus",
 ];
 
 function SearchIcon() {
@@ -568,7 +1243,7 @@ export default function HomePage() {
               )}
             </button>
 
-            {/* زر السلة الجانبية */}
+            {/* سلة المشتريات */}
             <button
               onClick={() => setShowCart(true)}
               className={
@@ -608,7 +1283,7 @@ export default function HomePage() {
             </h1>
 
             <p className="mt-5 max-w-xl text-base leading-8 text-blue-100 sm:text-lg">
-              تصفح التشكيلة الجديدة من أجهزة آيفون، سامسونج، وشاومي بأفضل الأسعار والضمان.
+              تصفح التشكيلة الجديدة من أجهزة آيفون، سامسونج، والشاشات والإكسسوارات بأفضل الأسعار.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -839,7 +1514,7 @@ export default function HomePage() {
             </select>
           </div>
 
-          {/* Brand Chips */}
+          {/* Brand Chips (Without Baseus) */}
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
             {brands.map((brand) => (
               <button
@@ -859,7 +1534,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Products Grid */}
+        {/* Products Grid with 3D Effects */}
         {filteredProducts.length === 0 ? (
           <div
             className={
@@ -891,373 +1566,15 @@ export default function HomePage() {
                 <article
                   key={product.id}
                   style={{ perspective: "1000px" }}
-                  className={
-                    darkMode
-                      ? "group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-1 transition duration-500 hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
-                      : "group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-1 shadow-md transition duration-500 hover:-translate-y-2 hover:shadow-2xl"
-                  }
-                >
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 group-hover:rotate-1 shadow-lg"
-                      style={{
-                        transformStyle: "preserve-3d",
-                      }}
-                    />
 
-                    <div className="absolute right-3 top-3 flex flex-col gap-2">
-                      {product.badge && (
-                        <span className="rounded-full bg-blue-600 px-3 py-1.5 text-[10px] font-black text-white shadow-lg">
-                          {product.badge}
-                        </span>
-                      )}
 
-                      {discount > 0 && (
-                        <span className="rounded-full bg-red-500 px-3 py-1.5 text-[10px] font-black text-white shadow-lg">
-                          -{discount}%
-                        </span>
-                      )}
-                    </div>
 
-                    <button
-                      onClick={() => toggleFavorite(product.id)}
-                      className={`absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-lg transition hover:scale-110 ${
-                        isFavorite
-                          ? "text-red-500"
-                          : "text-slate-500 hover:text-red-500"
-                      }`}
-                      aria-label="إضافة للمفضلة"
-                    >
-                      <HeartIcon filled={isFavorite} />
-                    </button>
-                  </div>
 
-                  {/* Info */}
-                  <div className="p-4">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-black text-blue-500">
-                        {product.brand}
-                      </span>
 
-                      <span className="text-[10px] font-bold text-green-500">
-                        ● متوفر ({product.stock})
-                      </span>
-                    </div>
 
-                    <h3 className="mt-2 truncate text-lg font-black">
-                      {product.name}
-                    </h3>
 
-                    {/* Product Description */}
-                    <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                      {product.description}
-                    </p>
 
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {product.storage !== "-" && (
-                        <span
-                          className={
-                            darkMode
-                              ? "rounded-lg bg-slate-800 px-2 py-1 text-[10px] font-bold text-slate-300"
-                              : "rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600"
-                          }
-                        >
-                          {product.storage}
-                        </span>
-                      )}
 
-                      {product.ram !== "-" && (
-                        <span
-                          className={
-                            darkMode
-                              ? "rounded-lg bg-slate-800 px-2 py-1 text-[10px] font-bold text-slate-300"
-                              : "rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600"
-                          }
-                        >
-                          RAM {product.ram}
-                        </span>
-                      )}
 
-                      <span
-                        className={
-                          darkMode
-                            ? "rounded-lg bg-slate-800 px-2 py-1 text-[10px] font-bold text-slate-300"
-                            : "rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-600"
-                        }
-                      >
-                        {product.color}
-                      </span>
-                    </div>
 
-                    <div className="mt-4 flex items-end gap-2">
-                      <span className="text-xl font-black text-blue-500">
-                        {formatPrice(product.price)}
-                      </span>
-
-                      <span className="mb-0.5 text-xs font-bold text-slate-400">
-                        جنيه
-                      </span>
-
-                      {product.oldPrice && (
-                        <span className="mb-0.5 text-xs text-slate-400 line-through">
-                          {formatPrice(product.oldPrice)}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="mt-4 grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => addToCart(product)}
-                        className="rounded-xl bg-blue-600 py-2.5 text-xs font-black text-white transition hover:bg-blue-700 active:scale-95 shadow-lg shadow-blue-500/20"
-                      >
-                        🛒 أضف للسلة
-                      </button>
-
-                      <button
-                        onClick={() => openWhatsApp(product)}
-                        className="flex items-center justify-center gap-1 rounded-xl bg-green-500 py-2.5 text-xs font-black text-white transition hover:bg-green-600 active:scale-95 shadow-lg shadow-green-500/20"
-                      >
-                        <WhatsAppIcon />
-                        واتساب
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-      {/* Footer */}
-      <footer
-        className={
-          darkMode
-            ? "mt-8 border-t border-slate-800 bg-[#050810]"
-            : "mt-8 border-t border-slate-200 bg-white"
-        }
-      >
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid gap-10 md:grid-cols-3">
-            <div>
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-xl text-white">
-                  📱
-                </div>
-
-                <div>
-                  <div className="font-black">
-                    Mecca <span className="text-blue-600">Store</span>
-                  </div>
-
-                  <div className="text-[10px] text-slate-500">
-                    عالم الموبايلات
-                  </div>
-                </div>
-              </div>
-
-              <p className="mt-4 max-w-sm text-sm leading-7 text-slate-500">
-                أحدث الموبايلات والإكسسوارات بأفضل الأسعار وخدمة مميزة.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-black">روابط سريعة</h3>
-
-              <div className="mt-4 flex flex-col gap-3 text-sm text-slate-500">
-                <button
-                  onClick={() =>
-                    window.scrollTo({ top: 0, behavior: "smooth" })
-                  }
-                  className="text-right hover:text-blue-600"
-                >
-                  الرئيسية
-                </button>
-
-                <button
-                  onClick={scrollToProducts}
-                  className="text-right hover:text-blue-600"
-                >
-                  الموبايلات
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-black">تواصل معنا</h3>
-
-              <div className="mt-4 space-y-3">
-                <button
-                  onClick={() => openWhatsApp()}
-                  className="flex w-full items-center gap-3 rounded-xl bg-green-50 p-3 text-right text-sm font-bold text-green-700 transition hover:bg-green-100 dark:bg-slate-900 dark:text-green-400"
-                >
-                  <WhatsAppIcon />
-                  01203632925
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer Bottom Centered */}
-          <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500 dark:border-slate-800 flex flex-col items-center justify-center gap-2">
-            <div>
-              © {new Date().getFullYear()} Mecca Store — جميع الحقوق محفوظة
-            </div>
-            <div className="font-bold text-blue-500">
-              تم التطوير بواسطة elnagar
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Floating WhatsApp */}
-      <button
-        onClick={() => openWhatsApp()}
-        className="fixed bottom-5 left-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl shadow-green-500/30 transition hover:scale-110 hover:bg-green-600"
-        aria-label="WhatsApp"
-      >
-        <WhatsAppIcon />
-      </button>
-
-      {/* Cart Drawer */}
-      {showCart && (
-        <div className="fixed inset-0 z-[95]">
-          <button
-            onClick={() => setShowCart(false)}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            aria-label="إغلاق"
-          />
-
-          <aside
-            className={
-              darkMode
-                ? "absolute left-0 top-0 flex h-full w-4/5 max-w-md flex-col bg-slate-950 text-white shadow-2xl"
-                : "absolute left-0 top-0 flex h-full w-4/5 max-w-md flex-col bg-white text-slate-900 shadow-2xl"
-            }
-          >
-            <div className="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">
-              <div>
-                <h2 className="text-xl font-black">🛒 سلة المشتريات</h2>
-                <p className="mt-1 text-xs text-slate-500">
-                  {cartCount} منتج
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowCart(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-300"
-              >
-                <XIcon />
-              </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-5">
-              {cart.length === 0 ? (
-                <div className="flex h-full flex-col items-center justify-center text-center">
-                  <div className="text-6xl">🛒</div>
-
-                  <h3 className="mt-5 text-xl font-black">
-                    السلة فاضية
-                  </h3>
-
-                  <button
-                    onClick={() => {
-                      setShowCart(false);
-                      scrollToProducts();
-                    }}
-                    className="mt-6 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white"
-                  >
-                    تصفح المنتجات
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {cart.map((item) => (
-                    <div
-                      key={item.id}
-                      className={
-                        darkMode
-                          ? "rounded-2xl border border-slate-800 bg-slate-900 p-3"
-                          : "rounded-2xl border border-slate-200 bg-slate-50 p-3"
-                      }
-                    >
-                      <div className="flex gap-3">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="h-20 w-20 rounded-xl object-cover"
-                        />
-
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="truncate text-sm font-black">
-                              {item.name}
-                            </h3>
-
-                            <button
-                              onClick={() => removeFromCart(item.id)}
-                              className="text-xs text-red-500"
-                            >
-                              حذف
-                            </button>
-                          </div>
-
-                          <p className="mt-1 text-xs text-blue-600">
-                            {formatPrice(item.price)} جنيه
-                          </p>
-
-                          <div className="mt-3 flex items-center justify-between">
-                            <div className="flex items-center overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700">
-                              <button
-                                onClick={() => decreaseQuantity(item.id)}
-                                className="flex h-8 w-8 items-center justify-center font-black hover:bg-slate-100 dark:hover:bg-slate-800"
-                              >
-                                −
-                              </button>
-
-                              <span className="flex h-8 min-w-8 items-center justify-center text-xs font-black">
-                                {item.quantity}
-                              </span>
-
-                              <button
-                                onClick={() => increaseQuantity(item.id)}
-                                className="flex h-8 w-8 items-center justify-center font-black hover:bg-slate-100 dark:hover:bg-slate-800"
-                              >
-                                +
-                              </button>
-                            </div>
-
-                            <span className="text-sm font-black">
-                              {formatPrice(item.price * item.quantity)} ج
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {cart.length > 0 && (
-              <div className="border-t border-slate-200 p-5 dark:border-slate-800">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="font-bold text-slate-500">
-                    الإجمالي
-                  </span>
-
-                  <span className="text-2xl font-black text-blue-600">
-                    {formatPrice(cartTotal)} ج
-                  </span>
-                </div>
-              </div>
-            )}
-          </aside>
-        </div>
-      )}
-    </div>
-  );
-}
+                
