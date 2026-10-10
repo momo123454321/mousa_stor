@@ -23,7 +23,6 @@ type CartItem = Product & {
 };
 
 const products: Product[] = [
-  // --- موبايلات (10 منتجات) ---
   {
     id: 1,
     name: "iPhone 16",
@@ -169,8 +168,6 @@ const products: Product[] = [
     stock: 10,
     description: "أداء متميز مع ميزات ذكاء اصطناعي مدمجة وتصميم مريح خفيف الوزن.",
   },
-
-  // --- سماعات (10 منتجات) ---
   {
     id: 11,
     name: "AirPods Pro 2",
@@ -313,8 +310,6 @@ const products: Product[] = [
     stock: 10,
     description: "عمر بطارية طويل جداً ومكالمات واضحة بفضل الميكروفونات المزدوجة الذكية.",
   },
-
-  // --- ساعات ذكية (10 منتجات) ---
   {
     id: 21,
     name: "Apple Watch Series 10",
@@ -457,12 +452,10 @@ const products: Product[] = [
     stock: 10,
     description: "الساعة الرياضية المثالية للعدائين لتتبع المسافات والتدريبات باحترافية.",
   },
-
-  // --- شواحن (10 منتجات) ---
   {
     id: 31,
     name: "Baseus Magnetic Power Bank 10000mAh",
-    brand: "Baseus",
+    brand: "Xiaomi",
     category: "شواحن",
     price: 2999,
     oldPrice: 3499,
@@ -575,7 +568,7 @@ const products: Product[] = [
   {
     id: 39,
     name: "Baseus Super Si 30W",
-    brand: "Baseus",
+    brand: "Xiaomi",
     category: "شواحن",
     price: 799,
     oldPrice: 999,
@@ -600,8 +593,6 @@ const products: Product[] = [
     stock: 10,
     description: "شاحن سيارة سريع بمنفذين USB و Type-C مع شاشة رقمية لعرض جهد البطارية.",
   },
-
-  // --- كفرات (10 منتجات) ---
   {
     id: 41,
     name: "iPhone 16 Pro Max Silicone Case with MagSafe",
@@ -743,8 +734,6 @@ const products: Product[] = [
     stock: 10,
     description: "ملمس مطفي ناعم يمنع انزلاق الهاتف ويحميه من الخدوش والبصمات المزعجة.",
   },
-
-  // --- إكسسوارات (10 منتجات) ---
   {
     id: 51,
     name: "Bluetooth Selfie Stick & Tripod",
@@ -763,7 +752,7 @@ const products: Product[] = [
   {
     id: 52,
     name: "MagSafe Car Mount Phone Holder",
-    brand: "Baseus",
+    brand: "Xiaomi",
     category: "إكسسوارات",
     price: 899,
     oldPrice: 1199,
@@ -819,7 +808,7 @@ const products: Product[] = [
   {
     id: 56,
     name: "Type-C Fast Braided Cable 2M",
-    brand: "Baseus",
+    brand: "Xiaomi",
     category: "إكسسوارات",
     price: 320,
     oldPrice: 450,
@@ -875,7 +864,7 @@ const products: Product[] = [
   {
     id: 60,
     name: "MagSafe Metal Ring Sticker",
-    brand: "Baseus",
+    brand: "Xiaomi",
     category: "إكسسوارات",
     price: 150,
     oldPrice: 220,
@@ -1130,14 +1119,12 @@ export default function HomePage() {
           : "min-h-screen bg-[#f7f9fc] text-slate-900"
       }
     >
-      {/* Notification */}
       {notification && (
         <div className="fixed left-1/2 top-5 z-[100] -translate-x-1/2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-2xl border border-blue-500/30">
           {notification}
         </div>
       )}
 
-      {/* Navbar */}
       <header
         className={
           darkMode
@@ -1146,7 +1133,6 @@ export default function HomePage() {
         }
       >
         <div className="mx-auto flex h-[74px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-3"
@@ -1171,7 +1157,6 @@ export default function HomePage() {
             </div>
           </button>
 
-          {/* Navigation Links */}
           <nav className="flex items-center gap-4 sm:gap-7">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -1206,7 +1191,6 @@ export default function HomePage() {
             </button>
           </nav>
 
-          {/* Actions */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setDarkMode((value) => !value)}
@@ -1243,7 +1227,6 @@ export default function HomePage() {
               )}
             </button>
 
-            {/* سلة المشتريات */}
             <button
               onClick={() => setShowCart(true)}
               className={
@@ -1265,7 +1248,6 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero */}
       <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8 lg:pt-8">
         <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#0b2a68] via-[#1558c7] to-[#4f46e5] px-6 py-12 text-white shadow-2xl shadow-blue-900/20 sm:px-10 md:py-16 lg:px-16 lg:py-20">
           <div className="absolute -left-20 -top-24 h-72 w-72 rounded-full bg-white/10 blur-2xl" />
@@ -1307,7 +1289,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div
           className={
@@ -1345,7 +1326,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Categories */}
       <section
         id="categories"
         className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
@@ -1399,7 +1379,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Offers Section */}
       <section
         id="offers"
         className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
@@ -1435,7 +1414,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Products Grid */}
       <section
         id="products"
         className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
@@ -1456,7 +1434,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Search & Filters */}
         <div
           className={
             darkMode
@@ -1514,7 +1491,6 @@ export default function HomePage() {
             </select>
           </div>
 
-          {/* Brand Chips */}
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
             {brands.map((brand) => (
               <button
@@ -1534,7 +1510,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Products Grid */}
         {filteredProducts.length === 0 ? (
           <div
             className={
@@ -1568,4 +1543,8 @@ export default function HomePage() {
                   style={{ perspective: "1000px" }}
                   className={
                     darkMode
-                 
+                      ? "group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-1 transition duration-500 hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
+                      : "group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-1 shadow-md transition duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                  }
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:t
