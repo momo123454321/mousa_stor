@@ -317,7 +317,6 @@ export default function HomePage() {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
-  const [showFavorites, setShowFavorites] = useState(false);
   const [notification, setNotification] = useState("");
   const [sort, setSort] = useState("default");
 
@@ -569,7 +568,12 @@ export default function HomePage() {
             </button>
 
             <button
-              onClick={() => setShowFavorites(true)}
+              onClick={() => {
+                setSearch("");
+                setSelectedBrand("الكل");
+                setSelectedCategory("الكل");
+                scrollToProducts();
+              }}
               className={
                 darkMode
                   ? "relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 bg-slate-900 text-slate-300 transition hover:border-red-500 hover:text-red-500"
@@ -586,6 +590,7 @@ export default function HomePage() {
               )}
             </button>
 
+            {/* زر فتح سلة المشتريات */}
             <button
               onClick={() => setShowCart(true)}
               className={
@@ -604,6 +609,7 @@ export default function HomePage() {
               )}
             </button>
 
+            {/* زر الثلاث شرط لفتح القائمة الجانبية للتصفح */}
             <button
               onClick={() => setMobileMenu(true)}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 lg:hidden dark:border-slate-700 dark:bg-slate-900"
@@ -614,7 +620,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Mobile Menu Side Drawer */}
+        {/* النافذة الجانبية لقائمة التصفح (الثلاث شرط) */}
         {mobileMenu && (
           <div className="fixed inset-0 z-[95] lg:hidden">
             <button
@@ -652,7 +658,7 @@ export default function HomePage() {
                     window.scrollTo({ top: 0, behavior: "smooth" });
                     setMobileMenu(false);
                   }}
-                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
                 >
                   الرئيسية
                 </button>
@@ -660,9 +666,8 @@ export default function HomePage() {
                 <button
                   onClick={() => {
                     scrollToProducts();
-                    setMobileMenu(false);
                   }}
-                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
                 >
                   الموبايلات
                 </button>
@@ -674,7 +679,7 @@ export default function HomePage() {
                       ?.scrollIntoView({ behavior: "smooth" });
                     setMobileMenu(false);
                   }}
-                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
                 >
                   التصنيفات
                 </button>
@@ -686,7 +691,7 @@ export default function HomePage() {
                       ?.scrollIntoView({ behavior: "smooth" });
                     setMobileMenu(false);
                   }}
-                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
                 >
                   العروض
                 </button>
@@ -696,7 +701,7 @@ export default function HomePage() {
                     openWhatsApp();
                     setMobileMenu(false);
                   }}
-                  className="rounded-xl p-3 text-right font-bold text-green-600 hover:bg-green-50 dark:hover:bg-slate-900"
+                  className="rounded-xl p-3.5 text-right font-bold text-green-600 hover:bg-green-50 dark:hover:bg-slate-900 transition"
                 >
                   💬 تواصل عبر WhatsApp
                 </button>
@@ -840,7 +845,43 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Products */}
+      {/* Offers Section */}
+      <section
+        id="offers"
+        className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
+      >
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-500 to-red-500 p-6 text-white shadow-xl sm:p-8">
+          <div className="relative z-10 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+            <div>
+              <div className="mb-2 text-sm font-bold text-orange-100">
+                🔥 لفترة محدودة
+              </div>
+
+              <h2 className="text-2xl font-black sm:text-3xl">
+                خصومات حقيقية على أحدث الأجهزة
+              </h2>
+
+              <p className="mt-2 text-sm text-orange-100">
+                الحق العروض قبل انتهاء الكمية.
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                setSearch("");
+                setSelectedBrand("الكل");
+                setSelectedCategory("الكل");
+                scrollToProducts();
+              }}
+              className="shrink-0 rounded-xl bg-white px-6 py-3 font-black text-red-600 transition hover:bg-orange-50"
+            >
+              شوف العروض
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Products Grid */}
       <section
         id="products"
         className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"
@@ -939,7 +980,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Products Grid with 3D Image Effects */}
+        {/* Products Grid with 3D Effects */}
         {filteredProducts.length === 0 ? (
           <div
             className={
@@ -1181,7 +1222,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* التذييل السفلي محاذى بالكامل للحديث في المنتصف */}
+          {/* التذييل السفلي محاذى بالكامل في المنتصف */}
           <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500 dark:border-slate-800 flex flex-col items-center justify-center gap-2">
             <div>
               © {new Date().getFullYear()} Mobile Store — جميع الحقوق محفوظة
@@ -1202,7 +1243,7 @@ export default function HomePage() {
         <WhatsAppIcon />
       </button>
 
-      {/* Cart Drawer */}
+      {/* النافذة الجانبية لسلة المشتريات */}
       {showCart && (
         <div className="fixed inset-0 z-[95]">
           <button
