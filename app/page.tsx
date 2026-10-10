@@ -605,60 +605,103 @@ export default function HomePage() {
             </button>
 
             <button
-              onClick={() => setMobileMenu((value) => !value)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 lg:hidden"
+              onClick={() => setMobileMenu(true)}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 lg:hidden dark:border-slate-700 dark:bg-slate-900"
+              aria-label="القائمة"
             >
-              {mobileMenu ? <XIcon /> : <MenuIcon />}
+              <MenuIcon />
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Side Drawer */}
         {mobileMenu && (
-          <div
-            className={
-              darkMode
-                ? "border-t border-slate-800 bg-[#070b14] p-4 lg:hidden"
-                : "border-t border-slate-200 bg-white p-4 lg:hidden"
-            }
-          >
-            <div className="mx-auto flex max-w-7xl flex-col gap-2">
-              <button
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                  setMobileMenu(false);
-                }}
-                className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600"
-              >
-                الرئيسية
-              </button>
+          <div className="fixed inset-0 z-[95] lg:hidden">
+            <button
+              onClick={() => setMobileMenu(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              aria-label="إغلاق"
+            />
 
-              <button
-                onClick={scrollToProducts}
-                className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600"
-              >
-                الموبايلات
-              </button>
+            <aside
+              className={
+                darkMode
+                  ? "absolute right-0 top-0 flex h-full w-4/5 max-w-sm flex-col bg-slate-950 text-white shadow-2xl"
+                  : "absolute right-0 top-0 flex h-full w-4/5 max-w-sm flex-col bg-white text-slate-900 shadow-2xl"
+              }
+            >
+              <div className="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl text-white">
+                    📱
+                  </div>
+                  <span className="font-black text-lg">قائمة التصفح</span>
+                </div>
 
-              <button
-                onClick={() => {
-                  document
-                    .getElementById("categories")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                  setMobileMenu(false);
-                }}
-                className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600"
-              >
-                التصنيفات
-              </button>
+                <button
+                  onClick={() => setMobileMenu(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                >
+                  <XIcon />
+                </button>
+              </div>
 
-              <button
-                onClick={() => openWhatsApp()}
-                className="rounded-xl p-3 text-right font-bold text-green-600 hover:bg-green-50"
-              >
-                💬 تواصل عبر WhatsApp
-              </button>
-            </div>
+              <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    setMobileMenu(false);
+                  }}
+                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                >
+                  الرئيسية
+                </button>
+
+                <button
+                  onClick={() => {
+                    scrollToProducts();
+                    setMobileMenu(false);
+                  }}
+                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                >
+                  الموبايلات
+                </button>
+
+                <button
+                  onClick={() => {
+                    document
+                      .getElementById("categories")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                    setMobileMenu(false);
+                  }}
+                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                >
+                  التصنيفات
+                </button>
+
+                <button
+                  onClick={() => {
+                    document
+                      .getElementById("offers")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                    setMobileMenu(false);
+                  }}
+                  className="rounded-xl p-3 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900"
+                >
+                  العروض
+                </button>
+
+                <button
+                  onClick={() => {
+                    openWhatsApp();
+                    setMobileMenu(false);
+                  }}
+                  className="rounded-xl p-3 text-right font-bold text-green-600 hover:bg-green-50 dark:hover:bg-slate-900"
+                >
+                  💬 تواصل عبر WhatsApp
+                </button>
+              </div>
+            </aside>
           </div>
         )}
       </header>
@@ -1138,7 +1181,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2">
+          {/* التذييل السفلي محاذى بالكامل للحديث في المنتصف */}
+          <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500 dark:border-slate-800 flex flex-col items-center justify-center gap-2">
             <div>
               © {new Date().getFullYear()} Mobile Store — جميع الحقوق محفوظة
             </div>
@@ -1160,7 +1204,7 @@ export default function HomePage() {
 
       {/* Cart Drawer */}
       {showCart && (
-        <div className="fixed inset-0 z-[90]">
+        <div className="fixed inset-0 z-[95]">
           <button
             onClick={() => setShowCart(false)}
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -1170,8 +1214,8 @@ export default function HomePage() {
           <aside
             className={
               darkMode
-                ? "absolute left-0 top-0 flex h-full w-full max-w-md flex-col bg-slate-950 text-white shadow-2xl"
-                : "absolute left-0 top-0 flex h-full w-full max-w-md flex-col bg-white shadow-2xl"
+                ? "absolute left-0 top-0 flex h-full w-4/5 max-w-md flex-col bg-slate-950 text-white shadow-2xl"
+                : "absolute left-0 top-0 flex h-full w-4/5 max-w-md flex-col bg-white text-slate-900 shadow-2xl"
             }
           >
             <div className="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">
