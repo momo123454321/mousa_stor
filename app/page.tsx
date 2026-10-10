@@ -52,7 +52,7 @@ const products: Product[] = [
     image:
       "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
-    stock: 6,
+    stock: 10,
     description: "أكبر شاشة في تاريخ آيفون بإطارات أنحف وكاميرا بيريسكوب محسنة وبطارية خارقة.",
   },
   {
@@ -68,7 +68,7 @@ const products: Product[] = [
     image:
       "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
     badge: "خصم",
-    stock: 8,
+    stock: 10,
     description: "تحفة سامسونج الرائدة مع ذكاء اصطناعي متطور جداً One UI وكاميرا خارقة 200MP.",
   },
   {
@@ -84,7 +84,7 @@ const products: Product[] = [
     image:
       "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=900&q=85",
     badge: "عرض",
-    stock: 14,
+    stock: 10,
     description: "الفئة المتوسطة بمعالج قوي وتصميم زجاجي فاخر يضاهي الهواتف الرائدة.",
   },
   {
@@ -99,7 +99,7 @@ const products: Product[] = [
     color: "أسود تيتانيوم",
     image:
       "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=85",
-    stock: 7,
+    stock: 10,
     description: "شراكة استثنائية مع Leica لتجربة تصوير احترافية وشاشة منحنية الأطراف بدقة فائقة.",
   },
   {
@@ -115,7 +115,7 @@ const products: Product[] = [
     image:
       "https://images.unsplash.com/photo-1607936854279-55e8a4c64888?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
-    stock: 9,
+    stock: 10,
     description: "الموبايل الأجمل تصميماً مع تركيز فائق على صور البورتريه والبطارية الذكية.",
   },
   {
@@ -130,7 +130,7 @@ const products: Product[] = [
     color: "فضي مرآة",
     image:
       "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=900&q=85",
-    stock: 11,
+    stock: 10,
     description: "قاتل الهواتف الرائدة بأداء جبار في الألعاب وشحن فائق السرعة 120 واط.",
   },
   {
@@ -145,7 +145,7 @@ const products: Product[] = [
     color: "أخضر غابي",
     image:
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=85",
-    stock: 5,
+    stock: 10,
     description: "كاميرا مقربة فائقة وبطارية سيليكون كربون ضخمة وشاشة مقاومة للكسر.",
   },
   {
@@ -161,7 +161,7 @@ const products: Product[] = [
     image:
       "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=900&q=85",
     badge: "الأكثر مبيعًا",
-    stock: 25,
+    stock: 10,
     description: "عزل صوتي أقوى بمرتين مع صوت مكاني مخصص وعلبة شحن بمعالج U1.",
   },
   {
@@ -176,7 +176,7 @@ const products: Product[] = [
     color: "فضي عصري",
     image:
       "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=85",
-    stock: 15,
+    stock: 10,
     description: "تصميم ساق جديد مع إضاءة ليد ذكية وصوت عالي الدقة Hi-Fi.",
   },
   {
@@ -192,7 +192,7 @@ const products: Product[] = [
     image:
       "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=85",
     badge: "جديد",
-    stock: 8,
+    stock: 10,
     description: "أححف وأكبر شاشة ذكية مع مستشعر رصد انقطاع التنفس أثناء النوم.",
   },
   {
@@ -207,7 +207,7 @@ const products: Product[] = [
     color: "أزرق داكن",
     image:
       "https://images.unsplash.com/photo-1609592424695-7e4a1d4d9f89?auto=format&fit=crop&w=900&q=85",
-    stock: 30,
+    stock: 10,
     description: "شاحن مغناطيسي لاسلكي MagSafe نحيف للغاية للاستخدام اليومي أثناء التنقل.",
   },
 ];
@@ -276,14 +276,6 @@ function SunIcon() {
   );
 }
 
-function MenuIcon() {
-  return (
-    <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  );
-}
-
 function XIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -310,7 +302,6 @@ function WhatsAppIcon() {
 
 export default function HomePage() {
   const [darkMode, setDarkMode] = useState(true);
-  const [mobileMenu, setMobileMenu] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("الكل");
   const [selectedCategory, setSelectedCategory] = useState("الكل");
@@ -453,8 +444,6 @@ export default function HomePage() {
     document
       .getElementById("products")
       ?.scrollIntoView({ behavior: "smooth" });
-
-    setMobileMenu(false);
   };
 
   return (
@@ -493,7 +482,7 @@ export default function HomePage() {
 
             <div className="text-right">
               <div className="text-lg font-black tracking-tight">
-                Mobile<span className="text-blue-600">Store</span>
+                Mecca <span className="text-blue-600">Store</span>
               </div>
               <div
                 className={
@@ -507,18 +496,18 @@ export default function HomePage() {
             </div>
           </button>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-7 lg:flex">
+          {/* Navigation Links */}
+          <nav className="flex items-center gap-4 sm:gap-7">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="text-sm font-bold text-blue-600"
+              className="text-xs sm:text-sm font-bold text-blue-600"
             >
               الرئيسية
             </button>
 
             <button
               onClick={scrollToProducts}
-              className="text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
+              className="text-xs sm:text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
             >
               الموبايلات
             </button>
@@ -529,25 +518,14 @@ export default function HomePage() {
                   .getElementById("categories")
                   ?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
+              className="hidden sm:block text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
             >
               التصنيفات
             </button>
 
             <button
-              onClick={() => {
-                document
-                  .getElementById("offers")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="text-sm font-bold opacity-75 transition hover:text-blue-600 hover:opacity-100"
-            >
-              العروض
-            </button>
-
-            <button
               onClick={() => openWhatsApp()}
-              className="text-sm font-bold text-green-600"
+              className="text-xs sm:text-sm font-bold text-green-600"
             >
               تواصل معنا
             </button>
@@ -590,7 +568,7 @@ export default function HomePage() {
               )}
             </button>
 
-            {/* زر فتح سلة المشتريات */}
+            {/* زر السلة الجانبية */}
             <button
               onClick={() => setShowCart(true)}
               className={
@@ -608,107 +586,8 @@ export default function HomePage() {
                 </span>
               )}
             </button>
-
-            {/* زر الثلاث شرط لفتح القائمة الجانبية للتصفح */}
-            <button
-              onClick={() => setMobileMenu(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 lg:hidden dark:border-slate-700 dark:bg-slate-900"
-              aria-label="القائمة"
-            >
-              <MenuIcon />
-            </button>
           </div>
         </div>
-
-        {/* النافذة الجانبية لقائمة التصفح (الثلاث شرط) */}
-        {mobileMenu && (
-          <div className="fixed inset-0 z-[95] lg:hidden">
-            <button
-              onClick={() => setMobileMenu(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-              aria-label="إغلاق"
-            />
-
-            <aside
-              className={
-                darkMode
-                  ? "absolute right-0 top-0 flex h-full w-4/5 max-w-sm flex-col bg-slate-950 text-white shadow-2xl"
-                  : "absolute right-0 top-0 flex h-full w-4/5 max-w-sm flex-col bg-white text-slate-900 shadow-2xl"
-              }
-            >
-              <div className="flex items-center justify-between border-b border-slate-200 p-5 dark:border-slate-800">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-xl text-white">
-                    📱
-                  </div>
-                  <span className="font-black text-lg">قائمة التصفح</span>
-                </div>
-
-                <button
-                  onClick={() => setMobileMenu(false)}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-900 dark:text-slate-300"
-                >
-                  <XIcon />
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-3">
-                <button
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                    setMobileMenu(false);
-                  }}
-                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
-                >
-                  الرئيسية
-                </button>
-
-                <button
-                  onClick={() => {
-                    scrollToProducts();
-                  }}
-                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
-                >
-                  الموبايلات
-                </button>
-
-                <button
-                  onClick={() => {
-                    document
-                      .getElementById("categories")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                    setMobileMenu(false);
-                  }}
-                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
-                >
-                  التصنيفات
-                </button>
-
-                <button
-                  onClick={() => {
-                    document
-                      .getElementById("offers")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                    setMobileMenu(false);
-                  }}
-                  className="rounded-xl p-3.5 text-right font-bold hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-900 transition"
-                >
-                  العروض
-                </button>
-
-                <button
-                  onClick={() => {
-                    openWhatsApp();
-                    setMobileMenu(false);
-                  }}
-                  className="rounded-xl p-3.5 text-right font-bold text-green-600 hover:bg-green-50 dark:hover:bg-slate-900 transition"
-                >
-                  💬 تواصل عبر WhatsApp
-                </button>
-              </div>
-            </aside>
-          </div>
-        )}
       </header>
 
       {/* Hero */}
@@ -723,7 +602,7 @@ export default function HomePage() {
             </div>
 
             <h1 className="text-4xl font-black leading-[1.2] tracking-tight sm:text-5xl lg:text-6xl">
-              متجر الموبايلات
+              متجر Mecca Store
               <br />
               <span className="text-blue-200">الأقوى في مصر</span>
             </h1>
@@ -980,7 +859,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Products Grid with 3D Effects */}
+        {/* Products Grid */}
         {filteredProducts.length === 0 ? (
           <div
             className={
@@ -1018,7 +897,7 @@ export default function HomePage() {
                       : "group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-1 shadow-md transition duration-500 hover:-translate-y-2 hover:shadow-2xl"
                   }
                 >
-                  {/* 3D Image Container */}
+                  {/* Image Container */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900">
                     <img
                       src={product.image}
@@ -1064,7 +943,7 @@ export default function HomePage() {
                       </span>
 
                       <span className="text-[10px] font-bold text-green-500">
-                        ● متوفر
+                        ● متوفر ({product.stock})
                       </span>
                     </div>
 
@@ -1171,7 +1050,7 @@ export default function HomePage() {
 
                 <div>
                   <div className="font-black">
-                    Mobile<span className="text-blue-600">Store</span>
+                    Mecca <span className="text-blue-600">Store</span>
                   </div>
 
                   <div className="text-[10px] text-slate-500">
@@ -1213,7 +1092,7 @@ export default function HomePage() {
               <div className="mt-4 space-y-3">
                 <button
                   onClick={() => openWhatsApp()}
-                  className="flex w-full items-center gap-3 rounded-xl bg-green-50 p-3 text-right text-sm font-bold text-green-700 transition hover:bg-green-100"
+                  className="flex w-full items-center gap-3 rounded-xl bg-green-50 p-3 text-right text-sm font-bold text-green-700 transition hover:bg-green-100 dark:bg-slate-900 dark:text-green-400"
                 >
                   <WhatsAppIcon />
                   01203632925
@@ -1222,10 +1101,10 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* التذييل السفلي محاذى بالكامل في المنتصف */}
+          {/* Footer Bottom Centered */}
           <div className="mt-10 border-t border-slate-200 pt-6 text-center text-xs text-slate-500 dark:border-slate-800 flex flex-col items-center justify-center gap-2">
             <div>
-              © {new Date().getFullYear()} Mobile Store — جميع الحقوق محفوظة
+              © {new Date().getFullYear()} Mecca Store — جميع الحقوق محفوظة
             </div>
             <div className="font-bold text-blue-500">
               تم التطوير بواسطة elnagar
@@ -1243,7 +1122,7 @@ export default function HomePage() {
         <WhatsAppIcon />
       </button>
 
-      {/* النافذة الجانبية لسلة المشتريات */}
+      {/* Cart Drawer */}
       {showCart && (
         <div className="fixed inset-0 z-[95]">
           <button
