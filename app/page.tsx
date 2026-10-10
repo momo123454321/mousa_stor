@@ -164,7 +164,7 @@ const products: Product[] = [
     oldPrice: 35999,
     storage: "256GB",
     ram: "8GB",
-    color: "صفر أصفر",
+    color: "أصفر",
     image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=85",
     stock: 10,
     description: "أداء متميز مع ميزات ذكاء اصطناعي مدمجة وتصميم مريح خفيف الوزن.",
@@ -203,7 +203,7 @@ const products: Product[] = [
   {
     id: 13,
     name: "Sony WH-1000XM5",
-    brand: "Xiaomi", // للاختيار المجازي أو تفرع عام
+    brand: "Xiaomi",
     category: "سماعات",
     price: 14999,
     oldPrice: 16999,
@@ -1514,7 +1514,7 @@ export default function HomePage() {
             </select>
           </div>
 
-          {/* Brand Chips (Without Baseus) */}
+          {/* Brand Chips */}
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
             {brands.map((brand) => (
               <button
@@ -1534,7 +1534,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Products Grid with 3D Effects */}
+        {/* Products Grid */}
         {filteredProducts.length === 0 ? (
           <div
             className={
@@ -1566,15 +1566,6 @@ export default function HomePage() {
                 <article
                   key={product.id}
                   style={{ perspective: "1000px" }}
-
-
-
-
-
-
-
-
-
-
-
-                
+                  className={
+                    darkMode
+                 
